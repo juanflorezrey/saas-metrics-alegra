@@ -1,0 +1,67 @@
+table Medidas
+	lineageTag: 16d9dc13-f7db-4788-ad6d-0b87440ff7b6
+
+	measure 'MRR' = CALCULATE(SUM(gold_v_resumen_ejecutivo[mrr_total]), LASTNONBLANK(gold_v_resumen_ejecutivo[id_periodo], 1))
+		formatString: #,0
+		lineageTag: f7c4bb0d-bdc1-4a26-8261-349579a53ae6
+
+	measure 'ARR' = CALCULATE(SUM(gold_v_resumen_ejecutivo[arr_total]), LASTNONBLANK(gold_v_resumen_ejecutivo[id_periodo], 1))
+		formatString: #,0
+		lineageTag: a4bf181b-06d3-46f7-b816-a9eab5a48179
+
+	measure 'Clientes Activos' = CALCULATE(SUM(gold_v_resumen_ejecutivo[clientes_activos]), LASTNONBLANK(gold_v_resumen_ejecutivo[id_periodo], 1))
+		formatString: #,0
+		lineageTag: f0503994-f8b4-4915-b291-347914c3be77
+
+	measure 'NRR %' = CALCULATE(AVERAGE(gold_v_resumen_ejecutivo[nrr_pct]), LASTNONBLANK(gold_v_resumen_ejecutivo[id_periodo], 1))
+		formatString: 0.0"%"
+		lineageTag: 97a01437-43e9-43a7-91da-e9373a25760d
+
+	measure 'Churn Logos %' = CALCULATE(AVERAGE(gold_v_resumen_ejecutivo[churn_logos_pct]), LASTNONBLANK(gold_v_resumen_ejecutivo[id_periodo], 1))
+		formatString: 0.00"%"
+		lineageTag: 2ea9dacd-49c4-4eea-97df-c513b9cf7c9a
+
+	measure 'Churn Ingreso %' = CALCULATE(AVERAGE(gold_v_resumen_ejecutivo[churn_ingreso_pct]), LASTNONBLANK(gold_v_resumen_ejecutivo[id_periodo], 1))
+		formatString: 0.00"%"
+		lineageTag: 512030be-9180-40b0-81d2-bd22d853f25b
+
+	measure 'MRR Nuevo' = SUM(gold_v_resumen_ejecutivo[mrr_nuevo])
+		formatString: #,0
+		lineageTag: 18bc6b4b-3857-425d-bec6-ef5d9040977f
+
+	measure 'MRR Expansion' = SUM(gold_v_resumen_ejecutivo[mrr_expansion])
+		formatString: #,0
+		lineageTag: f99f79ce-5776-4c44-97e0-7979d0a6f6bc
+
+	measure 'MRR Contraccion' = SUM(gold_v_resumen_ejecutivo[mrr_contraccion])
+		formatString: #,0
+		lineageTag: 9ecda939-376a-4fe8-91a8-906e56bdfa15
+
+	measure 'MRR Churn' = SUM(gold_v_resumen_ejecutivo[mrr_churn])
+		formatString: #,0
+		lineageTag: e335439c-3456-4599-8b06-e13c6dac6495
+
+	measure 'MRR Reactivacion' = SUM(gold_v_resumen_ejecutivo[mrr_reactivacion])
+		formatString: #,0
+		lineageTag: 13bdbbb2-6d34-4ecf-8975-80d1b44c8cde
+
+	column Columna
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 49d61d48-1522-4698-995a-ab4d71cd6dfe
+		summarizeBy: none
+		sourceColumn: Columna
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Medidas = m
+		mode: import
+		source =
+				let
+				    Origen = #table({"Columna"}, {}),
+				    Tipos = Table.TransformColumnTypes(Origen, {{"Columna", Int64.Type}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

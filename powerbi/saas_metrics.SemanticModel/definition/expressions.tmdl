@@ -1,0 +1,6 @@
+expression RutaDatos = "D:\Claudia\Alegra\powerbi" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 70d04a6b-1938-426c-8d7e-06c80ea5f640
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text

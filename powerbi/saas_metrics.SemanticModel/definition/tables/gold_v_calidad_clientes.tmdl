@@ -1,0 +1,75 @@
+table gold_v_calidad_clientes
+	lineageTag: 3e3cda9c-8045-4876-92b5-8078f62b3abf
+
+	column id_cliente
+		dataType: int64
+		formatString: 0
+		lineageTag: 2286947c-5030-47d9-81df-42a107b67bfa
+		summarizeBy: none
+		sourceColumn: id_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_canonico
+		dataType: string
+		lineageTag: 97c2f9e0-3a7c-4be8-bc18-8c0bec8806bb
+		summarizeBy: none
+		sourceColumn: nombre_canonico
+
+		annotation SummarizationSetBy = Automatic
+
+	column activo
+		dataType: int64
+		formatString: 0
+		lineageTag: 9f4aac08-d760-4ffc-9c68-d8afef16147a
+		summarizeBy: none
+		sourceColumn: activo
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado_calidad
+		dataType: string
+		lineageTag: 4a6fdc1c-077b-4cac-9f0b-3a4566c08eb4
+		summarizeBy: none
+		sourceColumn: estado_calidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column sistemas_confirmados
+		dataType: string
+		lineageTag: f77dce0b-07a7-4954-87dc-c2ca9978be1e
+		summarizeBy: none
+		sourceColumn: sistemas_confirmados
+
+		annotation SummarizationSetBy = Automatic
+
+	column nota_calidad
+		dataType: string
+		lineageTag: 6768976e-37e0-4835-992e-ee1bbf0a0107
+		summarizeBy: none
+		sourceColumn: nota_calidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_inicial_cop
+		dataType: double
+		formatString: #,0
+		lineageTag: c06aa443-1aec-479a-809f-87c50784efba
+		summarizeBy: none
+		sourceColumn: mrr_inicial_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_v_calidad_clientes = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        File.Contents(RutaDatos & "\gold_v_calidad_clientes.csv"),
+				        [Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    Tipos = Table.TransformColumnTypes(Encabezados, {{"id_cliente", Int64.Type}, {"nombre_canonico", type text}, {"activo", Int64.Type}, {"estado_calidad", type text}, {"sistemas_confirmados", type text}, {"nota_calidad", type text}, {"mrr_inicial_cop", type number}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

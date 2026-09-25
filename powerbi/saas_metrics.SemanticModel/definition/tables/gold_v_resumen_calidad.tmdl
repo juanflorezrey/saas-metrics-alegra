@@ -1,0 +1,42 @@
+table gold_v_resumen_calidad
+	lineageTag: 36a551d5-1977-4990-9b86-cfe40f567e5a
+
+	column estado_calidad
+		dataType: string
+		lineageTag: e642b3d8-33c0-4d87-8f44-95d059dba190
+		summarizeBy: none
+		sourceColumn: estado_calidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column num_clientes
+		dataType: int64
+		formatString: 0
+		lineageTag: 8d125880-aa3c-4948-bc5c-89b78e3442dd
+		summarizeBy: none
+		sourceColumn: num_clientes
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_inicial_cop
+		dataType: double
+		formatString: #,0
+		lineageTag: 248b0b2b-5262-498c-b8e0-ba04f9aa15d4
+		summarizeBy: none
+		sourceColumn: mrr_inicial_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_v_resumen_calidad = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        File.Contents(RutaDatos & "\gold_v_resumen_calidad.csv"),
+				        [Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    Tipos = Table.TransformColumnTypes(Encabezados, {{"estado_calidad", type text}, {"num_clientes", Int64.Type}, {"mrr_inicial_cop", type number}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

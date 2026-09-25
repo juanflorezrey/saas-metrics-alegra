@@ -1,0 +1,68 @@
+table gold_v_cac_por_canal
+	lineageTag: ccfd8ea4-1d4b-4dc8-8ce8-f5a77fc8962d
+
+	column id_periodo
+		dataType: int64
+		formatString: 0
+		lineageTag: 71fe4524-81d0-4279-8c0d-9e40e9b2628b
+		summarizeBy: none
+		sourceColumn: id_periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_mes
+		dataType: string
+		lineageTag: 4f80beb5-2f7b-4f5c-8e3f-22fecf768fde
+		summarizeBy: none
+		sourceColumn: nombre_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_canal
+		dataType: string
+		lineageTag: 42cf8b7f-1bcc-4e4d-92af-933243572ae4
+		summarizeBy: none
+		sourceColumn: nombre_canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column gasto_cop
+		dataType: int64
+		formatString: #,0
+		lineageTag: ade0bee8-80a9-4276-87cc-30e15d3a5638
+		summarizeBy: none
+		sourceColumn: gasto_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientes_nuevos
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b01f7c8-5808-4469-8ab8-6356d3307124
+		summarizeBy: none
+		sourceColumn: clientes_nuevos
+
+		annotation SummarizationSetBy = Automatic
+
+	column cac_cop
+		dataType: double
+		formatString: #,0
+		lineageTag: 5ccb1f29-269b-4fbd-9b71-3577d7605d6c
+		summarizeBy: none
+		sourceColumn: cac_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_v_cac_por_canal = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        File.Contents(RutaDatos & "\gold_v_cac_por_canal.csv"),
+				        [Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    Tipos = Table.TransformColumnTypes(Encabezados, {{"id_periodo", Int64.Type}, {"nombre_mes", type text}, {"nombre_canal", type text}, {"gasto_cop", Int64.Type}, {"clientes_nuevos", Int64.Type}, {"cac_cop", type number}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

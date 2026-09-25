@@ -1,0 +1,41 @@
+table gold_v_calidad_cuarentena
+	lineageTag: 4927b306-6818-4c18-8f8d-91ddb70141ff
+
+	column fuente
+		dataType: string
+		lineageTag: 0d673388-093b-481f-b2e5-1f6825806909
+		summarizeBy: none
+		sourceColumn: fuente
+
+		annotation SummarizationSetBy = Automatic
+
+	column filas_rechazadas
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b984622-ccaf-4bcc-b0a6-bd230c30a9a0
+		summarizeBy: none
+		sourceColumn: filas_rechazadas
+
+		annotation SummarizationSetBy = Automatic
+
+	column motivos
+		dataType: string
+		lineageTag: d93e88dc-9c1e-4a93-9996-7085e70697d0
+		summarizeBy: none
+		sourceColumn: motivos
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_v_calidad_cuarentena = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        File.Contents(RutaDatos & "\gold_v_calidad_cuarentena.csv"),
+				        [Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    Tipos = Table.TransformColumnTypes(Encabezados, {{"fuente", type text}, {"filas_rechazadas", Int64.Type}, {"motivos", type text}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

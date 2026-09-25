@@ -1,0 +1,7 @@
+relationship 82ca3ba5-2fea-4df6-92e8-16361ce2e31d
+	fromColumn: dim_periodo.id_periodo
+	toColumn: gold_v_resumen_ejecutivo.id_periodo
+
+relationship 77ec50ea-b8fe-4105-a17a-7c33e167ea26
+	fromColumn: dim_periodo.id_periodo
+	toColumn: gold_v_cac_por_canal.id_periodo

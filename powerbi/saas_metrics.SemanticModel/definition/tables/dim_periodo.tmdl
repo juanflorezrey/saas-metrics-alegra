@@ -1,0 +1,69 @@
+table dim_periodo
+	lineageTag: ba550295-05f5-4c96-82f4-a9bcbbdde207
+
+	column id_periodo
+		dataType: int64
+		formatString: 0
+		lineageTag: 07ea0103-c609-4a83-b4bc-d4922f9500b8
+		summarizeBy: none
+		sourceColumn: id_periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 49c2b4d1-a30c-4101-97c6-0604c185f1a8
+		summarizeBy: none
+		sourceColumn: anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 4500fd40-be62-4fbd-aa90-9b821ec8cb67
+		summarizeBy: none
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_mes
+		dataType: string
+		lineageTag: 4293fd91-8f26-4697-a357-92b052635623
+		summarizeBy: none
+		sourceColumn: nombre_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column fecha_inicio
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 559387e5-500e-4cf5-865b-ec5df0dbb5b0
+		summarizeBy: none
+		sourceColumn: fecha_inicio
+
+		annotation SummarizationSetBy = Automatic
+
+	column fecha_fin
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 5df16f0d-7a6d-4a94-a141-2ea435d07c4a
+		summarizeBy: none
+		sourceColumn: fecha_fin
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_periodo = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        File.Contents(RutaDatos & "\dim_periodo.csv"),
+				        [Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    Tipos = Table.TransformColumnTypes(Encabezados, {{"id_periodo", Int64.Type}, {"anio", Int64.Type}, {"mes", Int64.Type}, {"nombre_mes", type text}, {"fecha_inicio", type date}, {"fecha_fin", type date}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

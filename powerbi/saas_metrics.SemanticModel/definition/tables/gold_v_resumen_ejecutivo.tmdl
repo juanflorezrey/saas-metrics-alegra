@@ -1,0 +1,141 @@
+table gold_v_resumen_ejecutivo
+	lineageTag: f3bac1fe-bcf5-439f-b142-1a08bbdbe17a
+
+	column id_periodo
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b189a3f-1073-4303-bee6-791e1a67e26d
+		summarizeBy: none
+		sourceColumn: id_periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_mes
+		dataType: string
+		lineageTag: 567f3264-a921-42b6-8dec-921e3f2cdce4
+		summarizeBy: none
+		sourceColumn: nombre_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column anio
+		dataType: int64
+		formatString: 0
+		lineageTag: f0d9a793-2830-4938-82b2-06c59b675fb0
+		summarizeBy: none
+		sourceColumn: anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_total
+		dataType: double
+		formatString: #,0
+		lineageTag: 84a29561-0184-42fd-974e-e12a78fe1922
+		summarizeBy: none
+		sourceColumn: mrr_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column arr_total
+		dataType: double
+		formatString: #,0
+		lineageTag: e710b7b5-88d5-4a75-b784-cd917efeab8b
+		summarizeBy: none
+		sourceColumn: arr_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientes_activos
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b0a2306-662d-499c-9447-dee6a40f95d2
+		summarizeBy: none
+		sourceColumn: clientes_activos
+
+		annotation SummarizationSetBy = Automatic
+
+	column nrr_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: 73ee726b-5ed7-4b68-a691-35190d818bc1
+		summarizeBy: none
+		sourceColumn: nrr_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_logos_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: 43fe1440-64c8-4bbb-be0c-4f81b671ee6a
+		summarizeBy: none
+		sourceColumn: churn_logos_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_ingreso_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: f089fb44-88a3-4d0b-a69f-04b10ee6b762
+		summarizeBy: none
+		sourceColumn: churn_ingreso_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_nuevo
+		dataType: double
+		formatString: #,0
+		lineageTag: 5c45f763-3ed7-4010-9622-54c1b1f1544d
+		summarizeBy: none
+		sourceColumn: mrr_nuevo
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_expansion
+		dataType: double
+		formatString: #,0
+		lineageTag: 3736e796-3e91-4a7a-9fca-86f02be6870e
+		summarizeBy: none
+		sourceColumn: mrr_expansion
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_contraccion
+		dataType: double
+		formatString: #,0
+		lineageTag: 2c2af7a1-04eb-4e0d-92be-4388a5f569b6
+		summarizeBy: none
+		sourceColumn: mrr_contraccion
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_churn
+		dataType: double
+		formatString: #,0
+		lineageTag: 49f014cb-375d-4fd4-a06f-49a182bcc4d3
+		summarizeBy: none
+		sourceColumn: mrr_churn
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_reactivacion
+		dataType: double
+		formatString: #,0
+		lineageTag: 6a76a295-fc4e-4873-8655-aff2a1bebfe7
+		summarizeBy: none
+		sourceColumn: mrr_reactivacion
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_v_resumen_ejecutivo = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        File.Contents(RutaDatos & "\gold_v_resumen_ejecutivo.csv"),
+				        [Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    Tipos = Table.TransformColumnTypes(Encabezados, {{"id_periodo", Int64.Type}, {"nombre_mes", type text}, {"anio", Int64.Type}, {"mrr_total", type number}, {"arr_total", type number}, {"clientes_activos", Int64.Type}, {"nrr_pct", type number}, {"churn_logos_pct", type number}, {"churn_ingreso_pct", type number}, {"mrr_nuevo", type number}, {"mrr_expansion", type number}, {"mrr_contraccion", type number}, {"mrr_churn", type number}, {"mrr_reactivacion", type number}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

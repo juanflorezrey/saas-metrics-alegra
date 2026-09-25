@@ -1,0 +1,51 @@
+table gold_v_ltv
+	lineageTag: 1870b618-b2f7-4034-98c3-9e6be824e69e
+
+	column nombre_plan
+		dataType: string
+		lineageTag: 07cb5dfd-753e-4055-9742-5cf1934b38ac
+		summarizeBy: none
+		sourceColumn: nombre_plan
+
+		annotation SummarizationSetBy = Automatic
+
+	column arpa_cop
+		dataType: double
+		formatString: #,0
+		lineageTag: 52c27a01-92b4-40f2-9bb5-c284f822e3d1
+		summarizeBy: none
+		sourceColumn: arpa_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_mensual_promedio_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: 08a4541c-a0e1-4aee-a703-3f38d2a13ab8
+		summarizeBy: none
+		sourceColumn: churn_mensual_promedio_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column ltv_cop
+		dataType: double
+		formatString: #,0
+		lineageTag: c19e79f6-2d6c-4e17-b296-16d95943e57f
+		summarizeBy: none
+		sourceColumn: ltv_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_v_ltv = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        File.Contents(RutaDatos & "\gold_v_ltv.csv"),
+				        [Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    Tipos = Table.TransformColumnTypes(Encabezados, {{"nombre_plan", type text}, {"arpa_cop", type number}, {"churn_mensual_promedio_pct", type number}, {"ltv_cop", type number}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

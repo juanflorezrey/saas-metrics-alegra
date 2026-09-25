@@ -1,0 +1,87 @@
+table gold_v_cohortes
+	lineageTag: d478962c-2562-4679-83f6-373b311443c4
+
+	column id_periodo_cohorte
+		dataType: int64
+		formatString: 0
+		lineageTag: 2c6de31b-5b1a-46ed-90d4-cb67b6280265
+		summarizeBy: none
+		sourceColumn: id_periodo_cohorte
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes_cohorte
+		dataType: string
+		lineageTag: 51f5ab1d-17dc-4979-983c-469970a46251
+		summarizeBy: none
+		sourceColumn: mes_cohorte
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_periodo
+		dataType: int64
+		formatString: 0
+		lineageTag: df614505-1fdc-4443-9a43-fdb8e82867d4
+		summarizeBy: none
+		sourceColumn: id_periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column meses_desde_alta
+		dataType: int64
+		formatString: 0
+		lineageTag: e11de7eb-2ad7-457c-a8fb-eb10a4cafea2
+		summarizeBy: none
+		sourceColumn: meses_desde_alta
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientes_en_cohorte
+		dataType: int64
+		formatString: 0
+		lineageTag: 637ed565-341c-4627-97ca-077b3563318e
+		summarizeBy: none
+		sourceColumn: clientes_en_cohorte
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_inicial_cohorte
+		dataType: double
+		formatString: #,0
+		lineageTag: 83baaadc-591f-4abc-984e-b60247913009
+		summarizeBy: none
+		sourceColumn: mrr_inicial_cohorte
+
+		annotation SummarizationSetBy = Automatic
+
+	column mrr_retenido_cop
+		dataType: double
+		formatString: #,0
+		lineageTag: 32059e4c-826f-43f2-8fb7-e87fd11823fc
+		summarizeBy: none
+		sourceColumn: mrr_retenido_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_retencion
+		dataType: double
+		formatString: 0.0
+		lineageTag: 14e311cc-76b5-4251-99dd-7470c7147b16
+		summarizeBy: none
+		sourceColumn: pct_retencion
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_v_cohortes = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        File.Contents(RutaDatos & "\gold_v_cohortes.csv"),
+				        [Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    Tipos = Table.TransformColumnTypes(Encabezados, {{"id_periodo_cohorte", Int64.Type}, {"mes_cohorte", type text}, {"id_periodo", Int64.Type}, {"meses_desde_alta", Int64.Type}, {"clientes_en_cohorte", Int64.Type}, {"mrr_inicial_cohorte", type number}, {"mrr_retenido_cop", type number}, {"pct_retencion", type number}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,21 @@
+model Model
+	culture: es-CO
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-CO
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["RutaDatos", "dim_periodo", "gold_v_resumen_ejecutivo", "gold_v_cohortes", "gold_v_cac_por_canal", "gold_v_ltv", "gold_v_calidad_clientes", "gold_v_resumen_calidad", "gold_v_calidad_cuarentena", "Medidas"]
+
+ref table dim_periodo
+ref table gold_v_resumen_ejecutivo
+ref table gold_v_cohortes
+ref table gold_v_cac_por_canal
+ref table gold_v_ltv
+ref table gold_v_calidad_clientes
+ref table gold_v_resumen_calidad
+ref table gold_v_calidad_cuarentena
+ref table Medidas
