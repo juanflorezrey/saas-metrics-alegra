@@ -1,0 +1,248 @@
+id_cliente,nombre_canonico,fecha_alta,id_canal,moneda_principal,activo
+1,"González, Villamizar and Vargas",2024-04-22,3.0,COP,1
+2,Galvis Ltd,2024-05-10,1.0,COP,1
+3,López and Sons,2024-04-20,1.0,COP,0
+4,"Agudelo, Londoño and Becerra",2024-03-03,2.0,COP,1
+5,"Vásquez, Torres and Fernández",2024-02-12,3.0,COP,0
+6,Uribe and Sons,2024-05-24,4.0,COP,0
+7,"Salazar, Castro and Rojas",2024-02-14,3.0,COP,1
+8,López-Rivera,2024-04-13,5.0,COP,1
+9,SANABRIA-AGUDELO,2024-01-18,3.0,COP,0
+10,ARIZA PLC,2024-02-07,2.0,COP,1
+11,CARDOZO GROUP,2024-06-24,4.0,COP,0
+12,Caicedo Ltd,2024-06-14,3.0,COP,1
+13,"Rivas, Morales and Ramírez",2024-09-26,3.0,COP,1
+14,Gómez and Sons,2024-08-12,4.0,COP,1
+15,BUSTAMANTE-ORDÓÑEZ,2024-03-10,6.0,COP,1
+16,Rivera Group,2024-09-02,2.0,COP,0
+17,"Palacio, Pérez and Mosquera",2024-08-02,4.0,COP,1
+18,"Ortiz, Cuesta and Jaimes",2024-05-02,4.0,COP,1
+19,"ACEVEDO, LOZANO AND VARGAS",2024-04-19,1.0,COP,1
+20,Rivera-Villamil,2024-04-27,6.0,COP,1
+21,"PACHECO, TORRES AND VALENCIA",2024-09-07,1.0,COP,1
+22,Torres Inc,2024-05-15,2.0,COP,1
+23,Castillo-Martínez,2024-01-27,6.0,COP,1
+24,Loaiza-Franco,2024-01-02,3.0,COP,1
+25,"Londoño, Muñoz and Orozco",2024-05-23,2.0,COP,1
+26,"CASTILLO, TORRES AND BOLÍVAR",2024-02-09,5.0,COP,0
+27,"Rincón, Tovar and Prieto",2024-02-16,4.0,COP,1
+28,Pineda Ltd,2024-06-02,3.0,COP,1
+29,Hurtado-Flórez,2024-03-08,1.0,COP,0
+30,"Orjuela, Contreras and Domínguez",2024-04-16,2.0,COP,1
+31,Duarte Inc,2024-09-09,3.0,COP,1
+32,"Loaiza, Espinosa and Solano",2024-01-23,3.0,COP,1
+33,González-Mejía,2024-06-26,2.0,COP,1
+34,RODRÍGUEZ-CAMARGO,2024-05-01,6.0,COP,1
+35,"Ortiz, Sierra and Díaz",2024-06-03,2.0,COP,1
+36,Polo LLC,2024-09-19,1.0,COP,1
+37,"Palacios, Ramírez and Arias",2024-01-09,3.0,COP,1
+38,Montoya PLC,2024-09-26,4.0,COP,1
+39,CARVAJAL GROUP,2024-03-03,2.0,COP,1
+40,González LLC,2024-04-25,4.0,COP,1
+41,Moreno-Moreno,2024-07-15,5.0,COP,1
+42,"ERAZO, GARCÍA AND REYES",2024-09-03,4.0,COP,0
+43,MANTILLA PLC,2024-06-01,5.0,COP,1
+44,"Pérez, Silva and Calderón",2024-03-03,6.0,COP,1
+45,Oviedo Ltd,2024-03-17,2.0,COP,1
+46,"Ramírez, Álvarez and Barragán",2024-03-01,1.0,COP,1
+47,"ARIAS, MALDONADO AND CÁRDENAS",2024-01-14,1.0,COP,1
+48,FERNÁNDEZ AND SONS,2024-07-14,5.0,COP,1
+49,"Torres, García and Barrera",2024-05-19,1.0,COP,1
+50,Martínez Inc,2024-05-13,3.0,COP,1
+51,García-Moreno,2024-08-19,2.0,COP,1
+52,"REYES, MONTOYA AND VANEGAS",2024-03-08,3.0,COP,1
+53,"ESCOBAR, VARGAS AND ORTEGA",2024-08-14,3.0,COP,1
+54,Ramírez-López,2024-01-04,5.0,COP,0
+55,Mosquera-Peña,2024-09-22,3.0,COP,1
+56,"MARTÍNEZ, ARANGO AND JAIMES",2024-01-17,4.0,COP,1
+57,Castillo LLC,2024-01-21,5.0,COP,0
+58,VARGAS AND SONS,2024-08-01,2.0,COP,1
+59,"Cardona, Salazar and Castro",2024-03-02,2.0,COP,0
+60,Pulido Inc,2024-08-12,6.0,COP,0
+61,Montes-Ordóñez,2024-08-20,3.0,COP,1
+62,Martínez PLC,2024-07-19,4.0,COP,1
+63,Tamayo and Sons,2024-03-13,3.0,COP,0
+64,Parra Group,2024-05-09,3.0,COP,1
+65,Rivera Group,2024-06-17,6.0,COP,1
+66,Carmona-Serna,2024-03-17,3.0,COP,1
+67,Salazar-Yepes,2024-08-17,2.0,COP,1
+68,"DURÁN, REYES AND DÍAZ",2024-05-11,4.0,COP,0
+69,Tamayo PLC,2024-08-10,4.0,COP,1
+70,"Ríos, Cano and Martínez",2024-01-09,4.0,COP,1
+71,"Acosta, Villegas and Contreras",2024-01-07,6.0,COP,0
+72,Salamanca Inc,2024-09-14,3.0,COP,1
+73,García Inc,2024-09-21,4.0,COP,1
+74,"Prieto, Parra and Ibarra",2024-09-26,1.0,COP,1
+75,"Vargas, Hurtado and Beltrán",2024-07-15,2.0,COP,1
+76,"Álvarez, Ortiz and Hernández",2024-05-05,5.0,COP,1
+77,"Suárez, Ruiz and Espinosa",2024-06-02,1.0,COP,1
+78,Rodríguez PLC,2024-07-10,1.0,COP,1
+79,"ORJUELA, GARCÍA AND ROJAS",2024-07-03,1.0,COP,1
+80,HERNÁNDEZ-ROMERO,2024-09-16,5.0,COP,1
+81,Cuéllar LLC,2024-06-11,1.0,COP,0
+82,Sánchez-Palacio,2024-01-17,4.0,COP,1
+83,"Rodríguez, Ayala and Suárez",2024-11-03,2.0,COP,1
+84,"López, Monsalve and Ortiz",2024-09-12,4.0,COP,1
+85,Villamizar and Sons,2024-03-23,5.0,COP,1
+86,Castro-Rojas,2024-04-04,3.0,COP,1
+87,Ramírez-Acevedo,2024-04-07,5.0,COP,1
+88,Mora-Vargas,2024-02-10,4.0,COP,1
+89,López Group,2024-08-11,1.0,COP,1
+90,Gómez-Quintero,2024-01-20,6.0,COP,0
+91,Henao LLC,2024-05-18,4.0,COP,0
+92,MENA PLC,2024-03-04,1.0,COP,1
+93,"OSORIO, RODRÍGUEZ AND GARCÍA",2024-09-19,3.0,COP,1
+94,"Rentería, Vásquez and Palacio",2024-05-05,1.0,COP,1
+95,"Cortés, Osorio and Gómez",2024-10-17,4.0,COP,0
+96,"Vargas, López and Patiño",2024-01-16,2.0,COP,1
+97,Quiroz-Zambrano,2024-10-13,3.0,COP,1
+98,RODRÍGUEZ-GALVIS,2024-03-12,2.0,COP,1
+99,Ocampo-Peña,2024-02-03,2.0,COP,1
+100,"Alvarado, Arrieta and Ortiz",2024-03-03,1.0,COP,1
+101,"González, Bohórquez and Andrade",2024-03-05,1.0,COP,1
+102,RAMÍREZ GROUP,2024-04-22,1.0,COP,1
+103,Suárez-Rosero,2024-08-13,1.0,COP,1
+104,TORRES LTD,2024-01-05,5.0,COP,0
+105,Castillo LLC,2024-09-17,3.0,COP,0
+106,Parada LLC,2024-05-06,3.0,COP,1
+107,Bedoya-Castillo,2024-02-24,2.0,COP,0
+108,Díaz-Burgos,2024-08-17,2.0,COP,0
+109,Gómez-Hurtado,2024-09-03,3.0,COP,1
+110,PADILLA-ÁLVAREZ,2024-07-17,1.0,COP,1
+111,"BUSTAMANTE, GONZÁLEZ AND MALDONADO",2024-03-05,4.0,COP,1
+112,Muñoz Ltd,2024-01-22,4.0,COP,0
+113,"Pacheco, Ballesteros and Daza",2024-01-09,6.0,COP,0
+114,MORALES INC,2024-08-19,5.0,COP,1
+115,"Cáceres, Trujillo and Vergara",2024-02-03,4.0,COP,1
+116,Pinzón LLC,2024-02-08,4.0,COP,0
+117,"Álvarez, Parra and Castillo",2024-05-03,2.0,COP,1
+118,CORTÉS-RAMÍREZ,2024-03-04,4.0,COP,1
+119,"BALLESTEROS, BUITRAGO AND PABÓN",2024-04-13,1.0,COP,1
+120,"JARAMILLO, PARRA AND PALACIO",2024-09-16,2.0,COP,0
+121,GUTIÉRREZ-OSORIO,2024-01-06,6.0,COP,1
+122,"CALDERÓN, RUIZ AND MARÍN",2024-07-02,3.0,COP,1
+123,"Rojas, Ortega and Galeano",2024-05-27,3.0,COP,1
+124,"Pérez, García and Molina",2024-05-21,2.0,COP,1
+125,"BELTRÁN, LÓPEZ AND CANTILLO",2024-05-17,2.0,COP,1
+126,Sandoval and Sons,2024-07-22,3.0,COP,1
+127,Sánchez Inc,2024-07-20,2.0,COP,1
+128,Castrillón PLC,2024-01-27,2.0,COP,0
+129,Cárdenas Ltd,2024-03-18,3.0,COP,1
+130,"Ramírez, Benavides and Zapata",2024-03-25,2.0,COP,1
+131,Sánchez Ltd,2024-01-06,1.0,COP,1
+132,Galindo Inc,2024-04-12,3.0,COP,1
+133,Torres-Cifuentes,2024-02-19,1.0,COP,0
+134,"Delgado, Martínez and Vargas",2024-07-19,5.0,COP,1
+135,Cruz Group,2024-03-05,3.0,COP,1
+136,"CONTRERAS, VELÁSQUEZ AND RUIZ",2024-04-25,6.0,COP,1
+137,ÁVILA-PINZÓN,2024-03-13,3.0,COP,0
+138,"Osorio, Fajardo and Marín",2024-07-25,3.0,COP,1
+139,SARMIENTO GROUP,2024-04-10,1.0,COP,1
+140,Muñoz-Vargas,2024-06-03,1.0,COP,1
+141,"CASTRO, CASTAÑO AND REYES",2024-04-07,6.0,COP,1
+142,Castro Inc,2024-02-16,1.0,COP,0
+143,"Gutiérrez, Ortiz and Ruiz",2024-05-04,3.0,COP,1
+144,"García, Sánchez and Flórez",2024-08-07,4.0,COP,1
+145,Toro Inc,2024-08-08,2.0,COP,1
+146,Parra-Ríos,2024-02-13,3.0,COP,0
+147,MARTÍNEZ-ROA,2024-05-21,4.0,COP,1
+148,ESPITIA-OROZCO,2024-04-17,3.0,COP,1
+149,"Rodríguez, Rangel and Escobar",2024-03-17,1.0,COP,1
+150,Rodríguez-Romero,2024-08-26,2.0,COP,1
+151,Montoya-Galvis,2024-09-12,1.0,COP,1
+152,"BURBANO, REYES AND CASTRO",2024-07-02,1.0,COP,1
+153,Gómez-Quintero,2024-01-23,2.0,COP,0
+154,"Bautista, Vanegas and Villa",2024-03-11,1.0,COP,1
+155,Puentes PLC,2024-01-11,3.0,COP,1
+156,Fajardo PLC,2024-05-27,6.0,COP,1
+157,"VERGARA, GARCÍA AND OSORIO",2024-01-13,3.0,COP,1
+158,Rojas-Valencia,2024-05-20,4.0,COP,1
+159,Castro-Angarita,2024-06-27,2.0,COP,1
+160,Vargas-García,2024-07-27,2.0,COP,1
+161,ZAMBRANO INC,2024-01-15,1.0,COP,1
+162,"Gómez, Gómez and Vargas",2024-07-15,2.0,COP,1
+163,Trujillo and Sons,2024-01-20,5.0,COP,1
+164,Ortega Inc,2024-01-27,1.0,COP,0
+165,"Erazo, Restrepo and Muñoz",2024-02-06,2.0,COP,0
+166,Pérez-Calderón,2024-02-13,6.0,COP,0
+167,"Pinzón, Castaño and Pérez",2024-09-13,4.0,COP,1
+168,González-Rodríguez,2024-03-11,1.0,COP,0
+169,Escobar-Gamboa,2024-07-16,3.0,COP,1
+170,Medina-Forero,2024-07-05,4.0,COP,1
+171,Vega Ltd,2024-06-26,1.0,COP,1
+172,López LLC,2024-05-17,2.0,COP,0
+173,"Carvajal, González and Castrillón",2024-09-13,4.0,COP,1
+174,Romero Group,2024-05-11,4.0,COP,0
+175,"ARIAS, MORA AND HERRERA",2024-02-22,4.0,COP,1
+176,Pinto-López,2024-03-10,2.0,COP,0
+177,ACEVEDO-SALCEDO,2024-01-23,4.0,COP,1
+178,"SÁNCHEZ, DÍAZ AND GUZMÁN",2024-01-03,1.0,COP,1
+179,"ORTIZ, MONTES AND MONTOYA",2024-09-23,6.0,COP,1
+180,Restrepo-Luna,2024-08-17,2.0,COP,1
+181,Mercado PLC,2024-02-03,5.0,COP,0
+182,Salcedo-Alfonso,2024-08-26,6.0,COP,0
+183,"Velasco, Fernández and Perdomo",2024-03-20,5.0,COP,0
+184,Castillo-Herrera,2024-08-18,6.0,COP,0
+185,Londoño-Murillo,2024-05-26,2.0,COP,0
+186,Mosquera Group,2024-07-23,5.0,COP,0
+187,"Vásquez, Agudelo and Guevara",2024-12-09,5.0,COP,0
+188,"Suárez, Angulo and Caicedo",2024-12-22,2.0,COP,0
+189,"Rodríguez, Camacho and Marín",2024-11-04,4.0,COP,0
+190,"Rodríguez, Martínez and Camacho",2024-08-19,3.0,COP,0
+191,Giraldo-Méndez,2024-02-19,4.0,COP,0
+192,"Torres, Cano and Bautista",2024-02-15,2.0,COP,0
+193,Espitia-Melo,2024-10-05,1.0,COP,0
+194,Gutiérrez Inc,2024-10-10,2.0,COP,0
+195,Caicedo-Díaz,2024-02-13,1.0,COP,0
+196,"Guevara, Morales and Torres",2024-01-19,6.0,COP,0
+197,Martínez LLC,2024-01-14,1.0,COP,0
+198,Rivera-Fajardo,2024-09-15,1.0,COP,0
+199,Gil-Acosta,2024-11-15,3.0,COP,0
+200,"Chacón, Gaviria and Pérez",2024-09-04,2.0,COP,0
+201,Acosta PLC,2024-10-10,6.0,COP,0
+202,Salazar LLC,2024-04-17,4.0,COP,0
+203,"Salazar, Morales and Castro",2024-04-23,4.0,COP,0
+204,"Duque, Martínez and Giraldo",2024-11-21,1.0,COP,0
+205,Ramírez-Páez,2024-07-25,3.0,COP,0
+206,Torres-Corredor,2024-12-25,4.0,COP,0
+207,González-Martínez,2024-11-06,6.0,COP,0
+208,"Carrillo, Chávez and Sierra",2024-01-19,1.0,COP,0
+209,"Castro, Torres and Escobar",2024-06-12,6.0,COP,0
+210,Díaz-Ortiz,2024-04-15,2.0,COP,0
+211,Ramírez-Vera,2024-08-26,5.0,COP,0
+212,Mosquera-Londoño,2024-03-25,4.0,COP,0
+213,"Arévalo, Quintero and Barrera",2024-04-25,4.0,COP,0
+214,"Bermúdez, García and Pérez",2024-09-22,4.0,COP,0
+215,Gómez LLC,2024-11-22,1.0,COP,0
+216,Muñoz-Suárez,2024-02-17,1.0,COP,0
+217,Vargas-Forero,2024-07-10,2.0,COP,0
+218,"Trujillo, Díaz and Rodríguez",2024-04-09,4.0,COP,0
+219,Benítez and Sons,2024-03-22,1.0,COP,0
+220,"Salamanca, Rubio and Sánchez",2024-07-20,1.0,COP,0
+221,"Páez, Ortega and Hurtado",2024-05-05,4.0,COP,0
+222,"Rivera, Vanegas and Vargas",2024-12-25,6.0,COP,0
+223,Guevara PLC,2024-12-24,6.0,COP,0
+224,"Martínez, Palacio and Hernández",2024-04-07,2.0,COP,0
+225,"Rico, Guerrero and Arias",2024-01-23,2.0,COP,0
+226,"López, Henao and Mosquera",2024-09-25,6.0,COP,0
+227,"Carmona, Muñoz and Burgos",2024-06-09,6.0,COP,0
+228,Mosquera-Hernández,2024-10-20,1.0,COP,0
+229,Guerrero-Salas,2024-09-17,5.0,COP,0
+230,Serna-Sánchez,2024-09-23,1.0,COP,0
+231,Castaño-Valencia,2024-02-26,2.0,COP,0
+232,"Martínez, Núñez and Carmona",2024-11-04,1.0,COP,0
+233,Pérez-Gutiérrez,2024-02-20,4.0,COP,0
+234,Sierra Group,2024-10-01,2.0,COP,0
+235,Triana-Hoyos,2024-10-04,1.0,COP,0
+236,Rivera Group  ,,,COP,1
+237,Castillo LLC,,,COP,1
+238,Gómez-Quintero,,,COP,1
+239,Castillo LLC,,,COP,1
+240,Gómez-Quintero,,,COP,1
+241,RIVERA  GROUP S.A.S.,,,COP,0
+242,"LOA IZA , ESPINOSA  A ND SOLA NO S.A.S.",,,COP,0
+243,"RA MÍREZ, ÁLVA REZ A ND BA RRA GÁN S.A.S.",,,COP,0
+244,"TORRES, GA RCÍA  A ND BA RRERA S.A.S.",,,COP,0
+245,CA STILLO LLC S.A.S.,,,COP,0
+246,"SUÁREZ, RUIZ A ND ESPINOSA S.A.S.",,,COP,0
+247,PA RA DA  LLC SAS,,,COP,0
