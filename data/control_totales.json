@@ -1,0 +1,154 @@
+{
+  "seed": 42,
+  "num_clientes_pagos_verdad": 180,
+  "num_leads_trial_verdad": 55,
+  "num_casos_dificiles_rebrand": 17,
+  "tasa_cambio_por_periodo": {
+    "202401": 3979,
+    "202402": 3941,
+    "202403": 3988,
+    "202404": 4041,
+    "202405": 3935,
+    "202406": 3935,
+    "202407": 4044,
+    "202408": 3996,
+    "202409": 3921,
+    "202410": 3982,
+    "202411": 3922,
+    "202412": 3922
+  },
+  "mensual": {
+    "202401": {
+      "mrr_cop": 8254340.0,
+      "altas": 28,
+      "bajas": 0,
+      "clientes_activos": 28,
+      "mrr_nuevo": 8254340.0,
+      "mrr_expansion": 0.0,
+      "mrr_contraccion": 0.0,
+      "mrr_churn": 0.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202402": {
+      "mrr_cop": 12928290.0,
+      "altas": 16,
+      "bajas": 0,
+      "clientes_activos": 44,
+      "mrr_nuevo": 4141430.0,
+      "mrr_expansion": 550000.0,
+      "mrr_contraccion": 0.0,
+      "mrr_churn": 0.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202403": {
+      "mrr_cop": 21759892.0,
+      "altas": 26,
+      "bajas": 1,
+      "clientes_activos": 69,
+      "mrr_nuevo": 9460480.0,
+      "mrr_expansion": 600000.0,
+      "mrr_contraccion": 1112308.0,
+      "mrr_churn": 149000.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202404": {
+      "mrr_cop": 25161018.0,
+      "altas": 16,
+      "bajas": 3,
+      "clientes_activos": 82,
+      "mrr_nuevo": 4564430.0,
+      "mrr_expansion": 200000.0,
+      "mrr_contraccion": 569781.0,
+      "mrr_churn": 847000.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202405": {
+      "mrr_cop": 34272630.0,
+      "altas": 24,
+      "bajas": 2,
+      "clientes_activos": 104,
+      "mrr_nuevo": 8976000.0,
+      "mrr_expansion": 750000.0,
+      "mrr_contraccion": 200000.0,
+      "mrr_churn": 298000.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202406": {
+      "mrr_cop": 40817680.0,
+      "altas": 13,
+      "bajas": 2,
+      "clientes_activos": 115,
+      "mrr_nuevo": 4294050.0,
+      "mrr_expansion": 3350000.0,
+      "mrr_contraccion": 950000.0,
+      "mrr_churn": 298000.0,
+      "mrr_reactivacion": 149000.0
+    },
+    "202407": {
+      "mrr_cop": 46899756.0,
+      "altas": 18,
+      "bajas": 4,
+      "clientes_activos": 129,
+      "mrr_nuevo": 6244240.0,
+      "mrr_expansion": 1100000.0,
+      "mrr_contraccion": 200000.0,
+      "mrr_churn": 1206916.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202408": {
+      "mrr_cop": 55535720.0,
+      "altas": 18,
+      "bajas": 2,
+      "clientes_activos": 145,
+      "mrr_nuevo": 6552080.0,
+      "mrr_expansion": 3013436.0,
+      "mrr_contraccion": 550000.0,
+      "mrr_churn": 298000.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202409": {
+      "mrr_cop": 60513300.0,
+      "altas": 22,
+      "bajas": 2,
+      "clientes_activos": 165,
+      "mrr_nuevo": 6580830.0,
+      "mrr_expansion": 1300000.0,
+      "mrr_contraccion": 2050000.0,
+      "mrr_churn": 698000.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202410": {
+      "mrr_cop": 59898138.0,
+      "altas": 0,
+      "bajas": 6,
+      "clientes_activos": 159,
+      "mrr_nuevo": 0.0,
+      "mrr_expansion": 2050000.0,
+      "mrr_contraccion": 1311462.0,
+      "mrr_churn": 1494000.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202411": {
+      "mrr_cop": 57123536.0,
+      "altas": 0,
+      "bajas": 11,
+      "clientes_activos": 148,
+      "mrr_nuevo": 0.0,
+      "mrr_expansion": 2600000.0,
+      "mrr_contraccion": 2053002.0,
+      "mrr_churn": 3192060.0,
+      "mrr_reactivacion": 0.0
+    },
+    "202412": {
+      "mrr_cop": 57775536.0,
+      "altas": 0,
+      "bajas": 2,
+      "clientes_activos": 146,
+      "mrr_nuevo": 0.0,
+      "mrr_expansion": 2600000.0,
+      "mrr_contraccion": 1650000.0,
+      "mrr_churn": 298000.0,
+      "mrr_reactivacion": 0.0
+    }
+  }
+}
