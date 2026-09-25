@@ -21,12 +21,15 @@
 import json
 import random
 import string
-import unicodedata
+import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from faker import Faker
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from lib_comun import normaliza  # noqa: E402  (compartida con el ETL, ver lib_comun.py)
 
 SEED = 42
 random.seed(SEED)
@@ -73,17 +76,6 @@ PROB_DOWNGRADE_MES = 0.02
 PROB_REACTIVACION_TRAS_BAJA = 0.15
 
 PLAN_ORDEN = ["Starter", "Pro", "Business"]
-
-
-def normaliza(txt: str) -> str:
-    """Mayusculas, sin tildes, sin sufijos legales, espacios colapsados. Clave de match."""
-    t = unicodedata.normalize("NFKD", str(txt)).encode("ascii", "ignore").decode("ascii")
-    t = t.upper().strip()
-    for suf in [" S.A.S.", " SAS", " S.A.", " SA", " LTDA", " LTDA.", " E.U.", " EU"]:
-        if t.endswith(suf.upper()):
-            t = t[: -len(suf)].strip()
-    t = " ".join(t.split())
-    return t
 
 
 # =====================================================================================
@@ -172,10 +164,22 @@ for i in range(1, N_CLIENTES_PAGOS + 1):
 # PASO 2 - Calcular control_totales.json (la verdad, antes de ensuciar nada)
 # =====================================================================================
 
-def precio(plan, moneda, periodo):
+def precio_cop(plan, moneda, periodo):
+    """Equivalente en COP - para la verdad de control (MRR total de la compania en una
+    sola moneda). NO es lo que se escribe en los archivos de origen."""
     if moneda == "COP":
         return PLANES[plan]["precio_cop"]
     return PLANES[plan]["precio_usd"] * TASA_CAMBIO[periodo]
+
+
+def precio_moneda_nativa(plan, moneda):
+    """El monto en la moneda propia del cliente - esto SI es lo que se escribe en
+    billing/contratos. Si es USD, el ETL debe convertirlo el con la tasa del mes;
+    si aqui ya se entregara convertido a COP, la conversion en el ETL duplicaria el
+    ajuste de tasa de cambio."""
+    if moneda == "COP":
+        return PLANES[plan]["precio_cop"]
+    return PLANES[plan]["precio_usd"]
 
 
 control_mensual = {p: {"mrr_cop": 0.0, "altas": 0, "bajas": 0, "clientes_activos": 0,
@@ -191,24 +195,24 @@ for periodo in ID_PERIODOS:
         ev_mes = [e for e in c["eventos"] if e["id_periodo"] == periodo]
         for e in ev_mes:
             if e["tipo"] == "nueva_suscripcion":
-                p_nuevo = precio(e["plan"], c["moneda"], periodo)
+                p_nuevo = precio_cop(e["plan"], c["moneda"], periodo)
                 control_mensual[periodo]["mrr_nuevo"] += p_nuevo
                 control_mensual[periodo]["altas"] += 1
                 estado_cliente[cid] = e["plan"]
             elif e["tipo"] == "upgrade":
-                delta = precio(e["plan"], c["moneda"], periodo) - precio(e["plan_anterior"], c["moneda"], periodo)
+                delta = precio_cop(e["plan"], c["moneda"], periodo) - precio_cop(e["plan_anterior"], c["moneda"], periodo)
                 control_mensual[periodo]["mrr_expansion"] += delta
                 estado_cliente[cid] = e["plan"]
             elif e["tipo"] == "downgrade":
-                delta = precio(e["plan_anterior"], c["moneda"], periodo) - precio(e["plan"], c["moneda"], periodo)
+                delta = precio_cop(e["plan_anterior"], c["moneda"], periodo) - precio_cop(e["plan"], c["moneda"], periodo)
                 control_mensual[periodo]["mrr_contraccion"] += delta
                 estado_cliente[cid] = e["plan"]
             elif e["tipo"] == "cancelacion":
-                control_mensual[periodo]["mrr_churn"] += precio(e["plan"], c["moneda"], periodo)
+                control_mensual[periodo]["mrr_churn"] += precio_cop(e["plan"], c["moneda"], periodo)
                 control_mensual[periodo]["bajas"] += 1
                 estado_cliente[cid] = None
             elif e["tipo"] == "reactivacion":
-                control_mensual[periodo]["mrr_reactivacion"] += precio(e["plan"], c["moneda"], periodo)
+                control_mensual[periodo]["mrr_reactivacion"] += precio_cop(e["plan"], c["moneda"], periodo)
                 control_mensual[periodo]["altas"] += 1
                 estado_cliente[cid] = e["plan"]
 
@@ -217,7 +221,7 @@ for periodo in ID_PERIODOS:
     for cid, plan in estado_cliente.items():
         if plan is not None:
             cli = next(c for c in clientes if c["cliente_id_verdad"] == cid)
-            mrr_total += precio(plan, cli["moneda"], periodo)
+            mrr_total += precio_cop(plan, cli["moneda"], periodo)
             activos += 1
     control_mensual[periodo]["mrr_cop"] = round(mrr_total, 2)
     control_mensual[periodo]["clientes_activos"] = activos
@@ -392,7 +396,7 @@ for c in clientes:
             nombre_evt = variante_nombre(c["nombre_post_rebrand"], "billing")
 
         plan_evt = e["plan"]
-        monto = precio(plan_evt, c["moneda"], e["id_periodo"])
+        monto = precio_moneda_nativa(plan_evt, c["moneda"])
         monto_txt = monto
         # Un puñado de montos "sucios" que no parsean directo (van a cuarentena)
         if np.random.rand() < 0.015:
@@ -434,7 +438,7 @@ for c in clientes:
         "razon_social": nombre_legal,
         "nit": fake.numerify("###.###.###") + "-" + str(np.random.randint(0, 9)),
         "plan_contratado": plan_inicial,
-        "valor_mensual_contrato": precio(plan_inicial, c["moneda"], fecha_alta),
+        "valor_mensual_contrato": precio_moneda_nativa(plan_inicial, c["moneda"]),
         "moneda": c["moneda"],
         "fecha_firma": fecha_valor,
         "vigencia_meses": random.choice([12, 24]),

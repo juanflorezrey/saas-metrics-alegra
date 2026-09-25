@@ -5,15 +5,15 @@ cus_f134eee52db9fa,Galvis Ltd  ,milena@galvis.com,BUSINESS-ENT,COP,899000,2024-0
 cus_d4af211849b3a4,"Galindo, García and Salazar",milton@galindo.com,starter_monthly,COP,149000,2024-04-25,nueva_suscripcion,202404
 cus_d4af211849b3a4,López and Sons,wilmer@galindo.com,starter_monthly,COP,149000,2024-11-24,cancelacion,202411
 cus_ed1640ca4b8601,"Agudelo, Londoño and Becerra",YOLANDA@AGUDELO.COM,PRO-M,COP,349000,2024-03-14,nueva_suscripcion,202403
-cus_e8d9224ecde331,"Vásquez, Torres and Fernández",luis@vasquez.com,BUSINESS-ENT,USD,906430,2024-02-19,nueva_suscripcion,202402
-cus_e8d9224ecde331,"Vásquez, Torres and Fernández",efrain@vasquez.com,pro_monthly,USD,354932,2024-03-08,downgrade,202403
-cus_e8d9224ecde331,"Vásquez, Torres and Fernández",paola@vasquez.com,PRO-M,USD,359916,2024-07-21,cancelacion,202407
+cus_e8d9224ecde331,"Vásquez, Torres and Fernández",luis@vasquez.com,BUSINESS-ENT,USD,230,2024-02-19,nueva_suscripcion,202402
+cus_e8d9224ecde331,"Vásquez, Torres and Fernández",efrain@vasquez.com,pro_monthly,USD,89,2024-03-08,downgrade,202403
+cus_e8d9224ecde331,"Vásquez, Torres and Fernández",paola@vasquez.com,PRO-M,USD,89,2024-07-21,cancelacion,202407
 cus_be32c262ec6ab3,Uribe and Sons,yolanda@uribe.com,Pro,COP,349000,2024-05-01,,202405
 cus_c1dd3d74c3035d,"Salazar, Castro and Rojas",fabio@salazar.com,pro_monthly,COP,349000,2024-02-24,nueva_suscripcion,202402
 cus_c1dd3d74c3035d,"Salazar, Castro and Rojas",daniel@salazar.com,business_monthly,COP,899000,2024-09-16,upgrade,202409
 cus_a6f8f1f2f416b5,López-Rivera,SEBASTIÁN@LOPEZRIVERA.COM,STARTER,COP,149000,2024-04-15,nueva_suscripcion,202404
-cus_f1e3068cafb36f,Sanabria-Agudelo,fabio@sanabriaagudelo.com,business_monthly,USD,915170,2024-01-07,nueva_suscripcion,202401
-cus_f1e3068cafb36f,Sanabria-Agudelo,fabiola@sanabriaagudelo.com,BUSINESS-ENT,USD,902060,2024-11-19,cancelacion,202411
+cus_f1e3068cafb36f,Sanabria-Agudelo,fabio@sanabriaagudelo.com,business_monthly,USD,230,2024-01-07,nueva_suscripcion,202401
+cus_f1e3068cafb36f,Sanabria-Agudelo,fabiola@sanabriaagudelo.com,BUSINESS-ENT,USD,230,2024-11-19,cancelacion,202411
 cus_5db4466426fae9,Ariza PLC,elsa@ariza.com,starter_monthly,COP,149000,2024-02-24,nueva_suscripcion,202402
 cus_5db4466426fae9,Ariza PLC,lida@ariza.com,pro_monthly,COP,349000,2024-11-25,upgrade,202411
 cus_80469a7737ec21,Cardozo Group  ,oswaldo@cardozo.com,STARTER,COP,149000,2024-06-02,nueva_suscripcion,202406
@@ -66,8 +66,8 @@ cus_d65bcd01aefb61,Moreno-Moreno,david@morenomoreno.com,PRO-M,COP,349000,2024-07
 cus_d65bcd01aefb61,Moreno-Moreno,jairo@morenomoreno.com,STARTER,COP,149000,2024-11-10,downgrade,202411
 cus_d7be0c45289c21,"Erazo, García and Reyes",juan@erazo.com,starter_monthly,COP,149000,2024-09-09,nueva_suscripcion,202409
 cus_d7be0c45289c21,"Erazo, García and Reyes",andrés@erazo.com,STARTER,COP,149000,2024-11-07,cancelacion,202411
-cus_a793a7ae7481ff,Mantilla PLC,germán@mantilla.com,business_monthly,USD,905050,2024-06-17,nueva_suscripcion,202406
-cus_a64d367399f4fa,"Pérez, Silva and Calderón",fabián@perez.com,business_monthly,USD,917240,2024-03-22,nueva_suscripcion,202403
+cus_a793a7ae7481ff,Mantilla PLC,germán@mantilla.com,business_monthly,USD,230,2024-06-17,nueva_suscripcion,202406
+cus_a64d367399f4fa,"Pérez, Silva and Calderón",fabián@perez.com,business_monthly,USD,230,2024-03-22,nueva_suscripcion,202403
 cus_0dcfebdec3c334,Oviedo Ltd,josé@oviedo.com,STARTER,COP,149000,2024-03-14,nueva_suscripcion,202403
 cus_0dcfebdec3c334,Oviedo Ltd,yesenia@oviedo.com,PRO-M,COP,349000,2024-06-13,upgrade,202406
 cus_0dcfebdec3c334,Oviedo Ltd,PABLO@OVIEDO.COM,STARTER,COP,149000,2024-11-02,downgrade,202411
@@ -82,8 +82,8 @@ cus_b3735f5ea04ffd,García-Moreno,fernando@garciamoreno.com,Pro,COP,349000,2024-
 cus_b3735f5ea04ffd,García-Moreno,luz@garciamoreno.com,BUSINESS-ENT,COP,899000,2024-09-13,upgrade,202409
 cus_b3735f5ea04ffd,García-Moreno,margarita@garciamoreno.com,Pro,COP,349000,2024-10-16,downgrade,202410
 cus_a90c3291c33d52,"Reyes, Montoya and Vanegas",fanny@reyes.com,STARTER,COP,149000,2024-03-07,nueva_suscripcion,202403
-cus_0d2242a00c3520,"Escobar, Vargas and Ortega",angie@escobar.com,BUSINESS-ENT,USD,919080,2024-08-05,nueva_suscripcion,202408
-cus_0d2242a00c3520,"Escobar, Vargas and Ortega",pablo@escobar.com,pro_monthly,USD,354398,2024-10-26,downgrade,202410
+cus_0d2242a00c3520,"Escobar, Vargas and Ortega",angie@escobar.com,BUSINESS-ENT,USD,230,2024-08-05,nueva_suscripcion,202408
+cus_0d2242a00c3520,"Escobar, Vargas and Ortega",pablo@escobar.com,pro_monthly,USD,89,2024-10-26,downgrade,202410
 cus_8b7c818f0cd87f,Ramírez-López,ESMERALDA@RAMIREZLOPEZ.COM,Starter,COP,149000,2024-01-17,nueva_suscripcion,202401
 cus_8b7c818f0cd87f,Ramírez-López,rubiela@ramirezlopez.com,pro_monthly,COP,349000,2024-03-03,upgrade,202403
 cus_8b7c818f0cd87f,Ramírez-López,david@ramirezlopez.com,pro_monthly,COP,349000,2024-09-26,cancelacion,202409
@@ -100,7 +100,7 @@ cus_5c9cdfd9a0ed42,"Cardona, Salazar and Castro",jhon@cardona.com,Pro,COP,349000
 cus_22a1bf1867245f,Pulido Inc,marcela@pulido.com,PRO-M,COP,349000,2024-08-19,nueva_suscripcion,202408
 cus_22a1bf1867245f,Pulido Inc,rosario@pulido.com,Pro,COP,349000,2024-10-08,cancelacion,202410
 cus_e2c0176963851a,Montes-Ordóñez  ,susana@montesordonez.com,BUSINESS-ENT,COP,899000,2024-08-20,nueva_suscripcion,202408
-cus_7a0690432450b2,Martínez PLC  ,gloria@martinez.com,business_monthly,USD,930120,2024-07-11,nueva_suscripcion,202407
+cus_7a0690432450b2,Martínez PLC  ,gloria@martinez.com,business_monthly,USD,230,2024-07-11,nueva_suscripcion,202407
 cus_838a56b671566a,Tamayo and Sons,juan@tamayo.com,starter_monthly,COP,149000,2024-03-02,nueva_suscripcion,202403
 cus_838a56b671566a,Tamayo and Sons,alejandro@tamayo.com,Pro,COP,349000,2024-08-25,upgrade,202408
 cus_838a56b671566a,Tamayo and Sons,alejandra@tamayo.com,pro_monthly,COP,349000,2024-10-26,cancelacion,202410
@@ -172,9 +172,9 @@ cus_742bc9c2ded81a,"Valencia, Gómez and Monsalve",david@valencia.com,Pro,COP,34
 cus_742bc9c2ded81a,Díaz-Burgos  ,eduardo@valencia.com,Pro,COP,349000,2024-11-18,cancelacion,202411
 cus_7e0674599453a7,Gómez-Hurtado,juan@gomezhurtado.com,Starter,COP,149000,2024-09-23,nueva_suscripcion,202409
 cus_68eb41e49322b9,Padilla-Álvarez  ,fabián@padillaalvarez.com,pro_monthly,COP,349000,2024-07-14,nueva_suscripcion,202407
-cus_beccdca9c885e1,"Bustamante, González and Maldonado",gloria@bustamante.com,BUSINESS-ENT,USD,917240,2024-03-08,nueva_suscripcion,202403
-cus_beccdca9c885e1,"Bustamante, González and Maldonado",yasmín@bustamante.com,PRO-M,USD,359649,2024-04-12,downgrade,202404
-cus_beccdca9c885e1,"Bustamante, González and Maldonado",carlos@bustamante.com,Business,USD,919080,2024-08-17,upgrade,202408
+cus_beccdca9c885e1,"Bustamante, González and Maldonado",gloria@bustamante.com,BUSINESS-ENT,USD,230,2024-03-08,nueva_suscripcion,202403
+cus_beccdca9c885e1,"Bustamante, González and Maldonado",yasmín@bustamante.com,PRO-M,USD,89,2024-04-12,downgrade,202404
+cus_beccdca9c885e1,"Bustamante, González and Maldonado",carlos@bustamante.com,Business,USD,230,2024-08-17,upgrade,202408
 cus_925813918c7870,Muñoz Ltd,jhonatan@munoz.com,starter_monthly,COP,149000,2024-01-23,nueva_suscripcion,202401
 cus_925813918c7870,Muñoz Ltd,andrea@munoz.com,STARTER,COP,149000,2024-05-09,cancelacion,202405
 cus_cb6db9051fe1e0,"Pacheco, Ballesteros and Daza",karen@pacheco.com,starter_monthly,COP,149000,2024-01-12,nueva_suscripcion,202401
@@ -207,9 +207,9 @@ cus_7ab1da5ffee3eb,Castrillón PLC,harvey@castrillon.com,starter_monthly,COP,149
 cus_4ea48a2d032dde,Cárdenas Ltd,sonia@cardenas.com,pro_monthly,COP,349000,2024-03-21,nueva_suscripcion,202403
 cus_23d6e5c2fb8f06,"Ramírez, Benavides and Zapata",carmen@ramirez.com,Business,COP,899000,2024-03-19,nueva_suscripcion,202403
 cus_23d6e5c2fb8f06,"Ramírez, Benavides and Zapata",luis@ramirez.com,pro_monthly,COP,349000,2024-12-10,downgrade,202412
-cus_999f5ac7386296,Sánchez Ltd,josé@sanchez.com,BUSINESS-ENT,USD,915170,2024-01-01,nueva_suscripcion,202401
-cus_999f5ac7386296,Sánchez Ltd,fernando@sanchez.com,pro_monthly,USD,349058,2024-11-15,downgrade,202411
-cus_cb12bab5104542,Galindo Inc,emma@galindo.com,Business,USD,929430,2024-04-09,nueva_suscripcion,202404
+cus_999f5ac7386296,Sánchez Ltd,josé@sanchez.com,BUSINESS-ENT,USD,230,2024-01-01,nueva_suscripcion,202401
+cus_999f5ac7386296,Sánchez Ltd,fernando@sanchez.com,pro_monthly,USD,89,2024-11-15,downgrade,202411
+cus_cb12bab5104542,Galindo Inc,emma@galindo.com,Business,USD,230,2024-04-09,nueva_suscripcion,202404
 cus_6881189cd06cb8,Torres-Cifuentes,gloria@torrescifuentes.com,Pro,COP,349000,2024-02-25,nueva_suscripcion,202402
 cus_6881189cd06cb8,Torres-Cifuentes,alberto@torrescifuentes.com,PRO-M,COP,349000,2024-07-12,cancelacion,202407
 cus_8a2442244c5fb7,"Delgado, Martínez and Vargas",camilo@delgado.com,PRO-M,COP,349000,2024-07-11,nueva_suscripcion,202407
@@ -265,9 +265,9 @@ cus_762ed8eb656b41,"Erazo, Restrepo and Muñoz",SERGIO@ERAZO.COM,pro_monthly,COP
 cus_762ed8eb656b41,"Erazo, Restrepo and Muñoz",sonia@erazo.com,Pro,COP,349000,2024-11-25,cancelacion,202411
 cus_8e2cff174d5803,Pérez-Calderón,saúl@perezcalderon.com,STARTER,COP,149000,2024-02-06,nueva_suscripcion,202402
 cus_8e2cff174d5803,Pérez-Calderón,blanca@perezcalderon.com,starter_monthly,COP,149000,2024-11-18,cancelacion,202411
-cus_b35ffcb8c2e08a,"Pinzón, Castaño and Pérez",maría@pinzon.com,BUSINESS-ENT,USD,901830,2024-09-07,nueva_suscripcion,202409
+cus_b35ffcb8c2e08a,"Pinzón, Castaño and Pérez",maría@pinzon.com,BUSINESS-ENT,USD,230,2024-09-07,nueva_suscripcion,202409
 cus_ef0adb18370fb1,González-Rodríguez,gerson@gonzalezrodriguez.com,Pro,COP,349000,2024-03-11,,202403
-cus_e8b5f112d196f3,Escobar-Gamboa  ,antonio@escobargamboa.com,business_monthly,USD,930120,2024-07-20,nueva_suscripcion,202407
+cus_e8b5f112d196f3,Escobar-Gamboa  ,antonio@escobargamboa.com,business_monthly,USD,230,2024-07-20,nueva_suscripcion,202407
 cus_de6d573f2c1175,Medina-Forero,héctor@medinaforero.com,Pro,COP,349000,2024-07-08,nueva_suscripcion,202407
 cus_de6d573f2c1175,Medina-Forero,carlos@medinaforero.com,BUSINESS-ENT,COP,899000,2024-12-07,upgrade,202412
 cus_5c77d1c4b93d2b,Vega Ltd,ligia@vega.com,starter_monthly,COP,149000,2024-06-13,nueva_suscripcion,202406

@@ -1,0 +1,158 @@
+{
+  "quarantine": [],
+  "alias_cliente_dificiles": [
+    {
+      "id_contacto_crm": "CRM-000003",
+      "id_cliente": 3,
+      "nombres": [
+        "GALINDO, GARCÍA AND SALAZAR",
+        "López and Sons"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000024",
+      "id_cliente": 24,
+      "nombres": [
+        "Pardo, Álvarez and Hoyos",
+        "Loaiza-Franco"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000025",
+      "id_cliente": 25,
+      "nombres": [
+        "Ortiz and Sons",
+        "Londoño, Muñoz and Orozco"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000043",
+      "id_cliente": 43,
+      "nombres": [
+        "Hernández Group",
+        "MANTILLA PLC"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000048",
+      "id_cliente": 48,
+      "nombres": [
+        "Torres LLC",
+        "FERNÁNDEZ AND SONS"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000065",
+      "id_cliente": 65,
+      "nombres": [
+        "Leal Inc",
+        "Rivera Group"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000075",
+      "id_cliente": 75,
+      "nombres": [
+        "Navarro-Ospina",
+        "Vargas, Hurtado and Beltrán"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000076",
+      "id_cliente": 76,
+      "nombres": [
+        "Betancur-Ramírez",
+        "Álvarez, Ortiz and Hernández"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000083",
+      "id_cliente": 83,
+      "nombres": [
+        "Suárez, Castrillón and Arévalo",
+        "Rodríguez, Ayala and Suárez"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000095",
+      "id_cliente": 95,
+      "nombres": [
+        "Maldonado-Rosero",
+        "Cortés, Osorio and Gómez"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000096",
+      "id_cliente": 96,
+      "nombres": [
+        "Maldonado and Sons",
+        "Vargas, López and Patiño"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000097",
+      "id_cliente": 97,
+      "nombres": [
+        "Leal and Sons",
+        "Quiroz-Zambrano"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000108",
+      "id_cliente": 108,
+      "nombres": [
+        "Valencia, Gómez and Monsalve",
+        "Díaz-Burgos"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000112",
+      "id_cliente": 112,
+      "nombres": [
+        "Rodríguez-Velandia",
+        "Muñoz Ltd"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000150",
+      "id_cliente": 150,
+      "nombres": [
+        "Márquez-Posada",
+        "Rodríguez-Romero"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000157",
+      "id_cliente": 157,
+      "nombres": [
+        "Díaz-Muñoz",
+        "VERGARA, GARCÍA AND OSORIO"
+      ]
+    },
+    {
+      "id_contacto_crm": "CRM-000161",
+      "id_cliente": 161,
+      "nombres": [
+        "Torres-García",
+        "ZAMBRANO INC"
+      ]
+    }
+  ],
+  "hallazgos": [
+    "Nombre 'RIVERA GROUP' usado por mas de una empresa distinta en CRM (id_cliente 16 y 65): se marca AMBIGUO y NO se cruza automaticamente contra Billing/Contratos - cada lado se resuelve por su identificador propio (id_customer_stripe / fila de contrato), nunca por este nombre",
+    "Nombre 'CASTILLO LLC' usado por mas de una empresa distinta en CRM (id_cliente 57 y 105): se marca AMBIGUO y NO se cruza automaticamente contra Billing/Contratos - cada lado se resuelve por su identificador propio (id_customer_stripe / fila de contrato), nunca por este nombre",
+    "Nombre 'GOMEZ-QUINTERO' usado por mas de una empresa distinta en CRM (id_cliente 90 y 153): se marca AMBIGUO y NO se cruza automaticamente contra Billing/Contratos - cada lado se resuelve por su identificador propio (id_customer_stripe / fila de contrato), nunca por este nombre",
+    "SIN MATCH confiable en BILLING: 'Rivera Group  ' -> sin contraparte confiable en CRM (id_customer_stripe=cus_bb168636e9bdc6)",
+    "SIN MATCH confiable en BILLING: 'Castillo LLC' -> sin contraparte confiable en CRM (id_customer_stripe=cus_a52e1d11bc8985)",
+    "SIN MATCH confiable en BILLING: 'Gómez-Quintero' -> sin contraparte confiable en CRM (id_customer_stripe=cus_a2f6e01225b5fe)",
+    "SIN MATCH confiable en BILLING: 'Castillo LLC' -> sin contraparte confiable en CRM (id_customer_stripe=cus_57a2ff2ae7ac44)",
+    "SIN MATCH confiable en BILLING: 'Gómez-Quintero' -> sin contraparte confiable en CRM (id_customer_stripe=cus_5482dcec0ad0e2)",
+    "SIN MATCH confiable en CONTRATO: 'RIVERA  GROUP S.A.S.' -> sin contraparte confiable en CRM",
+    "SIN MATCH confiable en CONTRATO: 'LOA IZA , ESPINOSA  A ND SOLA NO S.A.S.' -> sin contraparte confiable en CRM",
+    "SIN MATCH confiable en CONTRATO: 'RA MÍREZ, ÁLVA REZ A ND BA RRA GÁN S.A.S.' -> sin contraparte confiable en CRM",
+    "SIN MATCH confiable en CONTRATO: 'TORRES, GA RCÍA  A ND BA RRERA S.A.S.' -> sin contraparte confiable en CRM",
+    "SIN MATCH confiable en CONTRATO: 'CA STILLO LLC S.A.S.' -> sin contraparte confiable en CRM",
+    "SIN MATCH confiable en CONTRATO: 'SUÁREZ, RUIZ A ND ESPINOSA S.A.S.' -> sin contraparte confiable en CRM",
+    "SIN MATCH confiable en CONTRATO: 'PA RA DA  LLC SAS' -> sin contraparte confiable en CRM"
+  ]
+}

@@ -1,0 +1,12 @@
+texto_origen,origen_sistema,id_plan
+STARTER,BILLING,1
+Pro,BILLING,2
+BUSINESS-ENT,BILLING,3
+starter_monthly,BILLING,1
+PRO-M,BILLING,2
+pro_monthly,BILLING,2
+business_monthly,BILLING,3
+Starter,BILLING,1
+Business,BILLING,3
+Pro,CONTRATO,2
+Business,CONTRATO,3
