@@ -23,6 +23,7 @@ que los tres sistemas compartan un identificador común. La pregunta de negocio:
 | `db/` | `saas_metrics.db` (SQLite poblado y verificado) |
 | `agente/`, `.mcp.json`, `.claude/` | **Agente conversacional:** servidor MCP gobernado + skill `/analista-saas` para Claude Code |
 | `pruebas/` | Pruebas sin LLM: guardrails, servidor MCP y cifras publicadas + preguntas de demo con respuesta esperada |
+| `anexos/` | **Actividad 2:** escrito a mano con las respuestas a las preguntas del reto ([PDF](anexos/Actividad2_Escrito_JuanFlorezRey.pdf)) |
 | `cargar_datos.py`, `exportar_csv.py`, `lib_comun.py` | El ETL y utilidades, en la raíz |
 
 ## El hallazgo que no estaba planeado
@@ -79,6 +80,12 @@ Diccionario completo de fórmulas en [`docs/DICCIONARIO_METRICAS.md`](docs/DICCI
 Python (pandas, Faker, matplotlib) · SQLite · Jupyter · Power BI Desktop (PBIP/TMDL) ·
 MCP (Model Context Protocol) · Claude Code como copiloto en cada etapa y como interfaz
 del agente.
+
+## Actividad 2 — Escrito
+
+Respuestas a mano a las cuatro preguntas del reto (por qué ser parte del equipo, un libro reciente,
+Alegra explicada a un niño de 7 años y un huevo en máximo 6 pasos):
+[`anexos/Actividad2_Escrito_JuanFlorezRey.pdf`](anexos/Actividad2_Escrito_JuanFlorezRey.pdf).
 
 ## Video
 
