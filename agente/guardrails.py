@@ -12,7 +12,9 @@
 #                        con PRAGMA query_only y un authorizer que niega todo lo que no sea
 #                        leer las tablas publicadas.
 #   3. Una sentencia     sqlite3.execute ya rechaza sentencias multiples.
-#   4. Limites           maximo MAX_FILAS filas devueltas y MAX_SEGUNDOS por consulta.
+#   4. Limites           maximo MAX_FILAS filas y MAX_SEGUNDOS por consulta; ningun valor
+#                        puede superar MAX_BYTES_VALOR y la respuesta al agente se recorta
+#                        a MAX_CARACTERES_RESPUESTA (una consulta no puede inundar su contexto).
 #   5. Bitacora          cada llamada queda en salidas/auditoria_consultas.jsonl.
 #
 # Por que una copia y no un allowlist sobre la base real: el authorizer de SQLite reporta
@@ -39,6 +41,9 @@ BITACORA = SALIDAS / "auditoria_consultas.jsonl"
 
 MAX_FILAS = 200
 MAX_SEGUNDOS = 5.0
+MAX_BYTES_VALOR = 1_000_000
+MAX_CARACTERES_CELDA = 300
+MAX_CARACTERES_RESPUESTA = 60_000
 
 PREFIJO_GOLD = "gold_v_"
 DIMENSIONES_PERMITIDAS = ("dim_periodo", "dim_plan", "dim_canal", "dim_cliente")
@@ -79,6 +84,8 @@ def _construir_capa_publicada():
     con.commit()
     con.execute("DETACH DATABASE fuente")
     con.execute("PRAGMA query_only = ON")
+    if hasattr(con, "setlimit"):  # Python 3.11+; en 3.10 queda solo el recorte de a_markdown
+        con.setlimit(sqlite3.SQLITE_LIMIT_LENGTH, MAX_BYTES_VALOR)
 
     permitidas = frozenset(publicadas)
 
@@ -129,10 +136,12 @@ def _clasificar_error(e: sqlite3.Error) -> ErrorConsulta:
     texto = str(e)
     if isinstance(e, sqlite3.ProgrammingError) and "one statement" in texto:
         return ConsultaBloqueada("Solo se permite UNA sentencia SELECT por llamada.")
-    if "prohibited" in texto or "not authorized" in texto or "readonly" in texto or "query_only" in texto:
+    if any(s in texto for s in ("prohibited", "not authorized", "authorization denied", "readonly", "query_only")):
         return ConsultaBloqueada(MENSAJE_GOBERNANZA)
     if "interrupted" in texto:
         return ConsultaBloqueada(f"La consulta supero el limite de {MAX_SEGUNDOS:.0f} s y se cancelo.")
+    if "too big" in texto:
+        return ConsultaBloqueada(f"La consulta genera un valor de mas de {MAX_BYTES_VALOR:,} bytes: no esta permitido.")
     tabla = re.search(r"no such table: (?:\w+\.)?(\w+)", texto)
     if tabla and tabla.group(1) in _estado["no_publicadas"]:
         # Existe en la base real pero no esta publicada para el agente (bronze/silver/control).
@@ -176,17 +185,31 @@ def _celda(valor) -> str:
         return ""
     if isinstance(valor, float) and valor.is_integer():
         return str(int(valor))
-    return str(valor).replace("|", "\\|")
+    texto = str(valor).replace("|", "\\|").replace("\r", " ").replace("\n", " ")
+    if len(texto) > MAX_CARACTERES_CELDA:
+        texto = texto[:MAX_CARACTERES_CELDA] + "…"
+    return texto
 
 
 def a_markdown(resultado: dict) -> str:
-    """Tabla markdown + pie con filas, truncado y duracion."""
+    """Tabla markdown + pie con filas, truncado y duracion. Nunca supera
+    MAX_CARACTERES_RESPUESTA: si no caben todas las filas, lo dice."""
     columnas, filas = resultado["columnas"], resultado["filas"]
     if not columnas:
         return "(la consulta no devolvio columnas)"
-    lineas = ["| " + " | ".join(columnas) + " |", "|" + "---|" * len(columnas)]
-    lineas += ["| " + " | ".join(_celda(v) for v in fila) + " |" for fila in filas]
+    lineas = ["| " + " | ".join(_celda(c) for c in columnas) + " |", "|" + "---|" * len(columnas)]
+    total = sum(len(linea) + 1 for linea in lineas)
+    for fila in filas:
+        linea = "| " + " | ".join(_celda(v) for v in fila) + " |"
+        if total + len(linea) + 1 > MAX_CARACTERES_RESPUESTA:
+            break
+        lineas.append(linea)
+        total += len(linea) + 1
+    mostradas = len(lineas) - 2
     pie = f"\n{resultado['n_filas']} fila(s) en {resultado['ms']} ms."
+    if mostradas < len(filas):
+        pie += (f" Se muestran {mostradas}: la respuesta superaba {MAX_CARACTERES_RESPUESTA:,} caracteres;"
+                " selecciona menos columnas o agrega.")
     if resultado["truncado"]:
         pie += f" RESULTADO TRUNCADO a {MAX_FILAS} filas: agrega o filtra si necesitas el total."
     return "\n".join(lineas) + pie

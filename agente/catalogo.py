@@ -36,15 +36,25 @@ DESCRIPCIONES = {
     ),
     "gold_v_cac_por_canal": (
         "Una fila por canal x mes: gasto de adquisicion (COP), clientes_nuevos y cac_cop. Para el CAC "
-        "de un periodo largo, SUMAR gasto y clientes y dividir; NO promediar los CAC mensuales."
+        "de un periodo largo, SUMAR gasto y clientes y dividir; NO promediar los CAC mensuales. Las altas "
+        "de clientes huerfanos no tienen canal y no cuentan en ningun canal."
     ),
     "gold_v_ltv": (
-        "Una fila por plan: ARPA, churn de ingreso mensual promedio de la compania y LTV = ARPA / churn. "
-        "Simplificacion declarada: usa el churn de toda la compania (no por plan) y no descuenta margen."
+        "Una fila por plan. ltv_cop = ARPA / churn de ingreso mensual promedio de TODA la compania (cifra "
+        "principal). Sensibilidad: churn_ingreso_plan_pct y ltv_cop_churn_plan usan el churn propio de cada "
+        "plan; bajas_plan es la muestra (con pocas bajas, como Business, esa sensibilidad no es confiable). "
+        "Ninguna descuenta margen."
+    ),
+    "gold_v_ltv_cac_por_canal": (
+        "Una fila por canal: gasto y clientes nuevos del anio, CAC (gasto total / clientes), altas por "
+        "plan (la mezcla REAL con la que entro el canal), LTV ponderado por esa mezcla y ltv_cac. "
+        "ltv_cac_churn_plan es la sensibilidad con churn por plan. Referencia: LTV:CAC >= 3."
     ),
     "gold_v_calidad_clientes": (
-        "Una fila por cliente: estado_calidad de su identidad (OK, REBRANDING, HUERFANO_O_AMBIGUO), "
-        "sistemas donde se confirmo, nota de calidad y MRR inicial."
+        "Una fila por empresa de dim_cliente con su estado_calidad: OK (cliente de pago resuelto), "
+        "REBRANDING (resuelto por el id del CRM), HUERFANO_O_AMBIGUO (sin contraparte confiable; revision "
+        "manual), CLIENTE_SIN_EVENTOS_VALIDOS (cliente del CRM cuya facturacion quedo en cuarentena: su MRR "
+        "no esta contado) y LEAD_SIN_FACTURACION (lead/trial, no es un error). Incluye nota y MRR inicial."
     ),
     "gold_v_resumen_calidad": "Una fila por estado de calidad: numero de clientes y MRR inicial involucrado.",
     "gold_v_calidad_cuarentena": "Una fila por fuente de datos: filas rechazadas a cuarentena en la carga y su motivo.",
@@ -57,9 +67,10 @@ DESCRIPCIONES = {
     "dim_plan": "Planes Starter, Pro y Business con su precio de lista mensual en COP y en USD.",
     "dim_canal": "Canales de adquisicion: Organico, Pago-Google, Pago-Meta, Referido, Partner, Outbound.",
     "dim_cliente": (
-        "Una fila por empresa, INCLUYE 55 leads/trials que nunca pagaron y los clientes huerfanos. "
-        "activo = 1 si estaba activo a diciembre 2024. OJO: moneda_principal NO es confiable (el ETL la "
-        "dejo en COP para todos); para moneda usar moneda_origen de gold_v_eventos_detalle."
+        "Una fila por empresa, INCLUYE 55 leads/trials que nunca pagaron y los registros huerfanos. "
+        "activo = 1 si estaba activo al cierre del ultimo mes. moneda_principal = moneda de su ultimo "
+        "evento de facturacion (NULL si nunca facturo). etapa_crm = Cliente, Lead, Trial o Perdido "
+        "(NULL si la empresa no existe en el CRM)."
     ),
 }
 
@@ -76,13 +87,23 @@ Contexto de la simulacion (supuestos del generador data/generar_datos.py, semill
   upgrade 5% y de downgrade 2%; 15% de los que cancelan se reactivan 2-3 meses despues.
 - Planes: Starter 149.000 COP, Pro 349.000 COP, Business 899.000 COP al mes. ~35% de los clientes
   Business facturan en USD (38 / 89 / 230 USD) y se convierten a COP con la tasa del mes.
-- ~8% de las empresas cambiaron de razon social a mitad de anio (rebranding): se resolvieron
-  automaticamente porque el CRM conserva el mismo id de contacto.
-- Por azar, el generador creo 3 pares de empresas distintas con el mismo nombre ("Rivera Group",
-  "Castillo LLC", "Gomez-Quintero"). El pipeline NO las fusiono: quedaron como clientes huerfanos
-  para revision manual (junto con 6 contratos con errores de digitacion severos).
-- 3 filas de facturacion llegaron sin tipo de evento y se aislaron en cuarentena. Por eso la
-  reconstruccion difiere ~1% del MRR de la "verdad" de la simulacion a diciembre.
+- 17 empresas cambiaron de razon social a mitad de anio (rebranding): se resolvieron
+  automaticamente porque el CRM conserva el mismo id de contacto. 16 quedan marcadas REBRANDING;
+  la otra ("Leal Inc", renombrada "Rivera Group") tomo un nombre que ya usaba otra empresa, asi
+  que ese nombre quedo neutralizado y figura como OK.
+- Por azar, 3 nombres quedaron compartidos por dos empresas distintas del CRM ("Rivera Group",
+  "Castillo LLC", "Gomez-Quintero"). El pipeline NO las fusiono: esos nombres no se usan para
+  cruzar, y la facturacion de 5 de esas empresas quedo en 5 clientes huerfanos de Billing (cada
+  uno anclado por su id_customer_stripe) para revision manual. Del lado del CRM, esas mismas 5
+  empresas figuran como HUERFANO_O_AMBIGUO sin facturacion.
+- 7 contratos no encontraron contraparte en el CRM: 5 por un error de digitacion que la
+  normalizacion no corrige (espacios dentro del nombre) y 2 por nombre ambiguo.
+- 3 filas de facturacion llegaron sin tipo de evento y se aislaron en cuarentena: la unica alta
+  de "Uribe and Sons" y de "Gonzalez-Rodriguez" (esos 2 clientes no aparecen en el MRR; quedan
+  como CLIENTE_SIN_EVENTOS_VALIDOS) y el alta de "Mena PLC", que en agosto hizo upgrade. Por eso
+  la reconstruccion difiere ~1% del MRR de la "verdad" de la simulacion a diciembre.
+- 5 altas de clientes huerfanos (1.145.000 COP de MRR inicial) no tienen canal de adquisicion:
+  el CAC por canal cuenta 172 de las 177 altas.
 
 Por que el waterfall no siempre suma exacto a la variacion del MRR (dos efectos conocidos):
 - Tipo de cambio: el MRR de un cliente en USD se registra a la tasa del mes de su ULTIMO evento,

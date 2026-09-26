@@ -90,6 +90,38 @@ caso("Dos sentencias en una llamada",
      lambda: debe_bloquear("SELECT 1 FROM gold_v_arr_mrr; DELETE FROM dim_cliente"))
 caso(f"Consulta infinita cortada a los {g.MAX_SEGUNDOS:.0f} s",
      lambda: debe_bloquear("WITH RECURSIVE c(x) AS (SELECT 1 UNION ALL SELECT x + 1 FROM c) SELECT COUNT(*) FROM c"))
+# Destino en memoria: aunque la regla fallara, la prueba no escribe archivos.
+caso("VACUUM INTO (copiar la base a otro destino)",
+     lambda: debe_bloquear("VACUUM INTO 'file:prueba_vacuum?mode=memory'"))
+caso("load_extension (cargar codigo nativo)", lambda: debe_bloquear("SELECT load_extension('x')"))
+caso("Funcion-tabla pragma_table_list (listar el esquema)", lambda: debe_bloquear("SELECT * FROM pragma_table_list"))
+
+SETLIMIT = hasattr(sqlite3.Connection, "setlimit")  # Python 3.11+
+
+
+def _valor_gigante():
+    # Segun la funcion, SQLite lo rechaza ("too big") o devuelve NULL; en ningun caso llega.
+    try:
+        texto = g.a_markdown(g.ejecutar_consulta("SELECT printf('%.*c', 50000000, 'x')", motivo="prueba"))
+    except g.ConsultaBloqueada:
+        return
+    assert len(texto) <= g.MAX_CARACTERES_RESPUESTA + 500, f"respuesta de {len(texto)} caracteres"
+
+caso("Valor gigante (50 MB de texto) no llega al agente", _valor_gigante)
+if SETLIMIT:
+    caso("Blob gigante en memoria (300 MB)", lambda: debe_bloquear("SELECT length(randomblob(300000000))"))
+    caso("Texto gigante agregado (group_concat)",
+         lambda: debe_bloquear("SELECT group_concat(printf('%.*c', 900000, 'x')) FROM gold_v_arr_mrr"))
+
+
+def _respuesta_acotada():
+    r = debe_permitir("SELECT printf('%.*c', 900, 'x') AS relleno, id_cliente FROM gold_v_estado_cliente_mensual")
+    texto = g.a_markdown(r)
+    assert len(texto) <= g.MAX_CARACTERES_RESPUESTA + 500, f"respuesta de {len(texto)} caracteres"
+    assert "Se muestran" in texto, "no avisa que recorto filas"
+    assert "x" * (g.MAX_CARACTERES_CELDA + 1) not in texto, "no recorto la celda larga"
+
+caso(f"Respuesta al agente acotada a {g.MAX_CARACTERES_RESPUESTA:,} caracteres y avisada", _respuesta_acotada)
 
 # --- Errores de SQL: se reportan como error corregible, no como bloqueo ---------------
 def _columna_inexistente():
