@@ -4,7 +4,7 @@ id_cliente,nombre_canonico,activo,estado_calidad,sistemas_confirmados,nota_calid
 3,López and Sons,0,REBRANDING,"CRM,BILLING",,149000.0
 4,"Agudelo, Londoño and Becerra",1,OK,"CRM,BILLING",,349000.0
 5,"Vásquez, Torres and Fernández",0,OK,"CRM,BILLING,CONTRATO",,906430.0
-6,Uribe and Sons,0,OK,"CRM,BILLING",,
+6,Uribe and Sons,0,CLIENTE_SIN_EVENTOS_VALIDOS,"CRM,BILLING",cliente del CRM sin eventos de facturacion validos (revisar cuarentena),
 7,"Salazar, Castro and Rojas",1,OK,"CRM,BILLING",,349000.0
 8,López-Rivera,1,OK,"CRM,BILLING",,149000.0
 9,SANABRIA-AGUDELO,0,OK,"CRM,BILLING,CONTRATO",,915170.0
@@ -14,7 +14,7 @@ id_cliente,nombre_canonico,activo,estado_calidad,sistemas_confirmados,nota_calid
 13,"Rivas, Morales and Ramírez",1,OK,"CRM,BILLING",,349000.0
 14,Gómez and Sons,1,OK,"CRM,BILLING,CONTRATO",,349000.0
 15,BUSTAMANTE-ORDÓÑEZ,1,OK,"CRM,BILLING",,149000.0
-16,Rivera Group,0,OK,,,
+16,Rivera Group,0,HUERFANO_O_AMBIGUO,,nombre compartido con otra empresa del CRM: no se cruza por nombre,
 17,"Palacio, Pérez and Mosquera",1,OK,"CRM,BILLING",,149000.0
 18,"Ortiz, Cuesta and Jaimes",1,OK,"CRM,BILLING",,349000.0
 19,"ACEVEDO, LOZANO AND VARGAS",1,OK,"CRM,BILLING",,149000.0
@@ -55,7 +55,7 @@ id_cliente,nombre_canonico,activo,estado_calidad,sistemas_confirmados,nota_calid
 54,Ramírez-López,0,OK,"CRM,BILLING",,149000.0
 55,Mosquera-Peña,1,OK,"CRM,BILLING",,149000.0
 56,"MARTÍNEZ, ARANGO AND JAIMES",1,OK,"CRM,BILLING",,349000.0
-57,Castillo LLC,0,OK,,,
+57,Castillo LLC,0,HUERFANO_O_AMBIGUO,,nombre compartido con otra empresa del CRM: no se cruza por nombre,
 58,VARGAS AND SONS,1,OK,"CRM,BILLING",,149000.0
 59,"Cardona, Salazar and Castro",0,OK,"CRM,BILLING",,149000.0
 60,Pulido Inc,0,OK,"CRM,BILLING",,349000.0
@@ -88,7 +88,7 @@ id_cliente,nombre_canonico,activo,estado_calidad,sistemas_confirmados,nota_calid
 87,Ramírez-Acevedo,1,OK,"CRM,BILLING",,349000.0
 88,Mora-Vargas,1,OK,"CRM,BILLING",,149000.0
 89,López Group,1,OK,"CRM,BILLING",,349000.0
-90,Gómez-Quintero,0,OK,,,
+90,Gómez-Quintero,0,HUERFANO_O_AMBIGUO,,nombre compartido con otra empresa del CRM: no se cruza por nombre,
 91,Henao LLC,0,OK,"CRM,BILLING",,149000.0
 92,MENA PLC,1,OK,"CRM,BILLING",,
 93,"OSORIO, RODRÍGUEZ AND GARCÍA",1,OK,"CRM,BILLING",,349000.0
@@ -103,7 +103,7 @@ id_cliente,nombre_canonico,activo,estado_calidad,sistemas_confirmados,nota_calid
 102,RAMÍREZ GROUP,1,OK,"CRM,BILLING",,349000.0
 103,Suárez-Rosero,1,OK,"CRM,BILLING",,349000.0
 104,TORRES LTD,0,OK,"CRM,BILLING",,149000.0
-105,Castillo LLC,0,OK,,,
+105,Castillo LLC,0,HUERFANO_O_AMBIGUO,,nombre compartido con otra empresa del CRM: no se cruza por nombre,
 106,Parada LLC,1,OK,"CRM,BILLING",,899000.0
 107,Bedoya-Castillo,0,OK,"CRM,BILLING",,149000.0
 108,Díaz-Burgos,0,REBRANDING,"CRM,BILLING",,349000.0
@@ -151,7 +151,7 @@ id_cliente,nombre_canonico,activo,estado_calidad,sistemas_confirmados,nota_calid
 150,Rodríguez-Romero,1,REBRANDING,"CRM,BILLING",,149000.0
 151,Montoya-Galvis,1,OK,"CRM,BILLING",,149000.0
 152,"BURBANO, REYES AND CASTRO",1,OK,"CRM,BILLING,CONTRATO",,349000.0
-153,Gómez-Quintero,0,OK,,,
+153,Gómez-Quintero,0,HUERFANO_O_AMBIGUO,,nombre compartido con otra empresa del CRM: no se cruza por nombre,
 154,"Bautista, Vanegas and Villa",1,OK,"CRM,BILLING,CONTRATO",,899000.0
 155,Puentes PLC,1,OK,"CRM,BILLING,CONTRATO",,899000.0
 156,Fajardo PLC,1,OK,"CRM,BILLING",,149000.0
@@ -166,7 +166,7 @@ id_cliente,nombre_canonico,activo,estado_calidad,sistemas_confirmados,nota_calid
 165,"Erazo, Restrepo and Muñoz",0,OK,"CRM,BILLING",,349000.0
 166,Pérez-Calderón,0,OK,"CRM,BILLING",,149000.0
 167,"Pinzón, Castaño and Pérez",1,OK,"CRM,BILLING,CONTRATO",,901830.0
-168,González-Rodríguez,0,OK,"CRM,BILLING",,
+168,González-Rodríguez,0,CLIENTE_SIN_EVENTOS_VALIDOS,"CRM,BILLING",cliente del CRM sin eventos de facturacion validos (revisar cuarentena),
 169,Escobar-Gamboa,1,OK,"CRM,BILLING,CONTRATO",,930120.0
 170,Medina-Forero,1,OK,"CRM,BILLING",,349000.0
 171,Vega Ltd,1,OK,"CRM,BILLING",,149000.0
@@ -179,61 +179,61 @@ id_cliente,nombre_canonico,activo,estado_calidad,sistemas_confirmados,nota_calid
 178,"SÁNCHEZ, DÍAZ AND GUZMÁN",1,OK,"CRM,BILLING",,149000.0
 179,"ORTIZ, MONTES AND MONTOYA",1,OK,"CRM,BILLING",,349000.0
 180,Restrepo-Luna,1,OK,"CRM,BILLING",,149000.0
-181,Mercado PLC,0,OK,CRM,,
-182,Salcedo-Alfonso,0,OK,CRM,,
-183,"Velasco, Fernández and Perdomo",0,OK,CRM,,
-184,Castillo-Herrera,0,OK,CRM,,
-185,Londoño-Murillo,0,OK,CRM,,
-186,Mosquera Group,0,OK,CRM,,
-187,"Vásquez, Agudelo and Guevara",0,OK,CRM,,
-188,"Suárez, Angulo and Caicedo",0,OK,CRM,,
-189,"Rodríguez, Camacho and Marín",0,OK,CRM,,
-190,"Rodríguez, Martínez and Camacho",0,OK,CRM,,
-191,Giraldo-Méndez,0,OK,CRM,,
-192,"Torres, Cano and Bautista",0,OK,CRM,,
-193,Espitia-Melo,0,OK,CRM,,
-194,Gutiérrez Inc,0,OK,CRM,,
-195,Caicedo-Díaz,0,OK,CRM,,
-196,"Guevara, Morales and Torres",0,OK,CRM,,
-197,Martínez LLC,0,OK,CRM,,
-198,Rivera-Fajardo,0,OK,CRM,,
-199,Gil-Acosta,0,OK,CRM,,
-200,"Chacón, Gaviria and Pérez",0,OK,CRM,,
-201,Acosta PLC,0,OK,CRM,,
-202,Salazar LLC,0,OK,CRM,,
-203,"Salazar, Morales and Castro",0,OK,CRM,,
-204,"Duque, Martínez and Giraldo",0,OK,CRM,,
-205,Ramírez-Páez,0,OK,CRM,,
-206,Torres-Corredor,0,OK,CRM,,
-207,González-Martínez,0,OK,CRM,,
-208,"Carrillo, Chávez and Sierra",0,OK,CRM,,
-209,"Castro, Torres and Escobar",0,OK,CRM,,
-210,Díaz-Ortiz,0,OK,CRM,,
-211,Ramírez-Vera,0,OK,CRM,,
-212,Mosquera-Londoño,0,OK,CRM,,
-213,"Arévalo, Quintero and Barrera",0,OK,CRM,,
-214,"Bermúdez, García and Pérez",0,OK,CRM,,
-215,Gómez LLC,0,OK,CRM,,
-216,Muñoz-Suárez,0,OK,CRM,,
-217,Vargas-Forero,0,OK,CRM,,
-218,"Trujillo, Díaz and Rodríguez",0,OK,CRM,,
-219,Benítez and Sons,0,OK,CRM,,
-220,"Salamanca, Rubio and Sánchez",0,OK,CRM,,
-221,"Páez, Ortega and Hurtado",0,OK,CRM,,
-222,"Rivera, Vanegas and Vargas",0,OK,CRM,,
-223,Guevara PLC,0,OK,CRM,,
-224,"Martínez, Palacio and Hernández",0,OK,CRM,,
-225,"Rico, Guerrero and Arias",0,OK,CRM,,
-226,"López, Henao and Mosquera",0,OK,CRM,,
-227,"Carmona, Muñoz and Burgos",0,OK,CRM,,
-228,Mosquera-Hernández,0,OK,CRM,,
-229,Guerrero-Salas,0,OK,CRM,,
-230,Serna-Sánchez,0,OK,CRM,,
-231,Castaño-Valencia,0,OK,CRM,,
-232,"Martínez, Núñez and Carmona",0,OK,CRM,,
-233,Pérez-Gutiérrez,0,OK,CRM,,
-234,Sierra Group,0,OK,CRM,,
-235,Triana-Hoyos,0,OK,CRM,,
+181,Mercado PLC,0,LEAD_SIN_FACTURACION,CRM,,
+182,Salcedo-Alfonso,0,LEAD_SIN_FACTURACION,CRM,,
+183,"Velasco, Fernández and Perdomo",0,LEAD_SIN_FACTURACION,CRM,,
+184,Castillo-Herrera,0,LEAD_SIN_FACTURACION,CRM,,
+185,Londoño-Murillo,0,LEAD_SIN_FACTURACION,CRM,,
+186,Mosquera Group,0,LEAD_SIN_FACTURACION,CRM,,
+187,"Vásquez, Agudelo and Guevara",0,LEAD_SIN_FACTURACION,CRM,,
+188,"Suárez, Angulo and Caicedo",0,LEAD_SIN_FACTURACION,CRM,,
+189,"Rodríguez, Camacho and Marín",0,LEAD_SIN_FACTURACION,CRM,,
+190,"Rodríguez, Martínez and Camacho",0,LEAD_SIN_FACTURACION,CRM,,
+191,Giraldo-Méndez,0,LEAD_SIN_FACTURACION,CRM,,
+192,"Torres, Cano and Bautista",0,LEAD_SIN_FACTURACION,CRM,,
+193,Espitia-Melo,0,LEAD_SIN_FACTURACION,CRM,,
+194,Gutiérrez Inc,0,LEAD_SIN_FACTURACION,CRM,,
+195,Caicedo-Díaz,0,LEAD_SIN_FACTURACION,CRM,,
+196,"Guevara, Morales and Torres",0,LEAD_SIN_FACTURACION,CRM,,
+197,Martínez LLC,0,LEAD_SIN_FACTURACION,CRM,,
+198,Rivera-Fajardo,0,LEAD_SIN_FACTURACION,CRM,,
+199,Gil-Acosta,0,LEAD_SIN_FACTURACION,CRM,,
+200,"Chacón, Gaviria and Pérez",0,LEAD_SIN_FACTURACION,CRM,,
+201,Acosta PLC,0,LEAD_SIN_FACTURACION,CRM,,
+202,Salazar LLC,0,LEAD_SIN_FACTURACION,CRM,,
+203,"Salazar, Morales and Castro",0,LEAD_SIN_FACTURACION,CRM,,
+204,"Duque, Martínez and Giraldo",0,LEAD_SIN_FACTURACION,CRM,,
+205,Ramírez-Páez,0,LEAD_SIN_FACTURACION,CRM,,
+206,Torres-Corredor,0,LEAD_SIN_FACTURACION,CRM,,
+207,González-Martínez,0,LEAD_SIN_FACTURACION,CRM,,
+208,"Carrillo, Chávez and Sierra",0,LEAD_SIN_FACTURACION,CRM,,
+209,"Castro, Torres and Escobar",0,LEAD_SIN_FACTURACION,CRM,,
+210,Díaz-Ortiz,0,LEAD_SIN_FACTURACION,CRM,,
+211,Ramírez-Vera,0,LEAD_SIN_FACTURACION,CRM,,
+212,Mosquera-Londoño,0,LEAD_SIN_FACTURACION,CRM,,
+213,"Arévalo, Quintero and Barrera",0,LEAD_SIN_FACTURACION,CRM,,
+214,"Bermúdez, García and Pérez",0,LEAD_SIN_FACTURACION,CRM,,
+215,Gómez LLC,0,LEAD_SIN_FACTURACION,CRM,,
+216,Muñoz-Suárez,0,LEAD_SIN_FACTURACION,CRM,,
+217,Vargas-Forero,0,LEAD_SIN_FACTURACION,CRM,,
+218,"Trujillo, Díaz and Rodríguez",0,LEAD_SIN_FACTURACION,CRM,,
+219,Benítez and Sons,0,LEAD_SIN_FACTURACION,CRM,,
+220,"Salamanca, Rubio and Sánchez",0,LEAD_SIN_FACTURACION,CRM,,
+221,"Páez, Ortega and Hurtado",0,LEAD_SIN_FACTURACION,CRM,,
+222,"Rivera, Vanegas and Vargas",0,LEAD_SIN_FACTURACION,CRM,,
+223,Guevara PLC,0,LEAD_SIN_FACTURACION,CRM,,
+224,"Martínez, Palacio and Hernández",0,LEAD_SIN_FACTURACION,CRM,,
+225,"Rico, Guerrero and Arias",0,LEAD_SIN_FACTURACION,CRM,,
+226,"López, Henao and Mosquera",0,LEAD_SIN_FACTURACION,CRM,,
+227,"Carmona, Muñoz and Burgos",0,LEAD_SIN_FACTURACION,CRM,,
+228,Mosquera-Hernández,0,LEAD_SIN_FACTURACION,CRM,,
+229,Guerrero-Salas,0,LEAD_SIN_FACTURACION,CRM,,
+230,Serna-Sánchez,0,LEAD_SIN_FACTURACION,CRM,,
+231,Castaño-Valencia,0,LEAD_SIN_FACTURACION,CRM,,
+232,"Martínez, Núñez and Carmona",0,LEAD_SIN_FACTURACION,CRM,,
+233,Pérez-Gutiérrez,0,LEAD_SIN_FACTURACION,CRM,,
+234,Sierra Group,0,LEAD_SIN_FACTURACION,CRM,,
+235,Triana-Hoyos,0,LEAD_SIN_FACTURACION,CRM,,
 236,Rivera Group  ,1,HUERFANO_O_AMBIGUO,BILLING,sin contraparte confiable en CRM (id_customer_stripe=cus_bb168636e9bdc6),349000.0
 237,Castillo LLC,1,HUERFANO_O_AMBIGUO,BILLING,sin contraparte confiable en CRM (id_customer_stripe=cus_a52e1d11bc8985),349000.0
 238,Gómez-Quintero,1,HUERFANO_O_AMBIGUO,BILLING,sin contraparte confiable en CRM (id_customer_stripe=cus_a2f6e01225b5fe),149000.0

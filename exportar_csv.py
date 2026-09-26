@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pandas as pd
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).resolve().parent
 DB_PATH = ROOT / "db" / "saas_metrics.db"
 OUT = ROOT / "powerbi"
 OUT.mkdir(parents=True, exist_ok=True)
@@ -19,8 +19,8 @@ OUT.mkdir(parents=True, exist_ok=True)
 TABLAS_Y_VISTAS = [
     # dimensiones (para relaciones y segmentadores en Power BI)
     "dim_periodo", "dim_cliente", "dim_plan", "dim_canal",
-    # detalle (por si se necesita bajar de nivel)
-    "fact_evento_suscripcion",
+    # detalle gobernado (bajar al evento sin leer la capa silver)
+    "gold_v_eventos_detalle",
     # gold: metricas listas para consumo
     "gold_v_resumen_ejecutivo",
     "gold_v_mrr_movements",
@@ -30,16 +30,17 @@ TABLAS_Y_VISTAS = [
     "gold_v_cohortes",
     "gold_v_cac_por_canal",
     "gold_v_ltv",
+    "gold_v_ltv_cac_por_canal",
     "gold_v_calidad_clientes",
     "gold_v_resumen_calidad",
     "gold_v_calidad_cuarentena",
 ]
 
-con = sqlite3.connect(DB_PATH)
+con = sqlite3.connect(f"{DB_PATH.as_uri()}?mode=ro", uri=True)
 for nombre in TABLAS_Y_VISTAS:
     df = pd.read_sql_query(f"SELECT * FROM {nombre}", con)
     df.to_csv(OUT / f"{nombre}.csv", index=False, encoding="utf-8")
     print(f"  {nombre}.csv: {len(df)} filas")
 
 con.close()
-print(f"\n{len(TABLAS_Y_VISTAS)} archivos exportados a {OUT}")
+print(f"\n{len(TABLAS_Y_VISTAS)} archivos exportados a {OUT.relative_to(ROOT).as_posix()}/")

@@ -2,9 +2,9 @@
 -- CAPA GOLD - vistas de consumo. Power BI y los notebooks leen SOLO de aqui.
 -- Ninguna regla de negocio de metricas SaaS vive en el dashboard, vive aqui.
 --
--- Requiere que Silver ya este poblado (correr cargar_datos.py primero).
--- Horizonte de datos: 202401-202412 (dim_periodo esta sembrado hasta 2025 para cuando
--- haya carga real de meses futuros, pero estas vistas acotan al horizonte actual).
+-- Requiere que Silver ya este poblado (cargar_datos.py lo aplica al final de la carga).
+-- Horizonte: se deriva de los datos cargados (v_horizonte), no se escribe a mano.
+-- dim_periodo esta sembrado hasta 2025: cargar meses nuevos amplia el horizonte solo.
 -- =====================================================================================
 
 DROP VIEW IF EXISTS gold_v_eventos_detalle;
@@ -12,6 +12,7 @@ DROP VIEW IF EXISTS gold_v_resumen_ejecutivo;
 DROP VIEW IF EXISTS gold_v_calidad_cuarentena;
 DROP VIEW IF EXISTS gold_v_resumen_calidad;
 DROP VIEW IF EXISTS gold_v_calidad_clientes;
+DROP VIEW IF EXISTS gold_v_ltv_cac_por_canal;
 DROP VIEW IF EXISTS gold_v_ltv;
 DROP VIEW IF EXISTS gold_v_cac_por_canal;
 DROP VIEW IF EXISTS gold_v_churn;
@@ -20,6 +21,16 @@ DROP VIEW IF EXISTS gold_v_nrr_mensual;
 DROP VIEW IF EXISTS gold_v_arr_mrr;
 DROP VIEW IF EXISTS gold_v_mrr_movements;
 DROP VIEW IF EXISTS gold_v_estado_cliente_mensual;
+DROP VIEW IF EXISTS v_horizonte;
+
+-- ------------------------------------------------------------------------------------
+-- Horizonte de datos: primer y ultimo mes con eventos o gasto cargados. Vista auxiliar
+-- (sin prefijo gold_v_): no es de consumo y no se publica al agente.
+-- ------------------------------------------------------------------------------------
+CREATE VIEW v_horizonte AS
+SELECT MIN(id_periodo) AS desde, MAX(id_periodo) AS hasta
+FROM (SELECT id_periodo FROM fact_evento_suscripcion
+      UNION SELECT id_periodo FROM fact_gasto_adquisicion);
 
 -- ------------------------------------------------------------------------------------
 -- Base: estado de cada cliente al CIERRE de cada mes (plan activo, MRR, o inactivo).
@@ -35,7 +46,8 @@ universo AS (
     SELECT c.id_cliente, p.id_periodo
     FROM clientes_con_eventos c
     CROSS JOIN dim_periodo p
-    WHERE p.id_periodo BETWEEN 202401 AND 202412
+    CROSS JOIN v_horizonte h
+    WHERE p.id_periodo BETWEEN h.desde AND h.hasta
 ),
 ultimo_evento AS (
     SELECT u.id_cliente, u.id_periodo,
@@ -73,7 +85,8 @@ SELECT
     COUNT(DISTINCT CASE WHEN e.tipo_evento = 'cancelacion' THEN e.id_cliente END)                        AS clientes_bajas
 FROM fact_evento_suscripcion e
 JOIN dim_periodo per ON per.id_periodo = e.id_periodo
-WHERE e.id_periodo BETWEEN 202401 AND 202412
+CROSS JOIN v_horizonte h
+WHERE e.id_periodo BETWEEN h.desde AND h.hasta
 GROUP BY per.id_periodo, per.anio, per.nombre_mes;
 
 -- ------------------------------------------------------------------------------------
@@ -95,6 +108,9 @@ GROUP BY id_periodo;
 -- que mas se olvida al calcular NRR - si se incluyeran, NRR dejaria de medir retencion
 -- y empezaria a medir crecimiento, que es una pregunta distinta (esa es gross/net
 -- revenue GROWTH, no retention).
+-- Convencion declarada: las reactivaciones (clientes que habian cancelado y vuelven)
+-- SI suman, como recuperacion de ingreso ya ganado, aunque no estaban en la base al
+-- inicio del mes.
 -- ------------------------------------------------------------------------------------
 CREATE VIEW gold_v_nrr_mensual AS
 SELECT
@@ -114,7 +130,8 @@ JOIN gold_v_mrr_movements mv ON mv.id_periodo = per.id_periodo
 JOIN gold_v_arr_mrr mrr_prev ON mrr_prev.id_periodo = (
     SELECT MAX(id_periodo) FROM gold_v_arr_mrr WHERE id_periodo < per.id_periodo
 )
-WHERE per.id_periodo BETWEEN 202402 AND 202412;
+CROSS JOIN v_horizonte h
+WHERE per.id_periodo > h.desde AND per.id_periodo <= h.hasta;
 
 -- ------------------------------------------------------------------------------------
 -- Cohortes de retencion: por cada mes de alta (cohorte) y cada mes calendario
@@ -147,9 +164,10 @@ SELECT
 FROM mrr_inicial mi
 JOIN dim_periodo per_c ON per_c.id_periodo = mi.id_periodo_cohorte
 CROSS JOIN dim_periodo per
+CROSS JOIN v_horizonte h
 LEFT JOIN gold_v_estado_cliente_mensual ec
        ON ec.id_cliente = mi.id_cliente AND ec.id_periodo = per.id_periodo
-WHERE per.id_periodo >= mi.id_periodo_cohorte AND per.id_periodo <= 202412
+WHERE per.id_periodo >= mi.id_periodo_cohorte AND per.id_periodo <= h.hasta
 GROUP BY mi.id_periodo_cohorte, per_c.nombre_mes, per.id_periodo, per_c.anio, per_c.mes, per.anio, per.mes
 ORDER BY mi.id_periodo_cohorte, per.id_periodo;
 
@@ -171,7 +189,8 @@ JOIN gold_v_mrr_movements mv ON mv.id_periodo = per.id_periodo
 JOIN gold_v_arr_mrr activos_inicio ON activos_inicio.id_periodo = (
     SELECT MAX(id_periodo) FROM gold_v_arr_mrr WHERE id_periodo < per.id_periodo
 )
-WHERE per.id_periodo BETWEEN 202402 AND 202412;
+CROSS JOIN v_horizonte h
+WHERE per.id_periodo > h.desde AND per.id_periodo <= h.hasta;
 
 -- ------------------------------------------------------------------------------------
 -- CAC por canal y mes: gasto de adquisicion del canal ese mes / clientes nuevos que
@@ -200,53 +219,163 @@ ORDER BY ga.id_periodo, c.nombre_canal;
 
 -- ------------------------------------------------------------------------------------
 -- LTV por plan: ARPA (ingreso promedio por cuenta activa) / churn mensual de ingreso.
--- SIMPLIFICACION DECLARADA: usa el churn de ingreso PROMEDIO de toda la compania, no
--- uno especifico por plan (requeriria trackear churn por plan mes a mes), y no
--- descuenta margen bruto - ver docs/DICCIONARIO_METRICAS.md.
+-- Dos lecturas, lado a lado:
+--   ltv_cop             churn de ingreso PROMEDIO de toda la compania (cifra principal:
+--                       estable, pero trata igual a planes que se van a ritmos distintos).
+--   ltv_cop_churn_plan  sensibilidad con el churn de ingreso PROPIO de cada plan
+--                       (MRR cancelado del plan / MRR del plan al inicio de cada mes).
+--                       Con pocas bajas (bajas_plan) no es confiable: mirar la muestra.
+-- Ninguna descuenta margen bruto - ver docs/DICCIONARIO_METRICAS.md.
 -- ------------------------------------------------------------------------------------
 CREATE VIEW gold_v_ltv AS
 WITH arpa AS (
-    SELECT dp.nombre_plan, AVG(ec.mrr_cliente) AS arpa_cop
+    SELECT ec.id_plan_activo AS id_plan, AVG(ec.mrr_cliente) AS arpa_cop
     FROM gold_v_estado_cliente_mensual ec
-    JOIN dim_plan dp ON dp.id_plan = ec.id_plan_activo
     WHERE ec.activo = 1
-    GROUP BY dp.nombre_plan
+    GROUP BY ec.id_plan_activo
 ),
 churn_prom AS (
     SELECT AVG(churn_ingreso_pct) / 100.0 AS churn_mensual_promedio FROM gold_v_churn
+),
+inicio_plan AS (
+    -- MRR de cada plan al inicio de cada mes medido (= cierre del mes anterior). El mes
+    -- siguiente se busca en dim_periodo: re-consultar gold_v_arr_mrr por fila re-evalua
+    -- la vista de estado completa cada vez.
+    SELECT sig.id_periodo, ec.id_plan_activo AS id_plan, SUM(ec.mrr_cliente) AS mrr_inicio
+    FROM gold_v_estado_cliente_mensual ec
+    JOIN dim_periodo sig
+      ON sig.id_periodo = (SELECT MIN(p.id_periodo) FROM dim_periodo p WHERE p.id_periodo > ec.id_periodo)
+    CROSS JOIN v_horizonte h
+    WHERE ec.activo = 1 AND sig.id_periodo <= h.hasta
+    GROUP BY sig.id_periodo, ec.id_plan_activo
+),
+bajas_mes_plan AS (
+    SELECT id_periodo, id_plan, SUM(monto_mensual_cop) AS mrr_cancelado, COUNT(*) AS bajas
+    FROM fact_evento_suscripcion
+    WHERE tipo_evento = 'cancelacion'
+    GROUP BY id_periodo, id_plan
+),
+churn_plan AS (
+    SELECT i.id_plan,
+           SUM(COALESCE(b.mrr_cancelado, 0)) * 1.0 / NULLIF(SUM(i.mrr_inicio), 0) AS churn_mensual_plan,
+           SUM(COALESCE(b.bajas, 0)) AS bajas_plan
+    FROM inicio_plan i
+    LEFT JOIN bajas_mes_plan b ON b.id_periodo = i.id_periodo AND b.id_plan = i.id_plan
+    GROUP BY i.id_plan
 )
 SELECT
-    a.nombre_plan,
-    ROUND(a.arpa_cop, 2)               AS arpa_cop,
-    ROUND(c.churn_mensual_promedio * 100, 2) AS churn_mensual_promedio_pct,
-    ROUND(a.arpa_cop / NULLIF(c.churn_mensual_promedio, 0), 2) AS ltv_cop
-FROM arpa a CROSS JOIN churn_prom c;
+    dp.nombre_plan,
+    ROUND(a.arpa_cop, 2)                                        AS arpa_cop,
+    ROUND(c.churn_mensual_promedio * 100, 2)                    AS churn_mensual_promedio_pct,
+    ROUND(a.arpa_cop / NULLIF(c.churn_mensual_promedio, 0), 2)  AS ltv_cop,
+    ROUND(cp.churn_mensual_plan * 100, 2)                       AS churn_ingreso_plan_pct,
+    ROUND(a.arpa_cop / NULLIF(cp.churn_mensual_plan, 0), 2)     AS ltv_cop_churn_plan,
+    COALESCE(cp.bajas_plan, 0)                                  AS bajas_plan
+FROM arpa a
+JOIN dim_plan dp ON dp.id_plan = a.id_plan
+CROSS JOIN churn_prom c
+LEFT JOIN churn_plan cp ON cp.id_plan = a.id_plan
+ORDER BY dp.orden;
 
 -- ------------------------------------------------------------------------------------
--- Calidad de datos: estado de cada cliente segun como se resolvio su identidad.
+-- LTV:CAC por canal. El CAC vive por canal y el LTV por plan: se cruzan con la mezcla
+-- REAL de planes con la que entro cada canal (altas por canal y plan), no suponiendo un
+-- plan tipico. LTV ponderado = sum(altas del plan x LTV del plan) / altas del canal.
+-- Referencia de la industria: LTV:CAC >= 3.
+-- ------------------------------------------------------------------------------------
+CREATE VIEW gold_v_ltv_cac_por_canal AS
+WITH cac AS (
+    SELECT nombre_canal,
+           SUM(gasto_cop)                                        AS gasto_cop,
+           SUM(clientes_nuevos)                                  AS clientes_nuevos,
+           SUM(gasto_cop) * 1.0 / NULLIF(SUM(clientes_nuevos), 0) AS cac_cop
+    FROM gold_v_cac_por_canal
+    GROUP BY nombre_canal
+),
+mezcla AS (
+    SELECT ca.nombre_canal, p.nombre_plan, COUNT(*) AS altas
+    FROM fact_evento_suscripcion e
+    JOIN dim_cliente c ON c.id_cliente = e.id_cliente
+    JOIN dim_canal  ca ON ca.id_canal = c.id_canal
+    JOIN dim_plan   p  ON p.id_plan = e.id_plan
+    WHERE e.tipo_evento = 'nueva_suscripcion'
+    GROUP BY ca.nombre_canal, p.nombre_plan
+),
+ltv_canal AS (
+    SELECT m.nombre_canal,
+           SUM(CASE WHEN m.nombre_plan = 'Starter'  THEN m.altas ELSE 0 END) AS altas_starter,
+           SUM(CASE WHEN m.nombre_plan = 'Pro'      THEN m.altas ELSE 0 END) AS altas_pro,
+           SUM(CASE WHEN m.nombre_plan = 'Business' THEN m.altas ELSE 0 END) AS altas_business,
+           SUM(m.altas * l.ltv_cop) * 1.0 / SUM(m.altas)            AS ltv_ponderado_cop,
+           SUM(m.altas * l.ltv_cop_churn_plan) * 1.0 / SUM(m.altas) AS ltv_ponderado_churn_plan_cop
+    FROM mezcla m
+    JOIN gold_v_ltv l ON l.nombre_plan = m.nombre_plan
+    GROUP BY m.nombre_canal
+)
+SELECT
+    c.nombre_canal,
+    c.gasto_cop,
+    c.clientes_nuevos,
+    ROUND(c.cac_cop, 2)                                            AS cac_cop,
+    lc.altas_starter,
+    lc.altas_pro,
+    lc.altas_business,
+    ROUND(lc.ltv_ponderado_cop, 2)                                 AS ltv_ponderado_cop,
+    ROUND(lc.ltv_ponderado_cop / NULLIF(c.cac_cop, 0), 2)          AS ltv_cac,
+    ROUND(lc.ltv_ponderado_churn_plan_cop / NULLIF(c.cac_cop, 0), 2) AS ltv_cac_churn_plan
+FROM cac c
+JOIN ltv_canal lc ON lc.nombre_canal = c.nombre_canal
+ORDER BY ltv_cac;
+
+-- ------------------------------------------------------------------------------------
+-- Calidad de datos: estado de cada empresa de dim_cliente segun como se resolvio.
+-- HUERFANO_O_AMBIGUO: sin contraparte confiable entre sistemas. Incluye los registros
+--             creados desde Billing/Contratos sin match (nombre ambiguo o typo que la
+--             normalizacion no corrige) y las empresas del CRM cuyo nombre quedo
+--             neutralizado por ambiguo (su facturacion vive en el huerfano de Billing).
+--             Requiere revision manual; no se adivino.
 -- REBRANDING: CRM conoce mas de un nombre para el mismo id_contacto_crm (resuelto
 --             automaticamente via el ancla estable).
--- HUERFANO_O_AMBIGUO: no hubo una contraparte confiable en CRM (nombre ambiguo entre
---             dos empresas reales, o typo de digitacion demasiado severo) - requiere
---             revision manual, no se adivino.
+-- CLIENTE_SIN_EVENTOS_VALIDOS: cliente en el CRM sin ningun evento de facturacion
+--             valido (p.ej. su unica alta cayo en cuarentena): su MRR no esta contado.
+-- LEAD_SIN_FACTURACION: lead / trial / perdido del CRM; nunca facturo (no es un error).
+-- OK: cliente de pago resuelto automaticamente entre sistemas.
 -- ------------------------------------------------------------------------------------
 CREATE VIEW gold_v_calidad_clientes AS
+WITH base AS (
+    SELECT
+        dc.id_cliente,
+        dc.nombre_canonico,
+        dc.activo,
+        dc.etapa_crm,
+        EXISTS (SELECT 1 FROM map_alias_cliente m WHERE m.id_cliente = dc.id_cliente AND m.metodo = 'ALIAS_MANUAL') AS es_huerfano,
+        NOT EXISTS (SELECT 1 FROM map_alias_cliente m WHERE m.id_cliente = dc.id_cliente)                         AS nombre_neutralizado,
+        (SELECT COUNT(*) FROM map_alias_cliente m WHERE m.id_cliente = dc.id_cliente AND m.origen_sistema = 'CRM') AS nombres_crm,
+        EXISTS (SELECT 1 FROM fact_evento_suscripcion e WHERE e.id_cliente = dc.id_cliente)                       AS tiene_eventos
+    FROM dim_cliente dc
+)
 SELECT
-    dc.id_cliente,
-    dc.nombre_canonico,
-    dc.activo,
+    b.id_cliente,
+    b.nombre_canonico,
+    b.activo,
     CASE
-        WHEN EXISTS (SELECT 1 FROM map_alias_cliente m WHERE m.id_cliente = dc.id_cliente AND m.metodo = 'ALIAS_MANUAL')
-            THEN 'HUERFANO_O_AMBIGUO'
-        WHEN (SELECT COUNT(*) FROM map_alias_cliente m2 WHERE m2.id_cliente = dc.id_cliente AND m2.origen_sistema = 'CRM') > 1
-            THEN 'REBRANDING'
+        WHEN b.es_huerfano OR b.nombre_neutralizado THEN 'HUERFANO_O_AMBIGUO'
+        WHEN b.nombres_crm > 1                      THEN 'REBRANDING'
+        WHEN NOT b.tiene_eventos AND b.etapa_crm = 'Cliente' THEN 'CLIENTE_SIN_EVENTOS_VALIDOS'
+        WHEN NOT b.tiene_eventos                    THEN 'LEAD_SIN_FACTURACION'
         ELSE 'OK'
     END AS estado_calidad,
-    (SELECT GROUP_CONCAT(DISTINCT origen_sistema) FROM map_alias_cliente m3 WHERE m3.id_cliente = dc.id_cliente) AS sistemas_confirmados,
-    (SELECT nota FROM map_alias_cliente m4 WHERE m4.id_cliente = dc.id_cliente AND m4.metodo = 'ALIAS_MANUAL' LIMIT 1) AS nota_calidad,
+    (SELECT GROUP_CONCAT(DISTINCT origen_sistema) FROM map_alias_cliente m WHERE m.id_cliente = b.id_cliente) AS sistemas_confirmados,
+    COALESCE(
+        (SELECT nota FROM map_alias_cliente m WHERE m.id_cliente = b.id_cliente AND m.metodo = 'ALIAS_MANUAL' LIMIT 1),
+        CASE
+            WHEN b.nombre_neutralizado THEN 'nombre compartido con otra empresa del CRM: no se cruza por nombre'
+            WHEN NOT b.tiene_eventos AND b.etapa_crm = 'Cliente' THEN 'cliente del CRM sin eventos de facturacion validos (revisar cuarentena)'
+        END
+    ) AS nota_calidad,
     (SELECT SUM(monto_mensual_cop) FROM fact_evento_suscripcion e
-      WHERE e.id_cliente = dc.id_cliente AND e.tipo_evento = 'nueva_suscripcion') AS mrr_inicial_cop
-FROM dim_cliente dc;
+      WHERE e.id_cliente = b.id_cliente AND e.tipo_evento = 'nueva_suscripcion') AS mrr_inicial_cop
+FROM base b;
 
 CREATE VIEW gold_v_resumen_calidad AS
 SELECT estado_calidad, COUNT(*) AS num_clientes, ROUND(SUM(COALESCE(mrr_inicial_cop, 0)), 2) AS mrr_inicial_cop

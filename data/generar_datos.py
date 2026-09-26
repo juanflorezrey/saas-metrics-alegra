@@ -1,7 +1,7 @@
 # =====================================================================================
 # Generador de datos sinteticos - SaaS Metrics (Reto Alegra)
 #
-# Simula un SaaS ficticio (no son datos reales de Alegra ni de ningun cliente) con tres
+# Simula un SaaS ficticio (no son datos reales de Alegra ni de ningun cliente) con cuatro
 # fuentes que NO cruzan limpio a proposito:
 #
 #   CRM (estilo HubSpot)        -> data/raw/crm/crm_hubspot_export.csv
@@ -106,7 +106,8 @@ for i in range(1, N_CLIENTES_PAGOS + 1):
     mes_alta = ID_PERIODOS[mes_alta_idx]
 
     # Caso dificil de integrar: ~8% de las empresas cambian de nombre a mitad de año
-    # (fusion / rebranding). Nada de normalizacion los junta - requieren alias explicito.
+    # (fusion / rebranding). La normalizacion no los junta: el ETL debe resolverlos por el
+    # identificador estable del CRM (id_contacto_crm), no por el nombre.
     caso_dificil = np.random.rand() < 0.08
     nombre_post_rebrand = nombre_empresa_base() if caso_dificil else None
     mes_rebrand = ID_PERIODOS[np.random.randint(mes_alta_idx + 1, 12)] if caso_dificil and mes_alta_idx < 11 else None
@@ -264,7 +265,7 @@ def variante_nombre(nombre: str, sistema: str) -> str:
             n = n + "  "  # espacio doble al final (typo de digitacion)
     elif sistema == "contrato":
         if r < 0.15:
-            n = n.replace("a", "a ").strip()  # typo leve de digitacion
+            n = n.replace("a", "a ").strip()  # typo de digitacion: rompe el cruce por nombre normalizado
     return n
 
 
@@ -318,11 +319,6 @@ CANAL_TEXTO_MKT = {
     "Outbound": "Outbound / SDR",
 }
 
-PLAN_TEXTO_CRM = {
-    "Starter": ["Starter", "starter", "STARTER"],
-    "Pro": ["Pro", "PRO", "Profesional", "pro-mensual"],
-    "Business": ["Business", "business", "BUSINESS", "Empresarial"],
-}
 PLAN_TEXTO_BILLING = {
     "Starter": ["Starter", "starter_monthly", "STARTER"],
     "Pro": ["Pro", "pro_monthly", "PRO-M"],
@@ -398,7 +394,8 @@ for c in clientes:
         plan_evt = e["plan"]
         monto = precio_moneda_nativa(plan_evt, c["moneda"])
         monto_txt = monto
-        # Un puñado de montos "sucios" que no parsean directo (van a cuarentena)
+        # Un puñado de montos con separador de miles ("$149.000"): el ETL debe leerlos como
+        # 149000 y no como 149.0
         if np.random.rand() < 0.015:
             monto_txt = f"${monto:,.0f}".replace(",", ".")  # formato con puntos de miles, sin decimales claros
 

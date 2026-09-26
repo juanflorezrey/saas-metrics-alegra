@@ -5,8 +5,8 @@
 --   raw/       archivos originales inmutables en disco (no es una tabla)
 --   bronze_*   ingesta literal, todo TEXT, sin castear, con linaje (id_carga, hash_fila)
 --   dim_/fact_ capa Silver: modelo relacional normalizado en 3FN
---   gold_v_*   vistas de consumo (sql/02_vistas_gold.sql). Power BI y notebooks
---              leen SOLO de aqui.
+--   gold_v_*   vistas de consumo (sql/02_vistas_gold.sql). Power BI, los notebooks y
+--              el agente conversacional leen SOLO de aqui.
 --   ctl_/err_  control de cargas y cuarentena de calidad
 --
 -- Los alias (map_alias_*) NO se siembran a mano: los deriva el ETL
@@ -34,6 +34,7 @@ DROP TABLE IF EXISTS map_alias_plan;
 DROP TABLE IF EXISTS map_alias_cliente;
 DROP TABLE IF EXISTS dim_canal;
 DROP TABLE IF EXISTS dim_plan;
+DROP TABLE IF EXISTS dim_tasa_cambio;
 DROP TABLE IF EXISTS dim_periodo;
 DROP TABLE IF EXISTS dim_cliente;
 
@@ -43,13 +44,16 @@ DROP TABLE IF EXISTS dim_cliente;
 
 -- Un cliente = una empresa real, resuelta entre CRM, Billing y Contratos.
 -- nombre_canonico es la decision del analisis: cual de las variantes se usa para mostrar.
+-- moneda_principal = moneda de su ultimo evento de facturacion (NULL si nunca facturo).
+-- etapa_crm = ultima etapa en el CRM (Cliente, Lead, Trial, Perdido); NULL si no existe en CRM.
 CREATE TABLE dim_cliente (
     id_cliente       INTEGER PRIMARY KEY,
     nombre_canonico  TEXT    NOT NULL,
     fecha_alta       TEXT,
     id_canal         INTEGER,
     moneda_principal TEXT    CHECK (moneda_principal IN ('COP','USD')),
-    activo           INTEGER NOT NULL DEFAULT 1 CHECK (activo IN (0,1))
+    activo           INTEGER NOT NULL DEFAULT 1 CHECK (activo IN (0,1)),
+    etapa_crm        TEXT
 );
 
 -- id_periodo = AAAAMM. Se siembra 2024-2025 completos aunque hoy solo haya datos 2024,

@@ -1,4 +1,4 @@
-nombre_plan,arpa_cop,churn_mensual_promedio_pct,ltv_cop
-Business,904918.15,1.87,48391344.74
-Pro,349159.53,1.87,18671632.36
-Starter,149000.0,1.87,7967914.44
+nombre_plan,arpa_cop,churn_mensual_promedio_pct,ltv_cop,churn_ingreso_plan_pct,ltv_cop_churn_plan,bajas_plan
+Starter,149000.0,1.87,7967914.44,3.94,3777150.0,20
+Pro,349159.53,1.87,18671632.36,3.05,11452313.58,14
+Business,904918.15,1.87,48391344.74,0.5,181606737.37,1
