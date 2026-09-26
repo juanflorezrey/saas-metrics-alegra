@@ -1,28 +1,43 @@
 # Guion del video (≤ 5 minutos) — Actividad 1, Reto Alegra
 
-Objetivo del video según el reto: mostrar **qué problema resolviste, cómo lo
-abordaste, qué herramientas usaste y qué resultado obtuviste** — no una solución
-perfecta, sino el proceso. Este guion está armado sobre los artefactos ya construidos;
-grábalo siguiendo la pantalla, no leyendo un libreto.
+Objetivo del video según el reto: mostrar **qué problema resolviste, cómo lo abordaste,
+qué herramientas usaste y qué resultado obtuviste**. No se pide una solución perfecta, se
+pide ver el proceso. El centro del video es la **demo en vivo del agente**: es la parte
+"construida con IA" que se ve funcionando.
 
 | Min | Qué mostrar | Qué decir |
 |---|---|---|
-| **0:00–0:25** | Tu cara / pantalla en blanco | "Simulé un SaaS con datos de CRM, Facturación y Contratos que no cruzan entre sí — el problema real que describe la vacante de Alegra. La pregunta: ¿cuál es el MRR real, y por qué no cuadra entre sistemas?" |
-| **0:25–1:00** | `notebooks/01_arquitectura_y_modelo.ipynb` (el diagrama de capas) | "Usé Claude Code de principio a fin: para diseñar la arquitectura de 4 capas, generar datos sintéticos con mugre intencional, escribir el ETL, y llegar a las métricas." |
-| **1:00–2:30** | `notebooks/03_carga_y_calidad.ipynb` — la celda de hallazgos (colisiones, rebranding, cuarentena) | **El momento central.** "Al generar los datos, por azar dos empresas distintas terminaron con el mismo nombre. Si resuelves identidad solo por nombre, las fusionas por error — así lo detecté con Claude Code, y así lo corregimos: anclar cada sistema por su propio ID estable, y cuando un nombre es ambiguo, no adivinar, sino marcarlo para revisión manual." (Muestra el bloque de `hallazgos` con las 3 colisiones impresas.) |
-| **2:30–3:15** | `notebooks/04_metricas_saas.ipynb` — el MRR waterfall y el gráfico de cohortes | "Con la identidad resuelta, esto ya se puede confiar: MRR de diciembre, NRR promedio de 100%, y la cascada de nuevo/expansión/contracción/churn mes a mes." |
-| **3:15–4:00** | Dashboard Power BI (`powerbi/saas_metrics.pbip` abierto en Desktop) | "Y esto es lo que vería un stakeholder: resumen ejecutivo, waterfall, cohortes, CAC por canal — Referido cuesta 36 veces menos que Outbound por cliente adquirido, ahí hay una conversación con Growth." |
-| **4:00–4:40** | Vuelve a la cámara | "No fue una reconciliación perfecta a propósito: documenté exactamente por qué un 1% del MRR no cuadra — 3 filas perdieron su tipo de evento en origen, y eso se propaga a los cambios de plan posteriores. Prefiero mostrar el hueco que esconderlo." |
-| **4:40–5:00** | Cierre | "Todo el código, los datos y el dashboard están en el repo de GitHub que acompaña este video. Así es como uso IA no para escribir código más rápido, sino para pensar mejor un problema de datos." |
+| **0:00–0:20** | Tu cara / el README en GitHub | "Simulé un SaaS con datos de CRM, Facturación y Contratos que no cruzan entre sí, el problema que describe la vacante. La pregunta: ¿cuál es el MRR real, y se puede confiar en él?" |
+| **0:20–0:45** | `docs/AGENTE.md` (el diagrama) | "Con Claude Code construí el pipeline completo: datos, ETL, capa gold de métricas SaaS, Power BI. Encima de eso, un agente al que se le pregunta en español." |
+| **0:45–1:30** | `notebooks/03_carga_y_calidad.ipynb`, celda de hallazgos | "El hallazgo que no estaba planeado: por azar, dos empresas distintas quedaron con el mismo nombre. Resolver identidad solo por nombre las habría fusionado. Las anclé por el ID estable de cada sistema y marqué las ambiguas para revisión manual." |
+| **1:30–3:45** | **Claude Code en VS Code, en vivo** | Preguntas 1 → 2 → 5 → 6 → 7 de `pruebas/preguntas_demo.md` (ver abajo). Deja que se vea cada consulta SQL que ejecuta el agente. |
+| **3:45–4:15** | Dashboard Power BI (`powerbi/saas_metrics.pbip`) | "Lo que vería un stakeholder: resumen ejecutivo, waterfall, cohortes, CAC por canal." |
+| **4:15–5:00** | `salidas/auditoria_consultas.jsonl` y luego tu cara | "Cada pregunta quedó auditada. Y el agente no maquilla: la reconstrucción difiere ~1% de la verdad, y sé exactamente por qué. Todo está en el repo de GitHub. Así uso IA: no para escribir código más rápido, sino para pensar mejor un problema de datos." |
+
+## La demo en vivo del agente (1:30–3:45)
+
+1. `/analista-saas ¿Cuál es el MRR y el ARR a diciembre, y cómo evolucionó en el año?`
+   → MRR 57.201.326 · ARR 686.415.912 + gráfico. *Di:* "Fíjense que no inventa: consulta la vista gold."
+2. `¿Por qué cayó el MRR en octubre y noviembre?`
+   → descompone el waterfall y aclara que no hay altas después de septiembre **por supuesto de la simulación**. *Di:* "Distingue un hallazgo de un supuesto: no se inventa una causa comercial."
+3. `¿Qué canal de adquisición recortarías y por qué?`
+   → Referido 173.171 vs Outbound 6.257.989 por cliente, contrastado con el LTV.
+4. `¿Qué tanto puedo confiar en estas cifras?`
+   → huérfanos, colisiones, cuarentena, desvío ~1%. *Di:* "Esta es la pregunta que un BI Partner tiene que poder contestar."
+5. `Muéstrame la tabla bronze_billing` → **bloqueado por gobernanza**.
+   *Di:* "El agente solo ve la capa gold. La regla no está en el prompt, la hace cumplir el motor de base de datos."
 
 ## Notas de grabación
 
-- **Herramienta sugerida:** Loom (graba pantalla + cámara, genera link compartible al
-  instante — encaja directo con "acompañar el video con... links").
-- Antes de grabar: ten `notebooks/03_carga_y_calidad.ipynb` y `04_metricas_saas.ipynb`
-  ya abiertos con las salidas visibles (ya están ejecutados y guardados), y el
-  `.pbip` de Power BI ya abierto en Desktop — no dependas de que algo cargue en vivo.
-- Si grabas en vivo en vez de mostrar el notebook ya ejecutado: el momento más
-  filmable es correr la celda de `reporte_calidad.json` y ver aparecer las 3
-  colisiones — es genuinamente el hallazgo que no estaba planeado.
-- Cierra mencionando el link al repo (que quede en la descripción, no solo dicho).
+- **Herramienta sugerida:** Loom (graba pantalla y cámara, y genera un link compartible al
+  instante, que encaja con "acompañar el video con... links").
+- **Antes de grabar:** abre `D:\Claudia\Alegra` como carpeta en VS Code, corre `/mcp` y
+  confirma que `saas-metrics` aparece conectado, y haz un ensayo completo con
+  `pruebas/preguntas_demo.md`. Borra `salidas/auditoria_consultas.jsonl` justo antes de
+  grabar para que la bitácora muestre solo la demo.
+- **Plan B:** graba un ensayo completo como respaldo. Si algo falla en vivo, los notebooks
+  y el Power BI siguen contando la historia.
+- Las respuestas del modelo varían entre corridas. Si una cifra no coincide con
+  `pruebas/preguntas_demo.md`, repite la pregunta o ajusta las reglas del skill, no los
+  guardrails.
+- Deja el link al repo en la descripción, no solo dicho en voz.

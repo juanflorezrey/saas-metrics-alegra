@@ -101,12 +101,23 @@ grandes, o se está prospectando indiscriminadamente?
 ## Advertencia metodológica: por qué la reconciliación no da 100% exacto (y por qué eso es correcto)
 
 Al comparar el pipeline reconstruido contra la verdad de control (`data/control_totales.json`,
-calculada *antes* de ensuciar los datos), 8 de 12 meses cuadran exacto. El resto tiene
-un desvío de **~1% del MRR** a diciembre. La causa está completamente identificada: las
-3 filas de Billing en cuarentena (tipo de evento perdido) no solo faltan ellas mismas —
-si una de esas filas era el evento de alta de un cliente, cualquier upgrade/downgrade
-posterior de ese mismo cliente pierde su "plan anterior" y no se puede clasificar como
-expansión o contracción. Es un efecto en cascada real, no un error del pipeline.
+calculada *antes* de ensuciar los datos), las altas y el MRR nuevo cuadran exacto en **10 de
+12 meses** (difieren marzo y mayo). El MRR acumulado a diciembre difiere **574.210 COP
+(~1%)**. Hay dos causas, ambas identificadas:
+
+1. **Cuarentena en cascada (la principal).** Las 3 filas de Billing en cuarentena (tipo de
+   evento perdido) no solo faltan ellas mismas: si una de esas filas era el evento de alta
+   de un cliente, cualquier upgrade/downgrade posterior de ese mismo cliente pierde su "plan
+   anterior" y no se puede clasificar como expansión o contracción. Es un efecto real, no un
+   error del pipeline.
+2. **Tipo de cambio de los clientes en USD (menor).** El MRR de un cliente que factura en USD
+   queda registrado a la tasa del mes de su último evento, mientras que su baja o cambio de
+   plan se valora a la tasa del mes en que ocurre. Por eso el waterfall no siempre suma
+   exacto a la variación del MRR: en noviembre un cliente Business en USD canceló, el MRR lo
+   traía en 915.170 COP y el churn lo valoró en 902.060 COP (13.110 COP de diferencia). La
+   verdad de control, en cambio, remide a todos los clientes USD con la tasa de cada mes. Es
+   una convención de medición, no una pérdida de datos. Si el negocio prefiere remedir el MRR
+   en USD mes a mes, habría que cambiarla en `gold_v_estado_cliente_mensual`.
 
 **No se forzó una reconciliación perfecta artificial.** Un pipeline que "cuadra
 siempre" sobre datos con pérdida real de información está adivinando en algún punto.
@@ -120,7 +131,7 @@ El detalle completo, con las cifras exactas mes a mes, está en
 | Verificación | Resultado |
 |---|---|
 | `PRAGMA foreign_key_check` | Sin violaciones |
-| Reconciliación mensual contra `control_totales.json` | 8/12 meses exactos; el resto explicado (ver arriba) |
+| Reconciliación mensual contra `control_totales.json` | Altas y MRR nuevo exactos en 10/12 meses; MRR a diciembre −574.210 COP (~1%), explicado (ver arriba) |
 | Los 4 notebooks ejecutan de principio a fin | Verificado con `nbclient` |
 | Filas rechazadas van a cuarentena, no se descartan en silencio | 3 filas, motivo exacto registrado |
 | Clientes con identidad ambigua no se fusionan por error | 3 colisiones de nombre detectadas y separadas |

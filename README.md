@@ -21,6 +21,8 @@ que los tres sistemas compartan un identificador común. La pregunta de negocio:
 | `powerbi/` | Proyecto Power BI (`.pbip`/TMDL) + CSV exportados + instrucciones |
 | `docs/` | Informe, diccionario de métricas, guion del video |
 | `db/` | `saas_metrics.db` (SQLite poblado y verificado) |
+| `agente/`, `.mcp.json`, `.claude/` | **Agente conversacional:** servidor MCP gobernado + skill `/analista-saas` para Claude Code |
+| `pruebas/` | Pruebas de los guardrails y del servidor MCP (sin LLM) + preguntas de demo con respuesta esperada |
 | `cargar_datos.py`, `exportar_csv.py`, `lib_comun.py` | El ETL y utilidades, en la raíz |
 
 ## El hallazgo que no estaba planeado
@@ -32,9 +34,29 @@ sistema por su propio identificador estable, y neutralizar cualquier nombre ambi
 vez de asignarlo arbitrariamente — es el corazón de este proyecto. Detalle completo en
 [`docs/INFORME.md`](docs/INFORME.md).
 
+## Agente conversacional: pregúntale a los datos
+
+Un agente al que se le pregunta en español (*"¿por qué cayó el MRR en noviembre?"*,
+*"¿qué canal recortarías?"*, *"¿puedo confiar en estas cifras?"*) y que responde
+**consultando la capa gold**. Cada consulta queda visible y auditada.
+
+- **Servidor MCP gobernado** (`agente/`): el agente solo ve una copia publicada de las
+  vistas gold y dimensiones. Bronze y silver ni siquiera existen en su conexión, cualquier
+  escritura se bloquea en el motor de SQLite, y cada consulta queda en una bitácora.
+- **Skill `/analista-saas`** para Claude Code: rol de analista de BI con las reglas del
+  diccionario de métricas. No afirma una cifra que no haya consultado y distingue un
+  hallazgo de un supuesto de la simulación.
+- **Sin costo de API:** corre en Claude Code con la suscripción existente.
+- **Probado sin LLM:** 27/27 casos de gobernanza y 10/10 verificaciones por el protocolo
+  MCP real.
+
+Cómo usarlo, arquitectura y pruebas: [`docs/AGENTE.md`](docs/AGENTE.md). Preguntas de demo
+con respuesta esperada: [`pruebas/preguntas_demo.md`](pruebas/preguntas_demo.md).
+
 ## Cómo reproducirlo
 
 ```powershell
+python -m pip install -r requirements.txt
 python data/generar_datos.py   # genera los 4 archivos de origen sucios
 python cargar_datos.py         # ETL: bronze -> silver, resuelve identidad y alias
 # aplicar sql/02_vistas_gold.sql contra db/saas_metrics.db (ver notebooks/03)
@@ -55,7 +77,8 @@ Diccionario completo de fórmulas en [`docs/DICCIONARIO_METRICAS.md`](docs/DICCI
 ## Stack
 
 Python (pandas, Faker, matplotlib) · SQLite · Jupyter · Power BI Desktop (PBIP/TMDL) ·
-Claude Code como copiloto en cada etapa.
+MCP (Model Context Protocol) · Claude Code como copiloto en cada etapa y como interfaz
+del agente.
 
 ## Video
 
