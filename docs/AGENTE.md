@@ -80,11 +80,43 @@ Está cubierto por `pruebas/test_guardrails.py`.
 4. Preguntar: `/analista-saas ¿Cuál es el MRR a diciembre y cómo evolucionó en el año?`
    Las preguntas de demo con sus respuestas esperadas están en `pruebas/preguntas_demo.md`.
 
-**Al clonar en otro equipo:** `.mcp.json` apunta a la ruta absoluta de Python de este
-equipo (`C:/Users/USUARIO/AppData/Local/Programs/Python/Python312/python.exe`), porque aquí
-el `python` del PATH es el acceso directo de Microsoft Store y no arranca. Ajusta
-`command` a tu intérprete. El script (`agente/servidor_mcp.py`) va relativo: Claude Code
-lanza los servidores de `.mcp.json` con la carpeta del proyecto como directorio de trabajo.
+**Requisitos para clonar y correr en otro equipo:**
+
+- Python 3.10 o superior (el código usa sintaxis `str | None`).
+- `git clone` + `python -m pip install -r requirements.txt`.
+- VS Code con la extensión de Claude Code, abriendo **la carpeta raíz del repo** (no una
+  subcarpeta) — `.mcp.json` y `.claude/` solo se cargan si son la raíz del workspace.
+- `db/saas_metrics.db` ya viene versionado en el repo: no hace falta regenerar los datos
+  para usar el agente (aunque `data/generar_datos.py` + `cargar_datos.py` son reproducibles
+  si se quiere volver a construir todo desde cero).
+
+**El intérprete de Python:** `.mcp.json` usa `"${SAAS_METRICS_PYTHON:-python}"` — por
+defecto intenta `python` del PATH, que funciona en la mayoría de instalaciones. En este
+equipo en particular el `python` del PATH es el acceso directo de Microsoft Store (no
+arranca), así que aquí se fijó una variable de entorno de usuario que tiene prioridad:
+
+```powershell
+setx SAAS_METRICS_PYTHON "C:\ruta\a\tu\python.exe"
+```
+
+(Cierra y vuelve a abrir VS Code después de correr `setx` — los procesos ya abiertos no
+heredan variables de entorno nuevas.) Si en tu equipo `python` ya funciona en una terminal
+normal, no necesitas tocar nada. El script (`agente/servidor_mcp.py`) va con ruta relativa:
+Claude Code lanza los servidores de `.mcp.json` con la carpeta del proyecto como
+directorio de trabajo.
+
+**Advertencia honesta:** no está confirmado que la extensión de Claude Code para VS Code
+lea `.mcp.json` de la misma forma que el CLI (la documentación oficial no lo menciona
+explícitamente). Verificalo con `/mcp` apenas abras el proyecto — si el servidor no
+aparece, es la primera señal, no un problema del entorno de quien clonó el repo.
+Alternativa confirmada si esto fallara: correr Claude Code como CLI en una terminal
+dentro de la carpeta del proyecto (`npm install -g @anthropic-ai/claude-code`, luego
+`claude` — ahí `.mcp.json` sí es una ruta documentada), o usar la configuración de Claude
+Desktop de abajo.
+
+**Solo Windows probado.** Las rutas y las instrucciones de este documento están pensadas
+para Windows. En macOS/Linux el intérprete probablemente se resuelva solo (`python` o
+`python3` suelen estar bien configurados), pero no se probó.
 
 ### Bonus: el mismo servidor en Claude Desktop
 

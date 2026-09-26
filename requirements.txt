@@ -1,3 +1,5 @@
+# Requiere Python 3.10+ (agente/ usa sintaxis "str | None").
+
 # Datos, ETL y notebooks
 pandas>=2.2
 numpy>=2.0
