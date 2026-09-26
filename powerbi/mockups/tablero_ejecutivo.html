@@ -1,0 +1,1085 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SaaS Metrics · Tablero ejecutivo</title>
+<meta name="description" content="Mockup interactivo de las 5 páginas del tablero Power BI de métricas SaaS (datos sintéticos).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Tokens de marca (alegra.com: primary #30ABA9, navy #0F172A, slate) ---------- */
+:root{
+  color-scheme: light;
+  --bg:#F1F5F9; --surface:#FFFFFF; --surface-2:#F8FAFC;
+  --ink:#0F172A; --ink-2:#334155; --muted:#64748B; --faint:#94A3B8;
+  --line:#E2E8F0; --grid:#EDF1F5; --axis:#CBD5E1;
+  --brand:#30ABA9; --brand-ink:#1A7E7F; --brand-50:#EAFAFA; --brand-100:#CFF2F1; --brand-200:#B6ECE9; --brand-deep:#0D4645;
+  --s1:#1F9E9C; --s2:#EB6834;
+  --g1:#1F9E9C; --g2:#72D5D1; --g3:#0D4645;
+  --l1:#E34948; --l2:#F2A09F;
+  --total:#475569; --adj:#94A3B8;
+  --good:#0CA30C; --good-ink:#067647; --warn:#FAB219; --serious:#EC835A; --crit:#D03B3B; --crit-ink:#B42318;
+  --wash:rgba(48,171,169,.10); --hover:rgba(15,23,42,.05);
+  --heat-neg:#E34948; --heat-mid:#F1F5F9; --heat-pos:#1F9E9C;
+  --mix-1:#72D5D1; --mix-2:#30ABA9; --mix-3:#0D4645;
+  --shadow:0 1px 2px rgba(15,23,42,.04), 0 12px 32px -16px rgba(48,171,169,.28);
+  --logo-chip:transparent;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0B1220; --surface:#131C2E; --surface-2:#1A2438;
+    --ink:#F1F5F9; --ink-2:#CBD5E1; --muted:#94A3B8; --faint:#64748B;
+    --line:#243047; --grid:#1C2639; --axis:#334155;
+    --brand:#30ABA9; --brand-ink:#72D5D1; --brand-50:#0F2A2E; --brand-100:#123B3C; --brand-200:#18504F; --brand-deep:#CFF2F1;
+    --s1:#1F9E9C; --s2:#E0662F;
+    --g1:#1F9E9C; --g2:#72D5D1; --g3:#CFF2F1;
+    --l1:#E66767; --l2:#F4B4B4;
+    --total:#94A3B8; --adj:#64748B;
+    --good-ink:#4ADE80; --crit-ink:#F87171;
+    --wash:rgba(48,171,169,.16); --hover:rgba(255,255,255,.05);
+    --heat-neg:#E66767; --heat-mid:#1E293B; --heat-pos:#1F9E9C;
+    --mix-1:#CFF2F1; --mix-2:#30ABA9; --mix-3:#18504F;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.6);
+    --logo-chip:#FFFFFF;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0B1220; --surface:#131C2E; --surface-2:#1A2438;
+  --ink:#F1F5F9; --ink-2:#CBD5E1; --muted:#94A3B8; --faint:#64748B;
+  --line:#243047; --grid:#1C2639; --axis:#334155;
+  --brand:#30ABA9; --brand-ink:#72D5D1; --brand-50:#0F2A2E; --brand-100:#123B3C; --brand-200:#18504F; --brand-deep:#CFF2F1;
+  --s1:#1F9E9C; --s2:#E0662F;
+  --g1:#1F9E9C; --g2:#72D5D1; --g3:#CFF2F1;
+  --l1:#E66767; --l2:#F4B4B4;
+  --total:#94A3B8; --adj:#64748B;
+  --good-ink:#4ADE80; --crit-ink:#F87171;
+  --wash:rgba(48,171,169,.16); --hover:rgba(255,255,255,.05);
+  --heat-neg:#E66767; --heat-mid:#1E293B; --heat-pos:#1F9E9C;
+  --mix-1:#CFF2F1; --mix-2:#30ABA9; --mix-3:#18504F;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.6);
+  --logo-chip:#FFFFFF;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size:14px; line-height:1.45; -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit}
+.wrap{max-width:1360px;margin:0 auto;padding:0 24px}
+
+/* ---------- Encabezado ---------- */
+.topbar{background:var(--surface);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.logo-chip{background:var(--logo-chip);border-radius:10px;padding:4px 8px;display:flex;align-items:center}
+.logo-chip img{height:30px;width:auto;display:block}
+.wordmark{font-weight:700;font-size:24px;letter-spacing:-.02em;color:var(--brand)}
+.brand .sep{width:1px;height:32px;background:var(--line)}
+.product{font-weight:700;font-size:16px;letter-spacing:-.01em}
+.product-sub{color:var(--muted);font-size:12.5px}
+.top-actions{display:flex;align-items:center;gap:10px}
+.badge-mock{font-size:12px;font-weight:600;color:var(--brand-ink);background:var(--brand-50);border:1px solid var(--brand-200);padding:4px 10px;border-radius:999px;white-space:nowrap}
+.btn-icon{border:1px solid var(--line);background:var(--surface);border-radius:999px;height:34px;padding:0 12px;display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--ink-2);font-size:13px}
+.btn-icon:hover{background:var(--hover)}
+
+/* ---------- Pestañas ---------- */
+.tabs{background:var(--surface);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tab{border:0;background:none;padding:14px 14px 12px;cursor:pointer;color:var(--muted);font-weight:500;white-space:nowrap;border-bottom:2px solid transparent;display:flex;align-items:center;gap:8px}
+.tab .n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-size:11px;font-weight:600}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand);font-weight:600}
+.tab[aria-selected="true"] .n{background:var(--brand);border-color:var(--brand);color:#fff}
+
+/* ---------- Barra de filtros (global, una sola fila sobre los gráficos) ---------- */
+.filterbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.filterbar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding-top:12px;padding-bottom:12px}
+.fgroup{display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap}
+.flabel{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;overflow-x:auto;scrollbar-width:none;max-width:100%}
+.seg button{border:0;background:none;border-radius:999px;padding:5px 10px;font-size:12.5px;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.seg button:hover{background:var(--hover)}
+.seg button.on{background:var(--brand);color:#fff;font-weight:600}
+.months{display:flex;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px;overflow-x:auto;scrollbar-width:none;max-width:100%}
+.months button{border:0;background:none;min-width:38px;padding:5px 0;border-radius:8px;font-size:12px;color:var(--muted);cursor:pointer}
+.months button:hover{background:var(--hover);color:var(--ink)}
+.months button.in{background:var(--brand-100);color:var(--ink);font-weight:600}
+.months button.edge{background:var(--brand);color:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 11px;font-size:12.5px;cursor:pointer;color:var(--ink-2)}
+.chip:hover{border-color:var(--brand)}
+.chip.on{background:var(--brand-50);border-color:var(--brand);color:var(--brand-ink);font-weight:600}
+.chip.on::before{content:"✓ "}
+.factive{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted)}
+.factive b{color:var(--ink);font-weight:600}
+.btn-link{border:0;background:none;color:var(--brand-ink);font-weight:600;cursor:pointer;padding:4px 6px;border-radius:6px}
+.btn-link:hover{background:var(--brand-50)}
+.hint{font-size:11.5px;color:var(--faint)}
+
+/* ---------- Páginas y rejilla ---------- */
+main{padding:22px 0 8px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.page-head h1{font-size:22px;letter-spacing:-.02em;margin:0;font-weight:700}
+.page-head p{margin:4px 0 0;color:var(--muted);max-width:760px}
+.grid{display:grid;gap:16px;margin-bottom:16px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.span-2{grid-column:span 2}
+.span-all{grid-column:1/-1}
+@media (max-width:1100px){ .g5{grid-template-columns:repeat(3,minmax(0,1fr))} .g4{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:900px){ .g3,.g2{grid-template-columns:minmax(0,1fr)} .span-2{grid-column:auto} }
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .g5,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .badge-mock{display:none}
+  .brand .sep,.product-sub{display:none}
+  .factive{margin-left:0}
+  .card-h{flex-wrap:wrap}
+  .card-tools{flex-wrap:wrap}
+  #temaTxt{display:none}
+  .card{padding:16px 14px 12px}
+  .kpi-val{font-size:24px}
+}
+
+/* ---------- Tarjetas ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:18px 18px 14px;min-width:0;display:flex;flex-direction:column}
+.card-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+.card-h h3{margin:0;font-size:15px;font-weight:600;letter-spacing:-.01em}
+.card-sub{margin:2px 0 0;color:var(--muted);font-size:12.5px}
+.card-tools{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.fchip{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px;white-space:nowrap}
+.fchip.anual{border-style:solid;background:var(--surface-2)}
+.btn-ghost{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 9px;font-size:12px;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.btn-ghost:hover{background:var(--hover)}
+.chart-body{position:relative;min-height:60px;flex:1}
+.lectura{margin:10px 0 0;padding:10px 12px;border-radius:10px;background:var(--brand-50);color:var(--ink-2);font-size:13px}
+.lectura b{color:var(--ink)}
+.card-f{margin-top:10px;font-size:11.5px;color:var(--faint)}
+.card-f code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px;color:var(--muted)}
+
+/* ---------- KPI ---------- */
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px 16px 12px;min-width:0;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--brand)}
+.kpi-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.kpi-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em;text-transform:uppercase}
+.info{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:999px;border:1px solid var(--line);font-size:11px;color:var(--muted);cursor:help;font-weight:600}
+.kpi-val{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:6px;line-height:1.1}
+.kpi-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.kpi-row{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-top:10px}
+.delta{font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.kpi-row svg{flex-shrink:1;min-width:0;max-width:45%}
+.delta.good{color:var(--good-ink)} .delta.bad{color:var(--crit-ink)} .delta.flat{color:var(--muted)}
+.delta small{font-weight:500;color:var(--muted)}
+.kpi-mini .kpi-val{font-size:22px}
+
+/* ---------- Insights ---------- */
+.insights{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.insights li{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2)}
+.ico{flex-shrink:0;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:14px;font-weight:700}
+.ico.up{background:var(--brand-50);color:var(--brand-ink)}
+.ico.down{background:color-mix(in srgb,var(--crit) 12%,transparent);color:var(--crit-ink)}
+.ico.warn{background:color-mix(in srgb,var(--warn) 22%,transparent);color:var(--ink)}
+.ico.neutral{background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+.insights b{font-weight:600}
+
+/* ---------- SVG ---------- */
+svg{display:block;overflow:visible}
+svg text{font-family:inherit}
+.grid-l{stroke:var(--grid);stroke-width:1}
+.base-l{stroke:var(--axis);stroke-width:1}
+.yl,.xl{fill:var(--muted);font-size:11px}
+.xl{font-variant-numeric:tabular-nums}
+.xl.out{fill:var(--faint);opacity:.6}
+.xl.on{fill:var(--ink);font-weight:600}
+.wash{fill:var(--wash)}
+.hit{fill:transparent;cursor:pointer}
+.hit:hover{fill:var(--hover)}
+.hit:focus{outline:none;fill:var(--hover)}
+.ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.ln.s1{stroke:var(--s1)} .ln.s2{stroke:var(--s2)}
+.area{fill:var(--s1);opacity:.12}
+.dot{stroke:var(--surface);stroke-width:2}
+.f-s1{fill:var(--s1)} .f-s2{fill:var(--s2)}
+.f-g1{fill:var(--g1)} .f-g2{fill:var(--g2)} .f-g3{fill:var(--g3)}
+.f-l1{fill:var(--l1)} .f-l2{fill:var(--l2)}
+.f-total{fill:var(--total)} .f-adj{fill:var(--adj)}
+.f-good{fill:var(--good)} .f-warn{fill:var(--warn)} .f-serious{fill:var(--serious)} .f-crit{fill:var(--crit)} .f-muted{fill:var(--faint)} .f-brand{fill:var(--brand)}
+.dim{opacity:.28}
+.ref{stroke:var(--ink-2);stroke-width:1}
+.ref-t{fill:var(--ink-2);font-size:11px;font-weight:600}
+.vl{fill:var(--ink);font-size:11.5px;font-weight:600}
+.vl.m{fill:var(--muted);font-weight:500}
+.lbl{fill:var(--ink-2);font-size:12px}
+.lbl.sel{fill:var(--ink);font-weight:600}
+.conn{stroke:var(--axis);stroke-width:1}
+.net{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+.bar-act{cursor:pointer}
+.bar-act:hover{opacity:.85}
+.row-hit{fill:transparent;cursor:pointer}
+.row-hit:hover{fill:var(--hover)}
+
+/* ---------- Leyenda ---------- */
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:0 0 8px;font-size:12px;color:var(--ink-2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.sw.s1{background:var(--s1)} .sw.s2{background:var(--s2)}
+.sw.g1{background:var(--g1)} .sw.g2{background:var(--g2)} .sw.g3{background:var(--g3)}
+.sw.l1{background:var(--l1)} .sw.l2{background:var(--l2)}
+.sw.total{background:var(--total)} .sw.adj{background:var(--adj)}
+.sw.net{height:2px;width:14px;border-radius:0;background:var(--ink)}
+.sw.ref{height:1px;width:14px;border-radius:0;background:var(--ink-2)}
+.sw.round{border-radius:999px}
+
+/* ---------- Tooltip ---------- */
+.tooltip{position:fixed;z-index:50;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px -10px rgba(15,23,42,.35);padding:9px 11px;font-size:12.5px;max-width:300px}
+.tooltip b{font-weight:600}
+.tooltip .tt-h{font-weight:600;margin-bottom:4px}
+.tooltip .tt-r{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.tooltip .tt-r span:first-child{display:flex;align-items:center;gap:6px;color:var(--ink-2)}
+.tooltip .tt-r span:last-child{font-variant-numeric:tabular-nums;font-weight:600}
+.tooltip .tt-n{color:var(--muted);margin-top:4px;font-size:11.5px}
+
+/* ---------- Tablas ---------- */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{position:sticky;top:0;background:var(--surface-2);text-align:left;font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.03em;text-transform:uppercase;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl th.sort{cursor:pointer}
+.tbl th.sort:hover{color:var(--ink)}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.n,.tbl th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl tbody tr.act{cursor:pointer}
+.tbl tbody tr.act:hover{background:var(--hover)}
+.tbl tbody tr.sel{background:var(--brand-50)}
+.tbl tbody tr.dimr{opacity:.45}
+.tbl .muted{color:var(--muted)}
+.scroll-y{max-height:420px;overflow-y:auto}
+
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap;border:1px solid transparent}
+.badge.good{background:color-mix(in srgb,var(--good) 14%,transparent);color:var(--good-ink)}
+.badge.crit{background:color-mix(in srgb,var(--crit) 14%,transparent);color:var(--crit-ink)}
+.badge.serious{background:color-mix(in srgb,var(--serious) 18%,transparent);color:var(--ink)}
+.badge.warn{background:color-mix(in srgb,var(--warn) 22%,transparent);color:var(--ink)}
+.badge.neutral{background:var(--surface-2);border-color:var(--line);color:var(--ink-2)}
+.badge.muted{background:transparent;border-color:var(--line);color:var(--muted)}
+
+.mix{display:flex;height:8px;border-radius:4px;overflow:hidden;min-width:90px;gap:2px;background:var(--surface)}
+.mix i{display:block;height:100%}
+.mix-1{background:var(--mix-1)} .mix-2{background:var(--mix-2)} .mix-3{background:var(--mix-3)}
+.mix-t{font-size:11.5px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+.mix i.off{opacity:.25}
+
+/* Heatmap de cohortes */
+.heat-wrap{overflow-x:auto}
+table.heat{border-collapse:separate;border-spacing:2px;width:100%;font-size:12px;font-variant-numeric:tabular-nums}
+.heat th{font-weight:600;color:var(--muted);font-size:11px;padding:4px 6px;text-align:center;white-space:nowrap}
+.heat tbody th{text-align:left;color:var(--ink-2);font-size:12px;cursor:pointer;border-radius:6px}
+.heat tbody th:hover{background:var(--hover)}
+.heat td{text-align:center;padding:7px 2px;border-radius:5px;min-width:40px;cursor:default}
+.heat td.n{color:var(--muted);background:transparent}
+.heat td.vacio{background:transparent}
+.heat tr.sel th{color:var(--brand-ink)}
+.heat tr.sel td:not(.n):not(.vacio){box-shadow:inset 0 0 0 2px var(--ink)}
+.heat tr.dimr td:not(.n){opacity:.35}
+.heat-legend{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted);margin-top:10px}
+.heat-legend .bar{height:8px;width:180px;border-radius:4px;background:linear-gradient(90deg,var(--heat-neg),var(--heat-mid),var(--heat-pos))}
+
+.search{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 11px;font:inherit;font-size:13px;color:var(--ink);width:240px;max-width:100%}
+.search:focus{outline:2px solid var(--brand-200);border-color:var(--brand)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.stat-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface-2)}
+.stat .k{font-size:11.5px;color:var(--muted)}
+.stat .v{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.note{font-size:12.5px;color:var(--ink-2);border-left:3px solid var(--warn);padding:8px 12px;background:color-mix(in srgb,var(--warn) 10%,transparent);border-radius:0 10px 10px 0;margin-top:10px}
+
+footer.pie{border-top:1px solid var(--line);margin-top:12px;padding:18px 0 28px;color:var(--muted);font-size:12px}
+footer.pie .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+@media (prefers-reduced-motion: no-preference){ .hit,.chip,.tab,.seg button,.months button{transition:background-color .15s,color .15s,border-color .15s} }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <span class="logo-chip">
+        <img id="logo" src="https://cdn2.alegra.com/website/Logos_Alegra/Logotipo-Alegra.png" alt="Alegra"
+             onerror="this.hidden=true;document.getElementById('wordmark').hidden=false">
+        <span id="wordmark" class="wordmark" hidden>alegra</span>
+      </span>
+      <span class="sep" aria-hidden="true"></span>
+      <div>
+        <div class="product">SaaS Metrics · Tablero ejecutivo</div>
+        <div class="product-sub" id="periodoTxt">2024</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span class="badge-mock">Mockup · datos sintéticos</span>
+      <button class="btn-icon" id="temaBtn" type="button" aria-label="Cambiar tema claro u oscuro">◐ <span id="temaTxt">Tema</span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Páginas del tablero">
+  <div class="wrap" role="tablist" id="tabs"></div>
+</nav>
+
+<section class="filterbar" aria-label="Filtros globales">
+  <div class="wrap">
+    <div class="fgroup">
+      <span class="flabel">Periodo</span>
+      <div class="seg" id="presets"></div>
+      <div class="months" id="meses" title="Clic: un mes · Mayús + clic: extender el rango"></div>
+    </div>
+    <div class="fgroup">
+      <span class="flabel">Canal</span>
+      <div class="chips" id="canales"></div>
+    </div>
+    <div class="factive" id="factive"></div>
+  </div>
+</section>
+
+<main>
+  <div class="wrap" id="pagina"></div>
+</main>
+
+<footer class="pie">
+  <div class="wrap">
+    <span>Mockup de las 5 páginas de <code>powerbi/saas_metrics.pbip</code>. Datos sintéticos (Faker, semilla fija): ninguna cifra es de Alegra ni de un cliente real.</span>
+    <span id="generado"></span>
+  </div>
+</footer>
+
+<div class="tooltip" id="tip" hidden></div>
+
+<script>
+const D = /*DATOS_INICIO*/{"generado":"2026-09-26","resumen":[{"id_periodo":202401,"nombre_mes":"Enero","anio":2024,"mrr_total":8254340.0,"arr_total":99052080.0,"clientes_activos":28,"nrr_pct":null,"churn_logos_pct":null,"churn_ingreso_pct":null,"mrr_nuevo":8254340.0,"mrr_expansion":0.0,"mrr_contraccion":0.0,"mrr_churn":0.0,"mrr_reactivacion":0.0},{"id_periodo":202402,"nombre_mes":"Febrero","anio":2024,"mrr_total":12945770.0,"arr_total":155349240.0,"clientes_activos":44,"nrr_pct":106.7,"churn_logos_pct":0.0,"churn_ingreso_pct":0.0,"mrr_nuevo":4141430.0,"mrr_expansion":550000.0,"mrr_contraccion":0.0,"mrr_churn":0.0,"mrr_reactivacion":0.0},{"id_periodo":202403,"nombre_mes":"Marzo","anio":2024,"mrr_total":21257752.0,"arr_total":255093024.0,"clientes_activos":67,"nrr_pct":95.0,"churn_logos_pct":2.27,"churn_ingreso_pct":1.15,"mrr_nuevo":8962480.0,"mrr_expansion":600000.0,"mrr_contraccion":1101498.0,"mrr_churn":149000.0,"mrr_reactivacion":0.0},{"id_periodo":202404,"nombre_mes":"Abril","anio":2024,"mrr_total":24617591.0,"arr_total":295411092.0,"clientes_activos":80,"nrr_pct":94.3,"churn_logos_pct":4.48,"churn_ingreso_pct":3.98,"mrr_nuevo":4564430.0,"mrr_expansion":200000.0,"mrr_contraccion":557591.0,"mrr_churn":847000.0,"mrr_reactivacion":0.0},{"id_periodo":202405,"nombre_mes":"Mayo","anio":2024,"mrr_total":33496591.0,"arr_total":401959092.0,"clientes_activos":101,"nrr_pct":101.0,"churn_logos_pct":2.5,"churn_ingreso_pct":1.21,"mrr_nuevo":8627000.0,"mrr_expansion":750000.0,"mrr_contraccion":200000.0,"mrr_churn":298000.0,"mrr_reactivacion":0.0},{"id_periodo":202406,"nombre_mes":"Junio","anio":2024,"mrr_total":40041641.0,"arr_total":480499692.0,"clientes_activos":112,"nrr_pct":106.7,"churn_logos_pct":1.98,"churn_ingreso_pct":0.89,"mrr_nuevo":4294050.0,"mrr_expansion":3350000.0,"mrr_contraccion":950000.0,"mrr_churn":298000.0,"mrr_reactivacion":149000.0},{"id_periodo":202407,"nombre_mes":"Julio","anio":2024,"mrr_total":45983949.0,"arr_total":551807388.0,"clientes_activos":126,"nrr_pct":99.2,"churn_logos_pct":3.57,"churn_ingreso_pct":3.01,"mrr_nuevo":6244240.0,"mrr_expansion":1100000.0,"mrr_contraccion":200000.0,"mrr_churn":1206916.0,"mrr_reactivacion":0.0},{"id_periodo":202408,"nombre_mes":"Agosto","anio":2024,"mrr_total":54846460.0,"arr_total":658157520.0,"clientes_activos":143,"nrr_pct":104.3,"churn_logos_pct":1.59,"churn_ingreso_pct":0.65,"mrr_nuevo":6552080.0,"mrr_expansion":2809431.0,"mrr_contraccion":550000.0,"mrr_churn":298000.0,"mrr_reactivacion":0.0},{"id_periodo":202409,"nombre_mes":"Septiembre","anio":2024,"mrr_total":59979290.0,"arr_total":719751480.0,"clientes_activos":163,"nrr_pct":97.4,"churn_logos_pct":1.4,"churn_ingreso_pct":1.27,"mrr_nuevo":6580830.0,"mrr_expansion":1300000.0,"mrr_contraccion":2050000.0,"mrr_churn":698000.0,"mrr_reactivacion":0.0},{"id_periodo":202410,"nombre_mes":"Octubre","anio":2024,"mrr_total":59220608.0,"arr_total":710647296.0,"clientes_activos":157,"nrr_pct":98.7,"churn_logos_pct":3.68,"churn_ingreso_pct":2.49,"mrr_nuevo":0.0,"mrr_expansion":2050000.0,"mrr_contraccion":1314682.0,"mrr_churn":1494000.0,"mrr_reactivacion":0.0},{"id_periodo":202411,"nombre_mes":"Noviembre","anio":2024,"mrr_total":56549326.0,"arr_total":678591912.0,"clientes_activos":146,"nrr_pct":95.5,"churn_logos_pct":7.01,"churn_ingreso_pct":5.39,"mrr_nuevo":0.0,"mrr_expansion":2600000.0,"mrr_contraccion":2066112.0,"mrr_churn":3192060.0,"mrr_reactivacion":0.0},{"id_periodo":202412,"nombre_mes":"Diciembre","anio":2024,"mrr_total":57201326.0,"arr_total":686415912.0,"clientes_activos":144,"nrr_pct":101.2,"churn_logos_pct":1.37,"churn_ingreso_pct":0.53,"mrr_nuevo":0.0,"mrr_expansion":2600000.0,"mrr_contraccion":1650000.0,"mrr_churn":298000.0,"mrr_reactivacion":0.0}],"cac":[{"id_periodo":202401,"nombre_mes":"Enero","nombre_canal":"Organico","gasto_cop":2019697,"clientes_nuevos":5,"cac_cop":403939.0},{"id_periodo":202401,"nombre_mes":"Enero","nombre_canal":"Outbound","gasto_cop":7807918,"clientes_nuevos":4,"cac_cop":1951979.0},{"id_periodo":202401,"nombre_mes":"Enero","nombre_canal":"Pago-Google","gasto_cop":2835219,"clientes_nuevos":2,"cac_cop":1417609.0},{"id_periodo":202401,"nombre_mes":"Enero","nombre_canal":"Pago-Meta","gasto_cop":2893503,"clientes_nuevos":6,"cac_cop":482250.0},{"id_periodo":202401,"nombre_mes":"Enero","nombre_canal":"Partner","gasto_cop":1549983,"clientes_nuevos":3,"cac_cop":516661.0},{"id_periodo":202401,"nombre_mes":"Enero","nombre_canal":"Referido","gasto_cop":657356,"clientes_nuevos":5,"cac_cop":131471.0},{"id_periodo":202402,"nombre_mes":"Febrero","nombre_canal":"Organico","gasto_cop":1818835,"clientes_nuevos":2,"cac_cop":909417.0},{"id_periodo":202402,"nombre_mes":"Febrero","nombre_canal":"Outbound","gasto_cop":8355937,"clientes_nuevos":1,"cac_cop":8355937.0},{"id_periodo":202402,"nombre_mes":"Febrero","nombre_canal":"Pago-Google","gasto_cop":3004921,"clientes_nuevos":4,"cac_cop":751230.0},{"id_periodo":202402,"nombre_mes":"Febrero","nombre_canal":"Pago-Meta","gasto_cop":2088994,"clientes_nuevos":3,"cac_cop":696331.0},{"id_periodo":202402,"nombre_mes":"Febrero","nombre_canal":"Partner","gasto_cop":1072192,"clientes_nuevos":1,"cac_cop":1072192.0},{"id_periodo":202402,"nombre_mes":"Febrero","nombre_canal":"Referido","gasto_cop":615737,"clientes_nuevos":5,"cac_cop":123147.0},{"id_periodo":202403,"nombre_mes":"Marzo","nombre_canal":"Organico","gasto_cop":1958225,"clientes_nuevos":6,"cac_cop":326370.0},{"id_periodo":202403,"nombre_mes":"Marzo","nombre_canal":"Outbound","gasto_cop":8676604,"clientes_nuevos":2,"cac_cop":4338302.0},{"id_periodo":202403,"nombre_mes":"Marzo","nombre_canal":"Pago-Google","gasto_cop":3495639,"clientes_nuevos":7,"cac_cop":499377.0},{"id_periodo":202403,"nombre_mes":"Marzo","nombre_canal":"Pago-Meta","gasto_cop":2970937,"clientes_nuevos":6,"cac_cop":495156.0},{"id_periodo":202403,"nombre_mes":"Marzo","nombre_canal":"Partner","gasto_cop":1103448,"clientes_nuevos":1,"cac_cop":1103448.0},{"id_periodo":202403,"nombre_mes":"Marzo","nombre_canal":"Referido","gasto_cop":352572,"clientes_nuevos":2,"cac_cop":176286.0},{"id_periodo":202404,"nombre_mes":"Abril","nombre_canal":"Organico","gasto_cop":1842204,"clientes_nuevos":5,"cac_cop":368440.0},{"id_periodo":202404,"nombre_mes":"Abril","nombre_canal":"Outbound","gasto_cop":7594775,"clientes_nuevos":3,"cac_cop":2531591.0},{"id_periodo":202404,"nombre_mes":"Abril","nombre_canal":"Pago-Google","gasto_cop":2093351,"clientes_nuevos":1,"cac_cop":2093351.0},{"id_periodo":202404,"nombre_mes":"Abril","nombre_canal":"Pago-Meta","gasto_cop":2561824,"clientes_nuevos":4,"cac_cop":640456.0},{"id_periodo":202404,"nombre_mes":"Abril","nombre_canal":"Partner","gasto_cop":1279108,"clientes_nuevos":2,"cac_cop":639554.0},{"id_periodo":202404,"nombre_mes":"Abril","nombre_canal":"Referido","gasto_cop":394747,"clientes_nuevos":1,"cac_cop":394747.0},{"id_periodo":202405,"nombre_mes":"Mayo","nombre_canal":"Organico","gasto_cop":2124930,"clientes_nuevos":3,"cac_cop":708310.0},{"id_periodo":202405,"nombre_mes":"Mayo","nombre_canal":"Outbound","gasto_cop":8467409,"clientes_nuevos":2,"cac_cop":4233704.0},{"id_periodo":202405,"nombre_mes":"Mayo","nombre_canal":"Pago-Google","gasto_cop":3591121,"clientes_nuevos":6,"cac_cop":598520.0},{"id_periodo":202405,"nombre_mes":"Mayo","nombre_canal":"Pago-Meta","gasto_cop":2725463,"clientes_nuevos":5,"cac_cop":545092.0},{"id_periodo":202405,"nombre_mes":"Mayo","nombre_canal":"Partner","gasto_cop":1177174,"clientes_nuevos":1,"cac_cop":1177174.0},{"id_periodo":202405,"nombre_mes":"Mayo","nombre_canal":"Referido","gasto_cop":710130,"clientes_nuevos":6,"cac_cop":118355.0},{"id_periodo":202406,"nombre_mes":"Junio","nombre_canal":"Organico","gasto_cop":1987109,"clientes_nuevos":4,"cac_cop":496777.0},{"id_periodo":202406,"nombre_mes":"Junio","nombre_canal":"Outbound","gasto_cop":6818002,"clientes_nuevos":1,"cac_cop":6818002.0},{"id_periodo":202406,"nombre_mes":"Junio","nombre_canal":"Pago-Google","gasto_cop":2227821,"clientes_nuevos":3,"cac_cop":742607.0},{"id_periodo":202406,"nombre_mes":"Junio","nombre_canal":"Pago-Meta","gasto_cop":1708527,"clientes_nuevos":2,"cac_cop":854263.0},{"id_periodo":202406,"nombre_mes":"Junio","nombre_canal":"Partner","gasto_cop":1104202,"clientes_nuevos":1,"cac_cop":1104202.0},{"id_periodo":202406,"nombre_mes":"Junio","nombre_canal":"Referido","gasto_cop":380282,"clientes_nuevos":1,"cac_cop":380282.0},{"id_periodo":202407,"nombre_mes":"Julio","nombre_canal":"Organico","gasto_cop":1710946,"clientes_nuevos":4,"cac_cop":427736.0},{"id_periodo":202407,"nombre_mes":"Julio","nombre_canal":"Outbound","gasto_cop":8221343,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202407,"nombre_mes":"Julio","nombre_canal":"Pago-Google","gasto_cop":3067235,"clientes_nuevos":4,"cac_cop":766808.0},{"id_periodo":202407,"nombre_mes":"Julio","nombre_canal":"Pago-Meta","gasto_cop":2197045,"clientes_nuevos":4,"cac_cop":549261.0},{"id_periodo":202407,"nombre_mes":"Julio","nombre_canal":"Partner","gasto_cop":1517484,"clientes_nuevos":3,"cac_cop":505828.0},{"id_periodo":202407,"nombre_mes":"Julio","nombre_canal":"Referido","gasto_cop":443105,"clientes_nuevos":3,"cac_cop":147701.0},{"id_periodo":202408,"nombre_mes":"Agosto","nombre_canal":"Organico","gasto_cop":1879888,"clientes_nuevos":2,"cac_cop":939944.0},{"id_periodo":202408,"nombre_mes":"Agosto","nombre_canal":"Outbound","gasto_cop":8219029,"clientes_nuevos":1,"cac_cop":8219029.0},{"id_periodo":202408,"nombre_mes":"Agosto","nombre_canal":"Pago-Google","gasto_cop":4523743,"clientes_nuevos":8,"cac_cop":565467.0},{"id_periodo":202408,"nombre_mes":"Agosto","nombre_canal":"Pago-Meta","gasto_cop":1789308,"clientes_nuevos":2,"cac_cop":894654.0},{"id_periodo":202408,"nombre_mes":"Agosto","nombre_canal":"Partner","gasto_cop":1083508,"clientes_nuevos":1,"cac_cop":1083508.0},{"id_periodo":202408,"nombre_mes":"Agosto","nombre_canal":"Referido","gasto_cop":532906,"clientes_nuevos":4,"cac_cop":133226.0},{"id_periodo":202409,"nombre_mes":"Septiembre","nombre_canal":"Organico","gasto_cop":1892172,"clientes_nuevos":4,"cac_cop":473043.0},{"id_periodo":202409,"nombre_mes":"Septiembre","nombre_canal":"Outbound","gasto_cop":7834092,"clientes_nuevos":1,"cac_cop":7834092.0},{"id_periodo":202409,"nombre_mes":"Septiembre","nombre_canal":"Pago-Google","gasto_cop":1984230,"clientes_nuevos":1,"cac_cop":1984230.0},{"id_periodo":202409,"nombre_mes":"Septiembre","nombre_canal":"Pago-Meta","gasto_cop":4086723,"clientes_nuevos":7,"cac_cop":583817.0},{"id_periodo":202409,"nombre_mes":"Septiembre","nombre_canal":"Partner","gasto_cop":984646,"clientes_nuevos":1,"cac_cop":984646.0},{"id_periodo":202409,"nombre_mes":"Septiembre","nombre_canal":"Referido","gasto_cop":717521,"clientes_nuevos":6,"cac_cop":119586.0},{"id_periodo":202410,"nombre_mes":"Octubre","nombre_canal":"Organico","gasto_cop":2161712,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202410,"nombre_mes":"Octubre","nombre_canal":"Outbound","gasto_cop":7632515,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202410,"nombre_mes":"Octubre","nombre_canal":"Pago-Google","gasto_cop":1589885,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202410,"nombre_mes":"Octubre","nombre_canal":"Pago-Meta","gasto_cop":1244353,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202410,"nombre_mes":"Octubre","nombre_canal":"Partner","gasto_cop":1024366,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202410,"nombre_mes":"Octubre","nombre_canal":"Referido","gasto_cop":295915,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202411,"nombre_mes":"Noviembre","nombre_canal":"Organico","gasto_cop":1917607,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202411,"nombre_mes":"Noviembre","nombre_canal":"Outbound","gasto_cop":7798065,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202411,"nombre_mes":"Noviembre","nombre_canal":"Pago-Google","gasto_cop":1604529,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202411,"nombre_mes":"Noviembre","nombre_canal":"Pago-Meta","gasto_cop":1209222,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202411,"nombre_mes":"Noviembre","nombre_canal":"Partner","gasto_cop":914627,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202411,"nombre_mes":"Noviembre","nombre_canal":"Referido","gasto_cop":308395,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202412,"nombre_mes":"Diciembre","nombre_canal":"Organico","gasto_cop":1843447,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202412,"nombre_mes":"Diciembre","nombre_canal":"Outbound","gasto_cop":6444144,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202412,"nombre_mes":"Diciembre","nombre_canal":"Pago-Google","gasto_cop":1325867,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202412,"nombre_mes":"Diciembre","nombre_canal":"Pago-Meta","gasto_cop":1337677,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202412,"nombre_mes":"Diciembre","nombre_canal":"Partner","gasto_cop":955501,"clientes_nuevos":0,"cac_cop":null},{"id_periodo":202412,"nombre_mes":"Diciembre","nombre_canal":"Referido","gasto_cop":305990,"clientes_nuevos":0,"cac_cop":null}],"cohortes":[{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202401,"meses_desde_alta":0,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8254340.0,"pct_retencion":100.0},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202402,"meses_desde_alta":1,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8804340.0,"pct_retencion":106.7},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202403,"meses_desde_alta":2,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8454340.0,"pct_retencion":102.4},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202404,"meses_desde_alta":3,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8156340.0,"pct_retencion":98.8},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202405,"meses_desde_alta":4,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8007340.0,"pct_retencion":97.0},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202406,"meses_desde_alta":5,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8408340.0,"pct_retencion":101.9},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202407,"meses_desde_alta":6,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8408340.0,"pct_retencion":101.9},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202408,"meses_desde_alta":7,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8608340.0,"pct_retencion":104.3},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202409,"meses_desde_alta":8,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8459340.0,"pct_retencion":102.5},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202410,"meses_desde_alta":9,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":9610340.0,"pct_retencion":116.4},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202411,"meses_desde_alta":10,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8180058.0,"pct_retencion":99.1},{"id_periodo_cohorte":202401,"mes_cohorte":"Enero","id_periodo":202412,"meses_desde_alta":11,"clientes_en_cohorte":28,"mrr_inicial_cohorte":8254340.0,"mrr_retenido_cop":8730058.0,"pct_retencion":105.8},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202402,"meses_desde_alta":0,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":4141430.0,"pct_retencion":100.0},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202403,"meses_desde_alta":1,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":3840932.0,"pct_retencion":92.7},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202404,"meses_desde_alta":2,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":3840932.0,"pct_retencion":92.7},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202405,"meses_desde_alta":3,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":3840932.0,"pct_retencion":92.7},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202406,"meses_desde_alta":4,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":4190932.0,"pct_retencion":101.2},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202407,"meses_desde_alta":5,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":3487000.0,"pct_retencion":84.2},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202408,"meses_desde_alta":6,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":3338000.0,"pct_retencion":80.6},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202409,"meses_desde_alta":7,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":3688000.0,"pct_retencion":89.1},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202410,"meses_desde_alta":8,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":3539000.0,"pct_retencion":85.5},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202411,"meses_desde_alta":9,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":2743000.0,"pct_retencion":66.2},{"id_periodo_cohorte":202402,"mes_cohorte":"Febrero","id_periodo":202412,"meses_desde_alta":10,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4141430.0,"mrr_retenido_cop":2943000.0,"pct_retencion":71.1},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202403,"meses_desde_alta":0,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":8962480.0,"pct_retencion":100.0},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202404,"meses_desde_alta":1,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":8055889.0,"pct_retencion":89.9},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202405,"meses_desde_alta":2,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":8106889.0,"pct_retencion":90.5},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202406,"meses_desde_alta":3,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":8306889.0,"pct_retencion":92.7},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202407,"meses_desde_alta":4,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":9057889.0,"pct_retencion":101.1},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202408,"meses_desde_alta":5,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":9467320.0,"pct_retencion":105.6},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202409,"meses_desde_alta":6,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":8167320.0,"pct_retencion":91.1},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202410,"meses_desde_alta":7,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":7469320.0,"pct_retencion":83.3},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202411,"meses_desde_alta":8,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":7819320.0,"pct_retencion":87.2},{"id_periodo_cohorte":202403,"mes_cohorte":"Marzo","id_periodo":202412,"meses_desde_alta":9,"clientes_en_cohorte":24,"mrr_inicial_cohorte":8962480.0,"mrr_retenido_cop":6719320.0,"pct_retencion":75.0},{"id_periodo_cohorte":202404,"mes_cohorte":"Abril","id_periodo":202404,"meses_desde_alta":0,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4564430.0,"mrr_retenido_cop":4564430.0,"pct_retencion":100.0},{"id_periodo_cohorte":202404,"mes_cohorte":"Abril","id_periodo":202405,"meses_desde_alta":1,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4564430.0,"mrr_retenido_cop":4914430.0,"pct_retencion":107.7},{"id_periodo_cohorte":202404,"mes_cohorte":"Abril","id_periodo":202406,"meses_desde_alta":2,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4564430.0,"mrr_retenido_cop":5664430.0,"pct_retencion":124.1},{"id_periodo_cohorte":202404,"mes_cohorte":"Abril","id_periodo":202407,"meses_desde_alta":3,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4564430.0,"mrr_retenido_cop":5664430.0,"pct_retencion":124.1},{"id_periodo_cohorte":202404,"mes_cohorte":"Abril","id_periodo":202408,"meses_desde_alta":4,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4564430.0,"mrr_retenido_cop":6214430.0,"pct_retencion":136.1},{"id_periodo_cohorte":202404,"mes_cohorte":"Abril","id_periodo":202409,"meses_desde_alta":5,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4564430.0,"mrr_retenido_cop":5664430.0,"pct_retencion":124.1},{"id_periodo_cohorte":202404,"mes_cohorte":"Abril","id_periodo":202410,"meses_desde_alta":6,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4564430.0,"mrr_retenido_cop":5664430.0,"pct_retencion":124.1},{"id_periodo_cohorte":202404,"mes_cohorte":"Abril","id_periodo":202411,"meses_desde_alta":7,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4564430.0,"mrr_retenido_cop":5515430.0,"pct_retencion":120.8},{"id_periodo_cohorte":202404,"mes_cohorte":"Abril","id_periodo":202412,"meses_desde_alta":8,"clientes_en_cohorte":16,"mrr_inicial_cohorte":4564430.0,"mrr_retenido_cop":5515430.0,"pct_retencion":120.8},{"id_periodo_cohorte":202405,"mes_cohorte":"Mayo","id_periodo":202405,"meses_desde_alta":0,"clientes_en_cohorte":23,"mrr_inicial_cohorte":8627000.0,"mrr_retenido_cop":8627000.0,"pct_retencion":100.0},{"id_periodo_cohorte":202405,"mes_cohorte":"Mayo","id_periodo":202406,"meses_desde_alta":1,"clientes_en_cohorte":23,"mrr_inicial_cohorte":8627000.0,"mrr_retenido_cop":9177000.0,"pct_retencion":106.4},{"id_periodo_cohorte":202405,"mes_cohorte":"Mayo","id_periodo":202407,"meses_desde_alta":2,"clientes_en_cohorte":23,"mrr_inicial_cohorte":8627000.0,"mrr_retenido_cop":8977000.0,"pct_retencion":104.1},{"id_periodo_cohorte":202405,"mes_cohorte":"Mayo","id_periodo":202408,"meses_desde_alta":3,"clientes_en_cohorte":23,"mrr_inicial_cohorte":8627000.0,"mrr_retenido_cop":8828000.0,"pct_retencion":102.3},{"id_periodo_cohorte":202405,"mes_cohorte":"Mayo","id_periodo":202409,"meses_desde_alta":4,"clientes_en_cohorte":23,"mrr_inicial_cohorte":8627000.0,"mrr_retenido_cop":8479000.0,"pct_retencion":98.3},{"id_periodo_cohorte":202405,"mes_cohorte":"Mayo","id_periodo":202410,"meses_desde_alta":5,"clientes_en_cohorte":23,"mrr_inicial_cohorte":8627000.0,"mrr_retenido_cop":9029000.0,"pct_retencion":104.7},{"id_periodo_cohorte":202405,"mes_cohorte":"Mayo","id_periodo":202411,"meses_desde_alta":6,"clientes_en_cohorte":23,"mrr_inicial_cohorte":8627000.0,"mrr_retenido_cop":8130000.0,"pct_retencion":94.2},{"id_periodo_cohorte":202405,"mes_cohorte":"Mayo","id_periodo":202412,"meses_desde_alta":7,"clientes_en_cohorte":23,"mrr_inicial_cohorte":8627000.0,"mrr_retenido_cop":7431000.0,"pct_retencion":86.1},{"id_periodo_cohorte":202406,"mes_cohorte":"Junio","id_periodo":202406,"meses_desde_alta":0,"clientes_en_cohorte":12,"mrr_inicial_cohorte":4294050.0,"mrr_retenido_cop":4294050.0,"pct_retencion":100.0},{"id_periodo_cohorte":202406,"mes_cohorte":"Junio","id_periodo":202407,"meses_desde_alta":1,"clientes_en_cohorte":12,"mrr_inicial_cohorte":4294050.0,"mrr_retenido_cop":4145050.0,"pct_retencion":96.5},{"id_periodo_cohorte":202406,"mes_cohorte":"Junio","id_periodo":202408,"meses_desde_alta":2,"clientes_en_cohorte":12,"mrr_inicial_cohorte":4294050.0,"mrr_retenido_cop":4695050.0,"pct_retencion":109.3},{"id_periodo_cohorte":202406,"mes_cohorte":"Junio","id_periodo":202409,"meses_desde_alta":3,"clientes_en_cohorte":12,"mrr_inicial_cohorte":4294050.0,"mrr_retenido_cop":4695050.0,"pct_retencion":109.3},{"id_periodo_cohorte":202406,"mes_cohorte":"Junio","id_periodo":202410,"meses_desde_alta":4,"clientes_en_cohorte":12,"mrr_inicial_cohorte":4294050.0,"mrr_retenido_cop":4695050.0,"pct_retencion":109.3},{"id_periodo_cohorte":202406,"mes_cohorte":"Junio","id_periodo":202411,"meses_desde_alta":5,"clientes_en_cohorte":12,"mrr_inicial_cohorte":4294050.0,"mrr_retenido_cop":4546050.0,"pct_retencion":105.9},{"id_periodo_cohorte":202406,"mes_cohorte":"Junio","id_periodo":202412,"meses_desde_alta":6,"clientes_en_cohorte":12,"mrr_inicial_cohorte":4294050.0,"mrr_retenido_cop":5096050.0,"pct_retencion":118.7},{"id_periodo_cohorte":202407,"mes_cohorte":"Julio","id_periodo":202407,"meses_desde_alta":0,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6244240.0,"mrr_retenido_cop":6244240.0,"pct_retencion":100.0},{"id_periodo_cohorte":202407,"mes_cohorte":"Julio","id_periodo":202408,"meses_desde_alta":1,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6244240.0,"mrr_retenido_cop":6794240.0,"pct_retencion":108.8},{"id_periodo_cohorte":202407,"mes_cohorte":"Julio","id_periodo":202409,"meses_desde_alta":2,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6244240.0,"mrr_retenido_cop":6794240.0,"pct_retencion":108.8},{"id_periodo_cohorte":202407,"mes_cohorte":"Julio","id_periodo":202410,"meses_desde_alta":3,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6244240.0,"mrr_retenido_cop":6645240.0,"pct_retencion":106.4},{"id_periodo_cohorte":202407,"mes_cohorte":"Julio","id_periodo":202411,"meses_desde_alta":4,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6244240.0,"mrr_retenido_cop":7545240.0,"pct_retencion":120.8},{"id_periodo_cohorte":202407,"mes_cohorte":"Julio","id_periodo":202412,"meses_desde_alta":5,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6244240.0,"mrr_retenido_cop":8095240.0,"pct_retencion":129.6},{"id_periodo_cohorte":202408,"mes_cohorte":"Agosto","id_periodo":202408,"meses_desde_alta":0,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6552080.0,"mrr_retenido_cop":6552080.0,"pct_retencion":100.0},{"id_periodo_cohorte":202408,"mes_cohorte":"Agosto","id_periodo":202409,"meses_desde_alta":1,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6552080.0,"mrr_retenido_cop":7102080.0,"pct_retencion":108.4},{"id_periodo_cohorte":202408,"mes_cohorte":"Agosto","id_periodo":202410,"meses_desde_alta":2,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6552080.0,"mrr_retenido_cop":5638398.0,"pct_retencion":86.1},{"id_periodo_cohorte":202408,"mes_cohorte":"Agosto","id_periodo":202411,"meses_desde_alta":3,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6552080.0,"mrr_retenido_cop":5289398.0,"pct_retencion":80.7},{"id_periodo_cohorte":202408,"mes_cohorte":"Agosto","id_periodo":202412,"meses_desde_alta":4,"clientes_en_cohorte":18,"mrr_inicial_cohorte":6552080.0,"mrr_retenido_cop":5289398.0,"pct_retencion":80.7},{"id_periodo_cohorte":202409,"mes_cohorte":"Septiembre","id_periodo":202409,"meses_desde_alta":0,"clientes_en_cohorte":22,"mrr_inicial_cohorte":6580830.0,"mrr_retenido_cop":6580830.0,"pct_retencion":100.0},{"id_periodo_cohorte":202409,"mes_cohorte":"Septiembre","id_periodo":202410,"meses_desde_alta":1,"clientes_en_cohorte":22,"mrr_inicial_cohorte":6580830.0,"mrr_retenido_cop":6580830.0,"pct_retencion":100.0},{"id_periodo_cohorte":202409,"mes_cohorte":"Septiembre","id_periodo":202411,"meses_desde_alta":2,"clientes_en_cohorte":22,"mrr_inicial_cohorte":6580830.0,"mrr_retenido_cop":6431830.0,"pct_retencion":97.7},{"id_periodo_cohorte":202409,"mes_cohorte":"Septiembre","id_periodo":202412,"meses_desde_alta":3,"clientes_en_cohorte":22,"mrr_inicial_cohorte":6580830.0,"mrr_retenido_cop":7032830.0,"pct_retencion":106.9}],"ltv":[{"nombre_plan":"Starter","arpa_cop":149000.0,"churn_mensual_promedio_pct":1.87,"ltv_cop":7967914.44,"churn_ingreso_plan_pct":3.94,"ltv_cop_churn_plan":3777150.0,"bajas_plan":20},{"nombre_plan":"Pro","arpa_cop":349159.53,"churn_mensual_promedio_pct":1.87,"ltv_cop":18671632.36,"churn_ingreso_plan_pct":3.05,"ltv_cop_churn_plan":11452313.58,"bajas_plan":14},{"nombre_plan":"Business","arpa_cop":904918.15,"churn_mensual_promedio_pct":1.87,"ltv_cop":48391344.74,"churn_ingreso_plan_pct":0.5,"ltv_cop_churn_plan":181606737.37,"bajas_plan":1}],"ltv_cac":[{"nombre_canal":"Outbound","gasto_cop":93869833,"clientes_nuevos":15,"cac_cop":6257988.87,"altas_starter":7,"altas_pro":7,"altas_business":1,"ltv_ponderado_cop":15657878.16,"ltv_cac":2.5,"ltv_cac_churn_plan":3.07},{"nombre_canal":"Partner","gasto_cop":13766239,"clientes_nuevos":14,"cac_cop":983302.79,"altas_starter":9,"altas_pro":4,"altas_business":1,"ltv_ponderado_cop":13913507.44,"ltv_cac":14.15,"ltv_cac_churn_plan":18.99},{"nombre_canal":"Pago-Google","gasto_cop":31343561,"clientes_nuevos":36,"cac_cop":870654.47,"altas_starter":16,"altas_pro":15,"altas_business":5,"ltv_ponderado_cop":18042162.23,"ltv_cac":20.72,"ltv_cac_churn_plan":36.38},{"nombre_canal":"Organico","gasto_cop":23156772,"clientes_nuevos":35,"cac_cop":661622.06,"altas_starter":12,"altas_pro":19,"altas_business":4,"ltv_ponderado_cop":18398324.77,"ltv_cac":27.81,"ltv_cac_churn_plan":42.72},{"nombre_canal":"Pago-Meta","gasto_cop":26813576,"clientes_nuevos":39,"cac_cop":687527.59,"altas_starter":14,"altas_pro":16,"altas_business":9,"ltv_ponderado_cop":21687667.25,"ltv_cac":31.54,"ltv_cac_churn_plan":69.76},{"nombre_canal":"Referido","gasto_cop":5714656,"clientes_nuevos":33,"cac_cop":173171.39,"altas_starter":21,"altas_pro":9,"altas_business":3,"ltv_ponderado_cop":14561967.54,"ltv_cac":84.09,"ltv_cac_churn_plan":127.25}],"calidad_clientes":[{"id_cliente":1,"nombre_canonico":"González, Villamizar and Vargas","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":2,"nombre_canonico":"Galvis Ltd","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":3,"nombre_canonico":"López and Sons","activo":0,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":4,"nombre_canonico":"Agudelo, Londoño and Becerra","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":5,"nombre_canonico":"Vásquez, Torres and Fernández","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":906430.0},{"id_cliente":6,"nombre_canonico":"Uribe and Sons","activo":0,"estado_calidad":"CLIENTE_SIN_EVENTOS_VALIDOS","sistemas_confirmados":"CRM,BILLING","nota_calidad":"cliente del CRM sin eventos de facturacion validos (revisar cuarentena)","mrr_inicial_cop":null},{"id_cliente":7,"nombre_canonico":"Salazar, Castro and Rojas","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":8,"nombre_canonico":"López-Rivera","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":9,"nombre_canonico":"SANABRIA-AGUDELO","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":915170.0},{"id_cliente":10,"nombre_canonico":"ARIZA PLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":11,"nombre_canonico":"CARDOZO GROUP","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":12,"nombre_canonico":"Caicedo Ltd","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":13,"nombre_canonico":"Rivas, Morales and Ramírez","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":14,"nombre_canonico":"Gómez and Sons","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":15,"nombre_canonico":"BUSTAMANTE-ORDÓÑEZ","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":16,"nombre_canonico":"Rivera Group","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":null,"nota_calidad":"nombre compartido con otra empresa del CRM: no se cruza por nombre","mrr_inicial_cop":null},{"id_cliente":17,"nombre_canonico":"Palacio, Pérez and Mosquera","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":18,"nombre_canonico":"Ortiz, Cuesta and Jaimes","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":19,"nombre_canonico":"ACEVEDO, LOZANO AND VARGAS","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":20,"nombre_canonico":"Rivera-Villamil","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":21,"nombre_canonico":"PACHECO, TORRES AND VALENCIA","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":22,"nombre_canonico":"Torres Inc","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":23,"nombre_canonico":"Castillo-Martínez","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":24,"nombre_canonico":"Loaiza-Franco","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":25,"nombre_canonico":"Londoño, Muñoz and Orozco","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":26,"nombre_canonico":"CASTILLO, TORRES AND BOLÍVAR","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":27,"nombre_canonico":"Rincón, Tovar and Prieto","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":28,"nombre_canonico":"Pineda Ltd","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":29,"nombre_canonico":"Hurtado-Flórez","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":30,"nombre_canonico":"Orjuela, Contreras and Domínguez","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":31,"nombre_canonico":"Duarte Inc","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":32,"nombre_canonico":"Loaiza, Espinosa and Solano","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":33,"nombre_canonico":"González-Mejía","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":34,"nombre_canonico":"RODRÍGUEZ-CAMARGO","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":35,"nombre_canonico":"Ortiz, Sierra and Díaz","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":36,"nombre_canonico":"Polo LLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":37,"nombre_canonico":"Palacios, Ramírez and Arias","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":38,"nombre_canonico":"Montoya PLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":39,"nombre_canonico":"CARVAJAL GROUP","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":40,"nombre_canonico":"González LLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":41,"nombre_canonico":"Moreno-Moreno","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":42,"nombre_canonico":"ERAZO, GARCÍA AND REYES","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":43,"nombre_canonico":"MANTILLA PLC","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":905050.0},{"id_cliente":44,"nombre_canonico":"Pérez, Silva and Calderón","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":917240.0},{"id_cliente":45,"nombre_canonico":"Oviedo Ltd","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":46,"nombre_canonico":"Ramírez, Álvarez and Barragán","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":47,"nombre_canonico":"ARIAS, MALDONADO AND CÁRDENAS","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":48,"nombre_canonico":"FERNÁNDEZ AND SONS","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":49,"nombre_canonico":"Torres, García and Barrera","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":50,"nombre_canonico":"Martínez Inc","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":51,"nombre_canonico":"García-Moreno","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":52,"nombre_canonico":"REYES, MONTOYA AND VANEGAS","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":53,"nombre_canonico":"ESCOBAR, VARGAS AND ORTEGA","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":919080.0},{"id_cliente":54,"nombre_canonico":"Ramírez-López","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":55,"nombre_canonico":"Mosquera-Peña","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":56,"nombre_canonico":"MARTÍNEZ, ARANGO AND JAIMES","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":57,"nombre_canonico":"Castillo LLC","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":null,"nota_calidad":"nombre compartido con otra empresa del CRM: no se cruza por nombre","mrr_inicial_cop":null},{"id_cliente":58,"nombre_canonico":"VARGAS AND SONS","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":59,"nombre_canonico":"Cardona, Salazar and Castro","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":60,"nombre_canonico":"Pulido Inc","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":61,"nombre_canonico":"Montes-Ordóñez","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":62,"nombre_canonico":"Martínez PLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":930120.0},{"id_cliente":63,"nombre_canonico":"Tamayo and Sons","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":64,"nombre_canonico":"Parra Group","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":65,"nombre_canonico":"Rivera Group","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":66,"nombre_canonico":"Carmona-Serna","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":67,"nombre_canonico":"Salazar-Yepes","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":68,"nombre_canonico":"DURÁN, REYES AND DÍAZ","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":69,"nombre_canonico":"Tamayo PLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":70,"nombre_canonico":"Ríos, Cano and Martínez","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":71,"nombre_canonico":"Acosta, Villegas and Contreras","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":72,"nombre_canonico":"Salamanca Inc","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":73,"nombre_canonico":"García Inc","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":74,"nombre_canonico":"Prieto, Parra and Ibarra","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":75,"nombre_canonico":"Vargas, Hurtado and Beltrán","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":76,"nombre_canonico":"Álvarez, Ortiz and Hernández","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":77,"nombre_canonico":"Suárez, Ruiz and Espinosa","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":78,"nombre_canonico":"Rodríguez PLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":79,"nombre_canonico":"ORJUELA, GARCÍA AND ROJAS","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":80,"nombre_canonico":"HERNÁNDEZ-ROMERO","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":81,"nombre_canonico":"Cuéllar LLC","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":82,"nombre_canonico":"Sánchez-Palacio","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":83,"nombre_canonico":"Rodríguez, Ayala and Suárez","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":84,"nombre_canonico":"López, Monsalve and Ortiz","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":85,"nombre_canonico":"Villamizar and Sons","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":86,"nombre_canonico":"Castro-Rojas","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":87,"nombre_canonico":"Ramírez-Acevedo","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":88,"nombre_canonico":"Mora-Vargas","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":89,"nombre_canonico":"López Group","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":90,"nombre_canonico":"Gómez-Quintero","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":null,"nota_calidad":"nombre compartido con otra empresa del CRM: no se cruza por nombre","mrr_inicial_cop":null},{"id_cliente":91,"nombre_canonico":"Henao LLC","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":92,"nombre_canonico":"MENA PLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":93,"nombre_canonico":"OSORIO, RODRÍGUEZ AND GARCÍA","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":94,"nombre_canonico":"Rentería, Vásquez and Palacio","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":95,"nombre_canonico":"Cortés, Osorio and Gómez","activo":0,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":96,"nombre_canonico":"Vargas, López and Patiño","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":97,"nombre_canonico":"Quiroz-Zambrano","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":98,"nombre_canonico":"RODRÍGUEZ-GALVIS","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":99,"nombre_canonico":"Ocampo-Peña","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":100,"nombre_canonico":"Alvarado, Arrieta and Ortiz","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":101,"nombre_canonico":"González, Bohórquez and Andrade","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":102,"nombre_canonico":"RAMÍREZ GROUP","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":103,"nombre_canonico":"Suárez-Rosero","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":104,"nombre_canonico":"TORRES LTD","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":105,"nombre_canonico":"Castillo LLC","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":null,"nota_calidad":"nombre compartido con otra empresa del CRM: no se cruza por nombre","mrr_inicial_cop":null},{"id_cliente":106,"nombre_canonico":"Parada LLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":107,"nombre_canonico":"Bedoya-Castillo","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":108,"nombre_canonico":"Díaz-Burgos","activo":0,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":109,"nombre_canonico":"Gómez-Hurtado","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":110,"nombre_canonico":"PADILLA-ÁLVAREZ","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":111,"nombre_canonico":"BUSTAMANTE, GONZÁLEZ AND MALDONADO","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":917240.0},{"id_cliente":112,"nombre_canonico":"Muñoz Ltd","activo":0,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":113,"nombre_canonico":"Pacheco, Ballesteros and Daza","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":114,"nombre_canonico":"MORALES INC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":115,"nombre_canonico":"Cáceres, Trujillo and Vergara","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":116,"nombre_canonico":"Pinzón LLC","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":117,"nombre_canonico":"Álvarez, Parra and Castillo","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":118,"nombre_canonico":"CORTÉS-RAMÍREZ","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":119,"nombre_canonico":"BALLESTEROS, BUITRAGO AND PABÓN","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":120,"nombre_canonico":"JARAMILLO, PARRA AND PALACIO","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":121,"nombre_canonico":"GUTIÉRREZ-OSORIO","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":122,"nombre_canonico":"CALDERÓN, RUIZ AND MARÍN","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":123,"nombre_canonico":"Rojas, Ortega and Galeano","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":124,"nombre_canonico":"Pérez, García and Molina","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":125,"nombre_canonico":"BELTRÁN, LÓPEZ AND CANTILLO","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":126,"nombre_canonico":"Sandoval and Sons","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":127,"nombre_canonico":"Sánchez Inc","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":128,"nombre_canonico":"Castrillón PLC","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":129,"nombre_canonico":"Cárdenas Ltd","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":130,"nombre_canonico":"Ramírez, Benavides and Zapata","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":131,"nombre_canonico":"Sánchez Ltd","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":915170.0},{"id_cliente":132,"nombre_canonico":"Galindo Inc","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":929430.0},{"id_cliente":133,"nombre_canonico":"Torres-Cifuentes","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":134,"nombre_canonico":"Delgado, Martínez and Vargas","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":135,"nombre_canonico":"Cruz Group","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":136,"nombre_canonico":"CONTRERAS, VELÁSQUEZ AND RUIZ","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":137,"nombre_canonico":"ÁVILA-PINZÓN","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":138,"nombre_canonico":"Osorio, Fajardo and Marín","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":139,"nombre_canonico":"SARMIENTO GROUP","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":140,"nombre_canonico":"Muñoz-Vargas","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":141,"nombre_canonico":"CASTRO, CASTAÑO AND REYES","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":142,"nombre_canonico":"Castro Inc","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":143,"nombre_canonico":"Gutiérrez, Ortiz and Ruiz","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":144,"nombre_canonico":"García, Sánchez and Flórez","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":145,"nombre_canonico":"Toro Inc","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":146,"nombre_canonico":"Parra-Ríos","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":147,"nombre_canonico":"MARTÍNEZ-ROA","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":148,"nombre_canonico":"ESPITIA-OROZCO","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":149,"nombre_canonico":"Rodríguez, Rangel and Escobar","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":150,"nombre_canonico":"Rodríguez-Romero","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":151,"nombre_canonico":"Montoya-Galvis","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":152,"nombre_canonico":"BURBANO, REYES AND CASTRO","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":153,"nombre_canonico":"Gómez-Quintero","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":null,"nota_calidad":"nombre compartido con otra empresa del CRM: no se cruza por nombre","mrr_inicial_cop":null},{"id_cliente":154,"nombre_canonico":"Bautista, Vanegas and Villa","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":155,"nombre_canonico":"Puentes PLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":899000.0},{"id_cliente":156,"nombre_canonico":"Fajardo PLC","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":157,"nombre_canonico":"VERGARA, GARCÍA AND OSORIO","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":158,"nombre_canonico":"Rojas-Valencia","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":159,"nombre_canonico":"Castro-Angarita","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":160,"nombre_canonico":"Vargas-García","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":161,"nombre_canonico":"ZAMBRANO INC","activo":1,"estado_calidad":"REBRANDING","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":162,"nombre_canonico":"Gómez, Gómez and Vargas","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":163,"nombre_canonico":"Trujillo and Sons","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":164,"nombre_canonico":"Ortega Inc","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":165,"nombre_canonico":"Erazo, Restrepo and Muñoz","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":166,"nombre_canonico":"Pérez-Calderón","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":167,"nombre_canonico":"Pinzón, Castaño and Pérez","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":901830.0},{"id_cliente":168,"nombre_canonico":"González-Rodríguez","activo":0,"estado_calidad":"CLIENTE_SIN_EVENTOS_VALIDOS","sistemas_confirmados":"CRM,BILLING","nota_calidad":"cliente del CRM sin eventos de facturacion validos (revisar cuarentena)","mrr_inicial_cop":null},{"id_cliente":169,"nombre_canonico":"Escobar-Gamboa","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":930120.0},{"id_cliente":170,"nombre_canonico":"Medina-Forero","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":171,"nombre_canonico":"Vega Ltd","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":172,"nombre_canonico":"López LLC","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":173,"nombre_canonico":"Carvajal, González and Castrillón","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":174,"nombre_canonico":"Romero Group","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING,CONTRATO","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":175,"nombre_canonico":"ARIAS, MORA AND HERRERA","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":176,"nombre_canonico":"Pinto-López","activo":0,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":177,"nombre_canonico":"ACEVEDO-SALCEDO","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":178,"nombre_canonico":"SÁNCHEZ, DÍAZ AND GUZMÁN","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":179,"nombre_canonico":"ORTIZ, MONTES AND MONTOYA","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":349000.0},{"id_cliente":180,"nombre_canonico":"Restrepo-Luna","activo":1,"estado_calidad":"OK","sistemas_confirmados":"CRM,BILLING","nota_calidad":null,"mrr_inicial_cop":149000.0},{"id_cliente":181,"nombre_canonico":"Mercado PLC","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":182,"nombre_canonico":"Salcedo-Alfonso","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":183,"nombre_canonico":"Velasco, Fernández and Perdomo","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":184,"nombre_canonico":"Castillo-Herrera","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":185,"nombre_canonico":"Londoño-Murillo","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":186,"nombre_canonico":"Mosquera Group","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":187,"nombre_canonico":"Vásquez, Agudelo and Guevara","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":188,"nombre_canonico":"Suárez, Angulo and Caicedo","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":189,"nombre_canonico":"Rodríguez, Camacho and Marín","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":190,"nombre_canonico":"Rodríguez, Martínez and Camacho","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":191,"nombre_canonico":"Giraldo-Méndez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":192,"nombre_canonico":"Torres, Cano and Bautista","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":193,"nombre_canonico":"Espitia-Melo","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":194,"nombre_canonico":"Gutiérrez Inc","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":195,"nombre_canonico":"Caicedo-Díaz","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":196,"nombre_canonico":"Guevara, Morales and Torres","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":197,"nombre_canonico":"Martínez LLC","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":198,"nombre_canonico":"Rivera-Fajardo","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":199,"nombre_canonico":"Gil-Acosta","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":200,"nombre_canonico":"Chacón, Gaviria and Pérez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":201,"nombre_canonico":"Acosta PLC","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":202,"nombre_canonico":"Salazar LLC","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":203,"nombre_canonico":"Salazar, Morales and Castro","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":204,"nombre_canonico":"Duque, Martínez and Giraldo","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":205,"nombre_canonico":"Ramírez-Páez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":206,"nombre_canonico":"Torres-Corredor","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":207,"nombre_canonico":"González-Martínez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":208,"nombre_canonico":"Carrillo, Chávez and Sierra","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":209,"nombre_canonico":"Castro, Torres and Escobar","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":210,"nombre_canonico":"Díaz-Ortiz","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":211,"nombre_canonico":"Ramírez-Vera","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":212,"nombre_canonico":"Mosquera-Londoño","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":213,"nombre_canonico":"Arévalo, Quintero and Barrera","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":214,"nombre_canonico":"Bermúdez, García and Pérez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":215,"nombre_canonico":"Gómez LLC","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":216,"nombre_canonico":"Muñoz-Suárez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":217,"nombre_canonico":"Vargas-Forero","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":218,"nombre_canonico":"Trujillo, Díaz and Rodríguez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":219,"nombre_canonico":"Benítez and Sons","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":220,"nombre_canonico":"Salamanca, Rubio and Sánchez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":221,"nombre_canonico":"Páez, Ortega and Hurtado","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":222,"nombre_canonico":"Rivera, Vanegas and Vargas","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":223,"nombre_canonico":"Guevara PLC","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":224,"nombre_canonico":"Martínez, Palacio and Hernández","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":225,"nombre_canonico":"Rico, Guerrero and Arias","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":226,"nombre_canonico":"López, Henao and Mosquera","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":227,"nombre_canonico":"Carmona, Muñoz and Burgos","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":228,"nombre_canonico":"Mosquera-Hernández","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":229,"nombre_canonico":"Guerrero-Salas","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":230,"nombre_canonico":"Serna-Sánchez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":231,"nombre_canonico":"Castaño-Valencia","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":232,"nombre_canonico":"Martínez, Núñez and Carmona","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":233,"nombre_canonico":"Pérez-Gutiérrez","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":234,"nombre_canonico":"Sierra Group","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":235,"nombre_canonico":"Triana-Hoyos","activo":0,"estado_calidad":"LEAD_SIN_FACTURACION","sistemas_confirmados":"CRM","nota_calidad":null,"mrr_inicial_cop":null},{"id_cliente":236,"nombre_canonico":"Rivera Group  ","activo":1,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"BILLING","nota_calidad":"sin contraparte confiable en CRM (id_customer_stripe=cus_bb168636e9bdc6)","mrr_inicial_cop":349000.0},{"id_cliente":237,"nombre_canonico":"Castillo LLC","activo":1,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"BILLING","nota_calidad":"sin contraparte confiable en CRM (id_customer_stripe=cus_a52e1d11bc8985)","mrr_inicial_cop":349000.0},{"id_cliente":238,"nombre_canonico":"Gómez-Quintero","activo":1,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"BILLING","nota_calidad":"sin contraparte confiable en CRM (id_customer_stripe=cus_a2f6e01225b5fe)","mrr_inicial_cop":149000.0},{"id_cliente":239,"nombre_canonico":"Castillo LLC","activo":1,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"BILLING","nota_calidad":"sin contraparte confiable en CRM (id_customer_stripe=cus_57a2ff2ae7ac44)","mrr_inicial_cop":149000.0},{"id_cliente":240,"nombre_canonico":"Gómez-Quintero","activo":1,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"BILLING","nota_calidad":"sin contraparte confiable en CRM (id_customer_stripe=cus_5482dcec0ad0e2)","mrr_inicial_cop":149000.0},{"id_cliente":241,"nombre_canonico":"RIVERA  GROUP S.A.S.","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"CONTRATO","nota_calidad":"sin contraparte confiable en CRM","mrr_inicial_cop":null},{"id_cliente":242,"nombre_canonico":"LOA IZA , ESPINOSA  A ND SOLA NO S.A.S.","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"CONTRATO","nota_calidad":"sin contraparte confiable en CRM","mrr_inicial_cop":null},{"id_cliente":243,"nombre_canonico":"RA MÍREZ, ÁLVA REZ A ND BA RRA GÁN S.A.S.","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"CONTRATO","nota_calidad":"sin contraparte confiable en CRM","mrr_inicial_cop":null},{"id_cliente":244,"nombre_canonico":"TORRES, GA RCÍA  A ND BA RRERA S.A.S.","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"CONTRATO","nota_calidad":"sin contraparte confiable en CRM","mrr_inicial_cop":null},{"id_cliente":245,"nombre_canonico":"CA STILLO LLC S.A.S.","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"CONTRATO","nota_calidad":"sin contraparte confiable en CRM","mrr_inicial_cop":null},{"id_cliente":246,"nombre_canonico":"SUÁREZ, RUIZ A ND ESPINOSA S.A.S.","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"CONTRATO","nota_calidad":"sin contraparte confiable en CRM","mrr_inicial_cop":null},{"id_cliente":247,"nombre_canonico":"PA RA DA  LLC SAS","activo":0,"estado_calidad":"HUERFANO_O_AMBIGUO","sistemas_confirmados":"CONTRATO","nota_calidad":"sin contraparte confiable en CRM","mrr_inicial_cop":null}],"resumen_calidad":[{"estado_calidad":"CLIENTE_SIN_EVENTOS_VALIDOS","num_clientes":2,"mrr_inicial_cop":0.0},{"estado_calidad":"HUERFANO_O_AMBIGUO","num_clientes":17,"mrr_inicial_cop":1145000.0},{"estado_calidad":"LEAD_SIN_FACTURACION","num_clientes":55,"mrr_inicial_cop":0.0},{"estado_calidad":"OK","num_clientes":157,"mrr_inicial_cop":52935830.0},{"estado_calidad":"REBRANDING","num_clientes":16,"mrr_inicial_cop":4140050.0}],"cuarentena":[{"fuente":"BILLING","filas_rechazadas":3,"motivos":"tipo_evento vacio"}],"canales":[{"id_canal":1,"nombre_canal":"Organico"},{"id_canal":2,"nombre_canal":"Pago-Google"},{"id_canal":3,"nombre_canal":"Pago-Meta"},{"id_canal":4,"nombre_canal":"Referido"},{"id_canal":5,"nombre_canal":"Partner"},{"id_canal":6,"nombre_canal":"Outbound"}],"planes":[{"id_plan":1,"nombre_plan":"Starter","precio_cop_mensual":149000,"precio_usd_mensual":38,"orden":0},{"id_plan":2,"nombre_plan":"Pro","precio_cop_mensual":349000,"precio_usd_mensual":89,"orden":1},{"id_plan":3,"nombre_plan":"Business","precio_cop_mensual":899000,"precio_usd_mensual":230,"orden":2}],"control_mrr":{"202401":8254340.0,"202402":12928290.0,"202403":21759892.0,"202404":25161018.0,"202405":34272630.0,"202406":40817680.0,"202407":46899756.0,"202408":55535720.0,"202409":60513300.0,"202410":59898138.0,"202411":57123536.0,"202412":57775536.0}}/*DATOS_FIN*/;
+
+// ============================ Utilidades ============================
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const MC = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+const ML = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const R = [...D.resumen].sort((a, b) => a.id_periodo - b.id_periodo);
+const N = R.length;
+const IDX = Object.fromEntries(R.map((r, i) => [r.id_periodo, i]));
+const nf = new Intl.NumberFormat("es-CO", {maximumFractionDigits: 0});
+const dec = (v, d = 1) => v == null || isNaN(v) ? "—" : v.toLocaleString("es-CO", {minimumFractionDigits: d, maximumFractionDigits: d});
+const num = v => v == null || isNaN(v) ? "—" : nf.format(Math.round(v));
+const cop = v => v == null || isNaN(v) ? "—" : (v < 0 ? "−" : "") + "$ " + nf.format(Math.abs(Math.round(v)));
+const pct = (v, d = 1) => v == null || isNaN(v) ? "—" : dec(v, d) + "%";
+const corto = v => { const a = Math.abs(v);
+  if (a >= 1e9) return dec(v / 1e9, 2) + " mil M";
+  if (a >= 1e6) return dec(v / 1e6, a >= 1e8 ? 0 : 1) + " M";
+  if (a >= 1e3) return dec(v / 1e3, 0) + " mil";
+  return nf.format(Math.round(v)); };
+const copC = v => v == null || isNaN(v) ? "—" : (v < 0 ? "−" : "") + "$ " + corto(Math.abs(v));
+const signo = v => v > 0 ? "+" : v < 0 ? "−" : "";
+const sum = (arr, f) => arr.reduce((s, x) => s + (f(x) || 0), 0);
+
+// ============================ Estado ============================
+const S = {pag: 0, d: 0, h: N - 1, canales: new Set(), plan: null, estado: null, cohorte: null,
+           q: "", orden: {col: "estado_calidad", dir: 1}, tablas: {}};
+const enRango = i => i >= S.d && i <= S.h;
+const rangoCompleto = () => S.d === 0 && S.h === N - 1;
+const rangoTxt = () => S.d === S.h ? `${ML[S.d]} 2024` : `${MC[S.d]} – ${MC[S.h]} 2024`;
+const canalesTxt = () => S.canales.size ? [...S.canales].join(", ") : "Todos los canales";
+
+// Medidas (réplica de Medidas.tmdl). Estado = LASTNONBLANK(id_periodo) -> último mes del rango.
+const M = {
+  estado: col => R[S.h][col],
+  previo: col => S.h > 0 ? R[S.h - 1][col] : null,
+  flujo: col => { let s = 0; for (let i = S.d; i <= S.h; i++) s += R[i][col] || 0; return s; },
+  // CAC = DIVIDE(SUM(gasto_cop), SUM(clientes_nuevos)) en el contexto de filtro (periodo + canal)
+  cacFilas: (conCanal = true) => D.cac.filter(r => enRango(IDX[r.id_periodo]) && (!conCanal || !S.canales.size || S.canales.has(r.nombre_canal))),
+};
+M.cac = (filas = M.cacFilas()) => { const a = sum(filas, r => r.clientes_nuevos); return a ? sum(filas, r => r.gasto_cop) / a : null; };
+
+// ============================ Geometría SVG ============================
+function ticks(mn, mx, n = 4) {
+  if (mx === mn) mx = mn + 1;
+  const raw = (mx - mn) / n, mag = 10 ** Math.floor(Math.log10(raw)), e = raw / mag;
+  const st = (e > 5 ? 10 : e > 2 ? 5 : e > 1 ? 2 : 1) * mag;
+  const a = Math.floor(mn / st + 1e-9) * st, b = Math.ceil(mx / st - 1e-9) * st, t = [];
+  for (let k = 0; a + k * st <= b + st * 1e-6; k++) t.push(+(a + k * st).toPrecision(12));
+  return t;
+}
+function marco(w, h, {izq = 56, der = 16, arr = 14, aba = 28, n = N} = {}) {
+  const f = {w, h, x0: izq, x1: w - der, y0: arr, y1: h - aba};
+  f.bw = (f.x1 - f.x0) / n; f.cx = i => f.x0 + f.bw * (i + .5);
+  return f;
+}
+const svg = (w, h, cuerpo, etq) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(etq)}">${cuerpo}</svg>`;
+function barV(x, yv, w, yb, r = 4) {
+  const h = Math.abs(yb - yv); if (h < .5) return ""; r = Math.min(r, h, w / 2);
+  return yv <= yb
+    ? `M${x},${yb}V${yv + r}Q${x},${yv} ${x + r},${yv}H${x + w - r}Q${x + w},${yv} ${x + w},${yv + r}V${yb}Z`
+    : `M${x},${yb}V${yv - r}Q${x},${yv} ${x + r},${yv}H${x + w - r}Q${x + w},${yv} ${x + w},${yv - r}V${yb}Z`;
+}
+const rectP = (x, ya, w, yb) => Math.abs(yb - ya) < .5 ? "" : `M${x},${ya}H${x + w}V${yb}H${x}Z`;
+function barH(xb, y, xe, h, r = 4) {
+  const w = xe - xb; if (w < .5) return ""; r = Math.min(r, w, h / 2);
+  return `M${xb},${y}H${xe - r}Q${xe},${y} ${xe},${y + r}V${y + h - r}Q${xe},${y + h} ${xe - r},${y + h}H${xb}Z`;
+}
+function linePath(pts) { let d = "", pen = false;
+  for (const p of pts) { if (!p) { pen = false; continue; } d += (pen ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1); pen = true; }
+  return d; }
+const ejeY = (f, tk, y, fmt) => tk.map(v =>
+  `<line class="${v === 0 ? "base-l" : "grid-l"}" x1="${f.x0}" x2="${f.x1}" y1="${y(v)}" y2="${y(v)}"/>` +
+  `<text class="yl" x="${f.x0 - 8}" y="${y(v) + 4}" text-anchor="end">${fmt(v)}</text>`).join("");
+function ejeX(f, etiquetas, modoMes) {
+  let s = "";
+  if (modoMes && !rangoCompleto()) s += `<rect class="wash" x="${f.x0 + f.bw * S.d}" y="${f.y0 - 6}" width="${f.bw * (S.h - S.d + 1)}" height="${f.y1 - f.y0 + 6}" rx="6"/>`;
+  const paso = f.bw < 30 ? 2 : 1;
+  etiquetas.forEach((e, i) => { if (i % paso) return;
+    const cls = modoMes ? (enRango(i) ? (rangoCompleto() ? "" : " on") : " out") : "";
+    s += `<text class="xl${cls}" x="${f.cx(i)}" y="${f.h - 8}" text-anchor="middle">${e}</text>`; });
+  return s;
+}
+const tipFila = (sw, etq, val) => `<div class="tt-r"><span>${sw ? `<i class="sw ${sw}"></i>` : ""}${esc(etq)}</span><span>${val}</span></div>`;
+function hits(f, n, tipFn, actFn) {
+  let s = "";
+  for (let i = 0; i < n; i++) s += `<rect class="hit" x="${f.x0 + f.bw * i}" y="${f.y0 - 6}" width="${f.bw}" height="${f.y1 - f.y0 + 6}" data-tip="${esc(tipFn(i))}"${actFn ? ` data-act="${actFn(i)}" tabindex="0" role="button" aria-label="${esc(ML[i] || "")}"` : ""}/>`;
+  return s;
+}
+
+// ============================ Gráficos ============================
+// Línea (una o varias series del mismo eje: nunca doble eje).
+function gLinea(w, o) {
+  const et = o.etiquetas || MC, modoMes = o.modoMes !== false, h = o.alto || 240;
+  const finW = o.etiquetasFin ? 96 : 16;
+  const f = marco(w, h, {der: finW, n: et.length, izq: o.izq || 56});
+  const vals = o.series.flatMap(s => s.valores).filter(v => v != null);
+  let mn = o.min ?? Math.min(0, ...vals), mx = o.max ?? Math.max(...vals);
+  if (o.ref) { mn = Math.min(mn, o.ref.v); mx = Math.max(mx, o.ref.v); }
+  const tk = ticks(mn, mx, o.nt || 4); mn = tk[0]; mx = tk[tk.length - 1];
+  const y = v => f.y1 - (v - mn) / (mx - mn) * (f.y1 - f.y0);
+  let s = ejeX(f, et, modoMes) + ejeY(f, tk, y, o.fmtEje);
+  if (o.ref) s += `<line class="ref" x1="${f.x0}" x2="${f.x1}" y1="${y(o.ref.v)}" y2="${y(o.ref.v)}"/><text class="ref-t" x="${f.x0 + 6}" y="${y(o.ref.v) - 6}">${esc(o.ref.etq)}</text>`;
+  o.series.forEach(se => {
+    const pts = se.valores.map((v, i) => v == null ? null : [f.cx(i), y(v)]);
+    if (o.area && se === o.series[0]) {
+      const ok = pts.filter(Boolean);
+      if (ok.length) s += `<path class="area" d="${linePath(ok)}L${ok[ok.length - 1][0]},${y(Math.max(mn, 0))}L${ok[0][0]},${y(Math.max(mn, 0))}Z"/>`;
+    }
+    s += `<path class="ln ${se.clase}" d="${linePath(pts)}"/>`;
+  });
+  if (o.puntosRef) {
+    o.series[0].valores.forEach((v, i) => { if (v == null) return;
+      s += `<circle class="dot ${v < o.ref.v ? "f-l1" : "f-s1"}${modoMes && !enRango(i) ? " dim" : ""}" cx="${f.cx(i)}" cy="${y(v)}" r="4.5"/>`; });
+  }
+  if (modoMes) o.series.forEach(se => { const v = se.valores[S.h];
+    if (v != null) s += `<circle class="dot f-${se.clase}" cx="${f.cx(S.h)}" cy="${y(v)}" r="5"/>`; });
+  if (o.etiquetasFin) {
+    const fin = o.series.map(se => { let i = se.valores.length - 1; while (i >= 0 && se.valores[i] == null) i--;
+      return {se, i, yy: y(se.valores[i])}; }).sort((a, b) => a.yy - b.yy);
+    for (let k = 1; k < fin.length; k++) if (fin[k].yy - fin[k - 1].yy < 15) fin[k].yy = fin[k - 1].yy + 15;
+    fin.forEach(({se, i, yy}) => s += `<text class="lbl" x="${f.cx(i) + 10}" y="${yy + 4}">${esc(se.nombre)}</text>`);
+  }
+  s += hits(f, et.length, i => `<div class="tt-h">${esc(o.tipTitulo ? o.tipTitulo(i) : ML[i] + " 2024")}</div>` +
+    o.series.map(se => tipFila(o.series.length > 1 || o.swatch ? se.clase : "", se.nombre, o.fmtTip(se.valores[i]))).join("") +
+    (o.tipExtra ? o.tipExtra(i) : ""), modoMes ? i => `mes:${i}` : o.act);
+  const ley = o.series.length > 1 ? `<div class="legend">${o.series.map(se => `<span><i class="sw ${se.clase}"></i>${esc(se.nombre)}</span>`).join("")}${o.leyendaExtra || ""}</div>` : (o.leyendaExtra ? `<div class="legend">${o.leyendaExtra}</div>` : "");
+  return ley + svg(w, h, s, o.titulo);
+}
+
+// Columnas mensuales (una serie).
+function gColumnas(w, o) {
+  const h = o.alto || 200, f = marco(w, h, {izq: o.izq || 56});
+  const mx = Math.max(...o.valores.map(v => v || 0), 1), tk = ticks(0, mx, o.nt || 4), top = tk[tk.length - 1];
+  const y = v => f.y1 - v / top * (f.y1 - f.y0), bw = Math.min(30, f.bw * .62);
+  let s = ejeX(f, MC, true) + ejeY(f, tk, y, o.fmtEje);
+  o.valores.forEach((v, i) => { if (!v) return;
+    s += `<path class="f-${o.clase || "s1"}${enRango(i) ? "" : " dim"}" d="${barV(f.cx(i) - bw / 2, y(v), bw, y(0))}"/>`; });
+  if (o.etiquetaFin) { const v = o.valores[S.h]; if (v) s += `<text class="vl" x="${f.cx(S.h)}" y="${y(v) - 7}" text-anchor="middle">${o.fmtTip(v)}</text>`; }
+  s += hits(f, N, i => `<div class="tt-h">${ML[i]} 2024</div>` + tipFila("", o.nombre, o.fmtTip(o.valores[i])) + (o.tipExtra ? o.tipExtra(i) : ""), i => `mes:${i}`);
+  return svg(w, h, s, o.nombre);
+}
+
+// Barras horizontales (una serie, categorías nominales: un solo tono).
+function gBarrasH(w, o) {
+  const fila = o.fila || 34, etqW = Math.min(o.etqW || 118, w * .34), valW = o.valW || 92;
+  const h = o.items.length * fila + 26, x0 = etqW, x1 = w - valW;
+  const mx = Math.max(...o.items.map(it => it.v || 0), o.ref ? o.ref.v : 0, 1), tk = ticks(0, mx, x1 - x0 < 280 ? 2 : 4), top = tk[tk.length - 1];
+  const x = v => x0 + v / top * (x1 - x0);
+  let s = tk.map(v => `<line class="${v === 0 ? "base-l" : "grid-l"}" x1="${x(v)}" x2="${x(v)}" y1="0" y2="${h - 22}"/><text class="yl" x="${x(v)}" y="${h - 6}" text-anchor="middle">${o.fmtEje(v)}</text>`).join("");
+  o.items.forEach((it, k) => {
+    const yy = k * fila, bh = Math.min(16, fila * .5), by = yy + (fila - bh) / 2;
+    const act = it.act ? ` data-act="${it.act}" tabindex="0" role="button"` : "";
+    s += `<rect class="row-hit" x="0" y="${yy}" width="${w}" height="${fila}" data-tip="${esc(it.tip || "")}"${act}/>`;
+    s += `<text class="lbl${it.sel ? " sel" : ""}" x="${x0 - 10}" y="${yy + fila / 2 + 4}" text-anchor="end" pointer-events="none">${esc(it.etq)}</text>`;
+    if (it.v == null) { s += `<text class="vl m" x="${x0 + 6}" y="${yy + fila / 2 + 4}" pointer-events="none">${esc(it.vacio || "sin dato")}</text>`; return; }
+    s += `<path class="f-${it.clase || "s1"}${it.dim ? " dim" : ""}" d="${barH(x(0), by, x(it.v), bh)}" pointer-events="none"/>`;
+    s += `<text class="vl${it.dim ? " m" : ""}" x="${x(it.v) + 8}" y="${yy + fila / 2 + 4}" pointer-events="none">${esc(it.etqV ?? o.fmt(it.v))}</text>`;
+  });
+  if (o.ref) s += `<line class="ref" x1="${x(o.ref.v)}" x2="${x(o.ref.v)}" y1="-4" y2="${h - 22}" pointer-events="none"/><text class="ref-t" x="${x(o.ref.v) + 4}" y="-8" pointer-events="none">${esc(o.ref.etq)}</text>`;
+  return `<div style="padding-top:${o.ref ? 16 : 0}px">${svg(w, h, s, o.titulo)}</div>`;
+}
+
+// Barras horizontales agrupadas (dos series).
+function gBarrasH2(w, o) {
+  const fila = o.fila || 44, etqW = Math.min(o.etqW || 118, w * .34), valW = o.valW || 70;
+  const h = o.items.length * fila + 26, x0 = etqW, x1 = w - valW;
+  const mx = Math.max(...o.items.flatMap(it => [it.a || 0, it.b || 0]), 1e-9), tk = ticks(0, mx, x1 - x0 < 280 ? 2 : 4), top = tk[tk.length - 1];
+  const x = v => x0 + v / top * (x1 - x0), bh = Math.min(12, (fila - 14) / 2);
+  let s = tk.map(v => `<line class="${v === 0 ? "base-l" : "grid-l"}" x1="${x(v)}" x2="${x(v)}" y1="0" y2="${h - 22}"/><text class="yl" x="${x(v)}" y="${h - 6}" text-anchor="middle">${o.fmtEje(v)}</text>`).join("");
+  o.items.forEach((it, k) => {
+    const yy = k * fila, ya = yy + fila / 2 - bh - 1, yb = yy + fila / 2 + 1;
+    const act = it.act ? ` data-act="${it.act}" tabindex="0" role="button"` : "";
+    s += `<rect class="row-hit" x="0" y="${yy}" width="${w}" height="${fila}" data-tip="${esc(it.tip || "")}"${act}/>`;
+    s += `<text class="lbl${it.sel ? " sel" : ""}" x="${x0 - 10}" y="${yy + fila / 2 + 4}" text-anchor="end" pointer-events="none">${esc(it.etq)}</text>`;
+    const dim = it.dim ? " dim" : "";
+    s += `<path class="f-${o.series[0].clase}${dim}" d="${barH(x(0), ya, x(it.a || 0), bh, 3)}" pointer-events="none"/>`;
+    s += `<path class="f-${o.series[1].clase}${dim}" d="${barH(x(0), yb, x(it.b || 0), bh, 3)}" pointer-events="none"/>`;
+    s += `<text class="vl m" x="${x(it.a || 0) + 6}" y="${ya + bh - 2}" font-size="11" pointer-events="none">${esc(o.fmt(it.a))}</text>`;
+    s += `<text class="vl m" x="${x(it.b || 0) + 6}" y="${yb + bh - 2}" font-size="11" pointer-events="none">${esc(o.fmt(it.b))}${it.aviso ? " ⚠" : ""}</text>`;
+  });
+  const ley = `<div class="legend">${o.series.map(se => `<span><i class="sw ${se.clase}"></i>${esc(se.nombre)}</span>`).join("")}</div>`;
+  return ley + svg(w, h, s, o.titulo);
+}
+
+// ============================ Tarjetas ============================
+let CH = {};
+function card(o) {
+  CH[o.id] = o;
+  const chips = (o.chips || []).map(c => `<span class="fchip${c === "Anual" ? " anual" : ""}" title="${c === "Anual" ? "Vista sin grano mensual: no responde al filtro de periodo (sin relación en el modelo)" : "Responde a este filtro"}">${c === "Anual" ? "Anual · no filtra por periodo" : c}</span>`).join("");
+  const tabla = o.tabla ? `<button class="btn-ghost" type="button" data-act="tabla:${o.id}">${S.tablas[o.id] ? "Ver gráfico" : "Ver datos"}</button>` : "";
+  return `<article class="card ${o.clase || ""}">
+    <header class="card-h"><div><h3>${o.titulo}</h3>${o.sub ? `<p class="card-sub">${o.sub}</p>` : ""}</div>
+      <div class="card-tools">${chips}${tabla}</div></header>
+    <div class="chart-body" data-chart="${o.id}"></div>
+    ${o.lectura ? `<p class="lectura">${o.lectura}</p>` : ""}
+    ${o.fuente ? `<footer class="card-f">${o.fuente}</footer>` : ""}
+  </article>`;
+}
+function tablaHTML({cols, filas}) {
+  return `<div class="tbl-wrap scroll-y"><table class="tbl"><thead><tr>${cols.map(c => `<th class="${c.n ? "n" : ""}">${esc(c.t)}</th>`).join("")}</tr></thead>
+    <tbody>${filas.map(f => `<tr>${f.map((v, k) => `<td class="${cols[k].n ? "n" : ""}">${esc(v)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+function dibujar() {
+  document.querySelectorAll("[data-chart]").forEach(el => {
+    const o = CH[el.dataset.chart]; if (!o) return;
+    const w = Math.max(260, Math.floor(el.clientWidth));
+    el.innerHTML = S.tablas[o.id] && o.tabla ? tablaHTML(o.tabla()) : o.dibujo(w);
+  });
+}
+
+// KPI con delta mensual y sparkline de 12 meses (rango resaltado).
+function kpi(o) {
+  const v = o.valor, p = o.previo;
+  let delta = `<span class="delta flat">— <small>sin mes previo</small></span>`;
+  if (v != null && p != null) {
+    const dif = o.deltaPp ? v - p : (p ? (v - p) / Math.abs(p) * 100 : 0);
+    const bueno = o.mayorEsMejor ? dif > 0 : dif < 0, cls = Math.abs(dif) < 0.005 ? "flat" : bueno ? "good" : "bad";
+    const flecha = dif > 0 ? "▲" : dif < 0 ? "▼" : "■";
+    const txt = o.deltaPp ? `${signo(dif)}${dec(Math.abs(dif), o.dec ?? 1)} pp` : o.deltaAbs ? `${signo(v - p)}${num(Math.abs(v - p))}` : `${signo(dif)}${dec(Math.abs(dif), 1)}%`;
+    delta = `<span class="delta ${cls}">${flecha} ${txt} <small>vs ${MC[S.h - 1]}</small></span>`;
+  }
+  const sw = 96, sh = 34, vals = o.serie, ok = vals.filter(x => x != null);
+  const mn = Math.min(...ok), mx = Math.max(...ok), sx = i => 3 + i * (sw - 6) / (N - 1), sy = x => sh - 4 - (x - mn) / ((mx - mn) || 1) * (sh - 8);
+  let sp = rangoCompleto() ? "" : `<rect class="wash" x="${sx(S.d) - 3}" y="0" width="${sx(S.h) - sx(S.d) + 6}" height="${sh}" rx="4"/>`;
+  sp += `<path class="ln s1" style="stroke-width:1.75" d="${linePath(vals.map((x, i) => x == null ? null : [sx(i), sy(x)]))}"/>`;
+  if (vals[S.h] != null) sp += `<circle class="dot f-s1" cx="${sx(S.h)}" cy="${sy(vals[S.h])}" r="3.5"/>`;
+  return `<div class="kpi">
+    <div class="kpi-top"><span class="kpi-label">${o.etq}</span><span class="info" tabindex="0" data-tip="${esc(o.info)}">i</span></div>
+    <div class="kpi-val">${o.fmt(v)}</div>
+    <div class="kpi-sub">${o.sub}</div>
+    <div class="kpi-row">${delta}<svg width="${sw}" height="${sh}" aria-hidden="true">${sp}</svg></div>
+  </div>`;
+}
+const mini = (etq, val, sub, info) => `<div class="kpi kpi-mini"><div class="kpi-top"><span class="kpi-label">${etq}</span>${info ? `<span class="info" tabindex="0" data-tip="${esc(info)}">i</span>` : ""}</div><div class="kpi-val">${val}</div><div class="kpi-sub">${sub}</div></div>`;
+const dax = t => `<code>${esc(t)}</code>`;
+const infoDax = (def, medida) => `<div class="tt-h">${esc(def)}</div><div class="tt-n">Medida DAX: <b>${esc(medida)}</b></div>`;
+
+// ============================ Página 1 · Resumen ejecutivo ============================
+function pagResumen() {
+  const col = c => R.map(r => r[c]);
+  const mesFin = `${ML[S.h]} 2024`;
+  const kpis = [
+    kpi({etq: "MRR", valor: M.estado("mrr_total"), previo: M.previo("mrr_total"), fmt: copC, sub: `${cop(M.estado("mrr_total"))} · ${mesFin}`, serie: col("mrr_total"), mayorEsMejor: true,
+      info: infoDax("Ingreso recurrente mensual al cierre del último mes del periodo (foto, no se suma entre meses).", "[MRR] = CALCULATE(SUM(mrr_total), LASTNONBLANK(id_periodo, 1))")}),
+    kpi({etq: "ARR", valor: M.estado("arr_total"), previo: M.previo("arr_total"), fmt: copC, sub: `${cop(M.estado("arr_total"))} · MRR × 12`, serie: col("arr_total"), mayorEsMejor: true,
+      info: infoDax("Ingreso recurrente anualizado al cierre del periodo.", "[ARR] = CALCULATE(SUM(arr_total), LASTNONBLANK(id_periodo, 1))")}),
+    kpi({etq: "Clientes activos", valor: M.estado("clientes_activos"), previo: M.previo("clientes_activos"), fmt: num, sub: `Con suscripción vigente · ${mesFin}`, serie: col("clientes_activos"), mayorEsMejor: true, deltaAbs: true,
+      info: infoDax("Clientes con MRR mayor a cero al cierre del periodo.", "[Clientes Activos] = CALCULATE(SUM(clientes_activos), LASTNONBLANK(id_periodo, 1))")}),
+    kpi({etq: "NRR", valor: M.estado("nrr_pct"), previo: M.previo("nrr_pct"), fmt: v => pct(v, 1), sub: "Retención neta de ingreso · meta ≥ 100%", serie: col("nrr_pct"), mayorEsMejor: true, deltaPp: true,
+      info: infoDax("MRR de los clientes existentes al cierre ÷ su MRR al inicio del mes (excluye clientes nuevos).", "[NRR %] = CALCULATE(AVERAGE(nrr_pct), LASTNONBLANK(id_periodo, 1))")}),
+    kpi({etq: "Churn de ingreso", valor: M.estado("churn_ingreso_pct"), previo: M.previo("churn_ingreso_pct"), fmt: v => pct(v, 2), sub: `Logos: ${pct(M.estado("churn_logos_pct"), 2)} · mensual`, serie: col("churn_ingreso_pct"), mayorEsMejor: false, deltaPp: true, dec: 2,
+      info: infoDax("MRR perdido por bajas ÷ MRR al inicio del mes.", "[Churn Ingreso %] = CALCULATE(AVERAGE(churn_ingreso_pct), LASTNONBLANK(id_periodo, 1))")}),
+  ].join("");
+
+  // Lo que hay que saber: frases calculadas con el filtro vigente.
+  const ins = [];
+  const iIni = S.d === S.h ? S.d - 1 : S.d;
+  if (iIni >= 0) {
+    const a = R[iIni].mrr_total, b = R[S.h].mrr_total, v = (b - a) / a * 100;
+    ins.push([v >= 0 ? "up" : "down", v >= 0 ? "↗" : "↘", `El MRR pasó de <b>${copC(a)}</b> (${MC[iIni]}) a <b>${copC(b)}</b> (${MC[S.h]}): <b>${signo(v)}${dec(Math.abs(v), 1)}%</b>${S.d === 0 && S.h === N - 1 ? `, ${dec(b / a, 1)}x en el año` : ""}.`]);
+  }
+  let pk = S.d; for (let i = S.d; i <= S.h; i++) if (R[i].mrr_total > R[pk].mrr_total) pk = i;
+  if (pk !== S.h) ins.push(["down", "↘", `El pico del periodo fue <b>${ML[pk]}</b> (${copC(R[pk].mrr_total)}). El cierre está <b>${dec((R[S.h].mrr_total - R[pk].mrr_total) / R[pk].mrr_total * -100, 1)}% por debajo</b>.`]);
+  const sinNuevo = []; for (let i = Math.max(S.d, 1); i <= S.h; i++) if (!R[i].mrr_nuevo) sinNuevo.push(MC[i]);
+  if (sinNuevo.length) ins.push(["warn", "!", `Sin MRR nuevo en <b>${sinNuevo.join(", ")}</b>: es un <b>supuesto de la simulación</b> (no hay altas después de septiembre), no una causa comercial. Sin adquisición, el churn no se compensa.`]);
+  const nrrM = []; for (let i = S.d; i <= S.h; i++) if (R[i].nrr_pct != null) nrrM.push(i);
+  const bajo = nrrM.filter(i => R[i].nrr_pct < 100);
+  if (nrrM.length) ins.push([bajo.length ? "warn" : "up", bajo.length ? "!" : "✓", `NRR bajo 100% en <b>${bajo.length} de ${nrrM.length}</b> meses${bajo.length ? ` (${bajo.map(i => MC[i]).join(", ")})` : ""}: ${bajo.length > nrrM.length / 2 ? "la base instalada no crece sola" : "la expansión compensa la mayoría de las pérdidas"}.`]);
+  let pc = S.d; for (let i = S.d; i <= S.h; i++) if ((R[i].churn_ingreso_pct || 0) > (R[pc].churn_ingreso_pct || 0)) pc = i;
+  if (R[pc].churn_ingreso_pct) ins.push(["neutral", "●", `Mayor churn de ingreso: <b>${ML[pc]}</b> con ${pct(R[pc].churn_ingreso_pct, 2)} (${copC(R[pc].mrr_churn)} perdidos).`]);
+
+  CH = {};
+  return `
+  <div class="page-head"><div><h1>Resumen ejecutivo</h1><p>Estado del negocio al cierre de <b>${ML[S.h]} 2024</b>. Las tarjetas son medidas de estado (último mes del periodo); la variación es contra el mes anterior.</p></div></div>
+  <section class="grid g5">${kpis}</section>
+  <section class="grid g3">
+    ${card({id: "mrr", clase: "span-2", titulo: "MRR mensual", sub: "COP · clic en un mes para filtrar todo el tablero", chips: ["Periodo"], tabla: () => ({cols: [{t: "Mes"}, {t: "MRR (COP)", n: 1}, {t: "Clientes activos", n: 1}], filas: R.map((r, i) => [ML[i], num(r.mrr_total), num(r.clientes_activos)])}),
+      dibujo: w => gLinea(w, {titulo: "MRR mensual", series: [{nombre: "MRR", clase: "s1", valores: col("mrr_total")}], area: true, fmtEje: v => corto(v), fmtTip: cop, alto: 270,
+        tipExtra: i => tipFila("", "Clientes activos", num(R[i].clientes_activos))}),
+      fuente: `Fuente: ${dax("gold_v_resumen_ejecutivo")} · Medida ${dax("[MRR]")}`})}
+    ${card({id: "arr", titulo: "ARR mensual", sub: "COP · visual separado del MRR (nunca doble eje)", chips: ["Periodo"], tabla: () => ({cols: [{t: "Mes"}, {t: "ARR (COP)", n: 1}], filas: R.map((r, i) => [ML[i], num(r.arr_total)])}),
+      dibujo: w => gLinea(w, {titulo: "ARR mensual", series: [{nombre: "ARR", clase: "s1", valores: col("arr_total")}], fmtEje: v => corto(v), fmtTip: cop, alto: 270}),
+      fuente: `Fuente: ${dax("gold_v_resumen_ejecutivo")} · Medida ${dax("[ARR]")}`})}
+  </section>
+  <section class="grid g3">
+    ${card({id: "cli", titulo: "Clientes activos", sub: "Cierre de cada mes", chips: ["Periodo"], tabla: () => ({cols: [{t: "Mes"}, {t: "Clientes activos", n: 1}], filas: R.map((r, i) => [ML[i], num(r.clientes_activos)])}),
+      dibujo: w => gColumnas(w, {nombre: "Clientes activos", valores: col("clientes_activos"), fmtEje: num, fmtTip: num, etiquetaFin: true, izq: 40, alto: 230}),
+      fuente: `Medida ${dax("[Clientes Activos]")}`})}
+    <article class="card span-2">
+      <header class="card-h"><div><h3>Lo que hay que saber</h3><p class="card-sub">Lecturas calculadas con el filtro vigente (${esc(rangoTxt())})</p></div><div class="card-tools"><span class="fchip">Periodo</span></div></header>
+      <ul class="insights">${ins.slice(0, 4).map(([c, i, t]) => `<li><span class="ico ${c}" aria-hidden="true">${i}</span><span>${t}</span></li>`).join("")}</ul>
+    </article>
+  </section>`;
+}
+
+// ============================ Página 2 · MRR Waterfall ============================
+const COMP = [
+  {c: "mrr_nuevo", n: "Nuevo", k: "g1", s: 1, dax: "[MRR Nuevo]"},
+  {c: "mrr_expansion", n: "Expansión", k: "g2", s: 1, dax: "[MRR Expansion]"},
+  {c: "mrr_reactivacion", n: "Reactivación", k: "g3", s: 1, dax: "[MRR Reactivacion]"},
+  {c: "mrr_contraccion", n: "Contracción", k: "l2", s: -1, dax: "[MRR Contraccion]"},
+  {c: "mrr_churn", n: "Churn", k: "l1", s: -1, dax: "[MRR Churn]"},
+];
+function cascada() {
+  const ini = S.d > 0 ? R[S.d - 1].mrr_total : 0, fin = R[S.h].mrr_total;
+  const pasos = [{n: "MRR inicio", corto: "Inicio", v: ini, tipo: "total", k: "total"}];
+  COMP.forEach(c => pasos.push({n: c.n, corto: c.n.slice(0, 5) + (c.n.length > 6 ? "." : c.n.slice(5)), v: c.s * M.flujo(c.c), tipo: "delta", k: c.k, dax: c.dax}));
+  const suma = pasos.reduce((s, p) => s + p.v, 0), ajuste = fin - suma;
+  if (Math.abs(ajuste) >= 1) pasos.push({n: "Ajuste de conciliación", corto: "Ajuste", v: ajuste, tipo: "delta", k: "adj"});
+  pasos.push({n: "MRR cierre", corto: "Cierre", v: fin, tipo: "total", k: "total"});
+  return {pasos, ini, fin, ajuste};
+}
+function gCascada(w) {
+  const {pasos} = cascada(), h = 300, f = marco(w, h, {n: pasos.length, izq: 56, arr: 22});
+  let run = 0; const barras = pasos.map(p => { if (p.tipo === "total") { run = p.v; return {p, a: 0, b: p.v}; } const a = run; run += p.v; return {p, a, b: run}; });
+  const mx = Math.max(...barras.map(b => Math.max(b.a, b.b)), 1), tk = ticks(0, mx, 4), top = tk[tk.length - 1];
+  const y = v => f.y1 - v / top * (f.y1 - f.y0), bw = Math.min(56, f.bw * .58), largo = f.bw >= 84;
+  let s = ejeY(f, tk, y, corto);
+  barras.forEach((b, i) => {
+    const x = f.cx(i) - bw / 2, {p} = b, sube = b.b >= b.a;
+    const d = p.tipo === "total" ? barV(x, y(b.b), bw, y(0)) : rectP(x, y(Math.max(b.a, b.b)), bw, y(Math.min(b.a, b.b)));
+    if (d) s += `<path class="f-${p.k}" d="${d}"/>`;
+    if (i < barras.length - 1) s += `<line class="conn" x1="${x + bw}" x2="${f.cx(i + 1) - bw / 2}" y1="${y(b.b)}" y2="${y(b.b)}"/>`;
+    const etq = p.tipo === "total" ? copC(p.v) : (p.v === 0 ? "0" : `${signo(p.v)}${corto(Math.abs(p.v))}`);
+    const ty = p.tipo === "total" || sube ? y(Math.max(b.a, b.b)) - 7 : y(Math.min(b.a, b.b)) + 15;
+    s += `<text class="vl${p.v === 0 ? " m" : ""}" x="${f.cx(i)}" y="${ty}" text-anchor="middle">${etq}</text>`;
+    s += `<text class="xl" x="${f.cx(i)}" y="${h - 8}" text-anchor="middle">${esc(largo ? p.n.replace(" de conciliación", "") : p.corto)}</text>`;
+  });
+  s += hits(f, pasos.length, i => { const p = pasos[i];
+    let t = `<div class="tt-h">${esc(p.n)}</div>` + tipFila(p.k, rangoTxt(), cop(p.v));
+    if (p.dax) t += `<div class="tt-n">Medida DAX ${esc(p.dax)} (suma del periodo)</div>`;
+    if (p.k === "adj") t += `<div class="tt-n">Diferencia entre la suma de movimientos y el MRR de cierre: tipo de cambio de clientes en USD (jul, nov) y la cuarentena en cascada (ago). Ver docs/INFORME.md.</div>`;
+    return t; });
+  const ley = `<div class="legend"><span><i class="sw total"></i>MRR inicio / cierre</span><span><i class="sw g1"></i>Ganancias</span><span><i class="sw l1"></i>Pérdidas</span>${pasos.some(p => p.k === "adj") ? `<span><i class="sw adj"></i>Ajuste de conciliación</span>` : ""}</div>`;
+  return ley + svg(w, h, s, "Cascada de MRR");
+}
+function gMovimientos(w) {
+  const h = 280, f = marco(w, h, {izq: 56});
+  const up = R.map(r => COMP.filter(c => c.s > 0).reduce((s, c) => s + (r[c.c] || 0), 0));
+  const dn = R.map(r => COMP.filter(c => c.s < 0).reduce((s, c) => s + (r[c.c] || 0), 0));
+  const tk = ticks(-Math.max(...dn), Math.max(...up), 5), mn = tk[0], mx = tk[tk.length - 1];
+  const y = v => f.y1 - (v - mn) / (mx - mn) * (f.y1 - f.y0), bw = Math.min(30, f.bw * .6);
+  let s = ejeX(f, MC, true) + ejeY(f, tk, y, v => (v < 0 ? "−" : "") + corto(Math.abs(v)));
+  R.forEach((r, i) => {
+    const dim = enRango(i) ? "" : " dim", x = f.cx(i) - bw / 2;
+    for (const lado of [1, -1]) {
+      const cs = COMP.filter(c => c.s === lado && r[c.c]); let acc = 0;
+      cs.forEach((c, k) => { const a = acc, b = acc + r[c.c]; acc = b;
+        const ya = y(lado * a), yb = y(lado * b), ultimo = k === cs.length - 1;
+        const g = k > 0 ? 1 : 0; // 2px de separación entre segmentos
+        const d = ultimo ? barV(x, yb, bw, ya - lado * g, 4) : rectP(x, ya - lado * g, bw, yb + lado * 1);
+        if (d) s += `<path class="f-${c.k}${dim}" d="${d}"/>`; });
+    }
+    const neto = up[i] - dn[i];
+    s += `<line class="net${dim}" x1="${x - 4}" x2="${x + bw + 4}" y1="${y(neto)}" y2="${y(neto)}"/>`;
+  });
+  s += hits(f, N, i => `<div class="tt-h">${ML[i]} 2024</div>` + COMP.map(c => tipFila(c.k, c.n, (c.s < 0 && R[i][c.c] ? "−" : "") + cop(R[i][c.c]))).join("") +
+    tipFila("net", "Movimiento neto", cop(up[i] - dn[i])), i => `mes:${i}`);
+  const ley = `<div class="legend">${COMP.map(c => `<span><i class="sw ${c.k}"></i>${c.n}</span>`).join("")}<span><i class="sw net"></i>Neto</span></div>`;
+  return ley + svg(w, h, s, "Ganancias y pérdidas de MRR por mes");
+}
+function statsMovimiento() {
+  const mayor = c => { let k = S.d; for (let i = S.d; i <= S.h; i++) if ((R[i][c] || 0) > (R[k][c] || 0)) k = i; return R[k][c] ? `${MC[k]} · ${copC(R[k][c])}` : "—"; };
+  const expNeta = M.flujo("mrr_expansion") - M.flujo("mrr_contraccion");
+  return `<div class="stat-list" style="margin-top:14px">
+    <div class="stat"><div class="k">Mes con más MRR nuevo</div><div class="v">${mayor("mrr_nuevo")}</div></div>
+    <div class="stat"><div class="k">Mes con más churn</div><div class="v">${mayor("mrr_churn")}</div></div>
+    <div class="stat"><div class="k">Expansión neta de la base</div><div class="v">${signo(expNeta)}${copC(Math.abs(expNeta))}</div></div>
+    <div class="stat"><div class="k">Pérdidas / ganancias</div><div class="v">${(() => { const g = COMP.filter(c => c.s > 0).reduce((s, c) => s + M.flujo(c.c), 0), p = COMP.filter(c => c.s < 0).reduce((s, c) => s + M.flujo(c.c), 0); return g ? pct(p / g * 100, 1) : "—"; })()}</div></div>
+  </div>`;
+}
+function pagCascada() {
+  const {ini, fin, ajuste} = cascada();
+  const gan = COMP.filter(c => c.s > 0).reduce((s, c) => s + M.flujo(c.c), 0);
+  const per = COMP.filter(c => c.s < 0).reduce((s, c) => s + M.flujo(c.c), 0);
+  const nuevo = M.flujo("mrr_nuevo"), exp = M.flujo("mrr_expansion");
+  const lect = per > 0
+    ? `Por cada <b>$1</b> de MRR perdido entraron <b>$${dec(gan / per, 2)}</b>. ${nuevo ? `El MRR nuevo explica el <b>${dec(nuevo / gan * 100, 0)}%</b> de las ganancias` : `Sin MRR nuevo en el periodo, la expansión (${copC(exp)}) ${exp >= per ? "alcanza" : "no alcanza"} a cubrir las pérdidas (${copC(per)})`}.`
+    : `Sin pérdidas de MRR en el periodo.`;
+  CH = {};
+  return `
+  <div class="page-head"><div><h1>MRR Waterfall</h1><p>Cómo se mueve el MRR entre el inicio y el cierre de <b>${esc(rangoTxt())}</b>. Los movimientos son medidas de flujo: se suman en el periodo.</p></div></div>
+  <section class="grid g4">
+    ${mini("MRR inicio", copC(ini), S.d > 0 ? `Cierre de ${ML[S.d - 1]}` : "Antes de Ene 2024: sin base")}
+    ${mini("Ganancias", "+" + copC(gan), "Nuevo + expansión + reactivación", "Suma de [MRR Nuevo], [MRR Expansion] y [MRR Reactivacion] en el periodo")}
+    ${mini("Pérdidas", "−" + copC(per), "Contracción + churn", "Suma de [MRR Contraccion] y [MRR Churn] en el periodo")}
+    ${mini("MRR cierre", copC(fin), `${cop(fin)} · ${ML[S.h]}${Math.abs(ajuste) >= 1 ? ` · ajuste ${signo(ajuste)}${num(Math.abs(ajuste))}` : ""}`)}
+  </section>
+  <section class="grid g3">
+    ${card({id: "wf", clase: "span-2", titulo: "Cascada de MRR del periodo", sub: "De MRR inicio a MRR cierre", chips: ["Periodo"], lectura: lect,
+      tabla: () => ({cols: [{t: "Paso"}, {t: "COP", n: 1}], filas: cascada().pasos.map(p => [p.n, num(p.v)])}), dibujo: gCascada,
+      fuente: `Fuente: ${dax("gold_v_resumen_ejecutivo")} · Medidas ${dax("[MRR Nuevo]")} ${dax("[MRR Expansion]")} ${dax("[MRR Reactivacion]")} ${dax("[MRR Contraccion]")} ${dax("[MRR Churn]")}`})}
+    ${card({id: "comp", titulo: "Composición del movimiento", sub: "COP en el periodo, de mayor a menor", chips: ["Periodo"],
+      tabla: () => ({cols: [{t: "Componente"}, {t: "COP", n: 1}], filas: COMP.map(c => [c.n, num(c.s * M.flujo(c.c))])}),
+      dibujo: w => gBarrasH(w, {titulo: "Composición del movimiento", etqW: 104, fmtEje: corto, fmt: v => copC(v),
+        items: COMP.map(c => ({etq: `${c.s > 0 ? "+" : "−"} ${c.n}`, v: M.flujo(c.c), clase: c.k, etqV: `${c.s > 0 ? "+" : "−"}${copC(M.flujo(c.c))}`,
+          tip: `<div class="tt-h">${c.n}</div>${tipFila(c.k, rangoTxt(), cop(c.s * M.flujo(c.c)))}<div class="tt-n">Medida DAX ${c.dax}</div>`})).sort((a, b) => b.v - a.v)}) + statsMovimiento(),
+      fuente: "Verde azulado = suma al MRR · rojo = resta"})}
+  </section>
+  <section class="grid">
+    ${card({id: "mov", titulo: "Ganancias y pérdidas de MRR por mes", sub: "Arriba lo que suma, abajo lo que resta; la línea es el neto. Clic en un mes para ver su cascada.", chips: ["Periodo"],
+      tabla: () => ({cols: [{t: "Mes"}, ...COMP.map(c => ({t: c.n, n: 1})), {t: "Neto", n: 1}], filas: R.map((r, i) => [ML[i], ...COMP.map(c => num(c.s * (r[c.c] || 0))), num(COMP.reduce((s, c) => s + c.s * (r[c.c] || 0), 0))])}),
+      dibujo: gMovimientos, fuente: `Fuente: ${dax("gold_v_resumen_ejecutivo")}`})}
+  </section>`;
+}
+
+// ============================ Página 3 · Cohortes y NRR ============================
+const hex2rgb = h => { h = h.trim().replace("#", ""); return [0, 2, 4].map(k => parseInt(h.slice(k, k + 2), 16)); };
+const mezcla = (a, b, t) => a.map((v, k) => Math.round(v + (b[k] - v) * t));
+const lum = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
+function colorCalor(v) {
+  const cs = getComputedStyle(document.documentElement), g = n => hex2rgb(cs.getPropertyValue(n));
+  const mid = g("--heat-mid"), t = Math.min(1, Math.abs(v - 100) / 40), rgb = mezcla(mid, v >= 100 ? g("--heat-pos") : g("--heat-neg"), t);
+  return {bg: `rgb(${rgb})`, fg: lum(rgb) < .28 ? "#FFFFFF" : cs.getPropertyValue("--ink").trim() === "#F1F5F9" && lum(rgb) < .5 ? "#F1F5F9" : "#0F172A"};
+}
+const COH = (() => { const m = new Map();
+  D.cohortes.forEach(r => { if (!m.has(r.id_periodo_cohorte)) m.set(r.id_periodo_cohorte, {id: r.id_periodo_cohorte, mes: r.mes_cohorte, clientes: r.clientes_en_cohorte, mrr0: r.mrr_inicial_cohorte, celdas: []});
+    m.get(r.id_periodo_cohorte).celdas[r.meses_desde_alta] = r; });
+  return [...m.values()].sort((a, b) => a.id - b.id); })();
+function heatmap() {
+  const maxM = Math.max(...COH.map(c => c.celdas.length));
+  const cab = `<tr><th>Cohorte</th><th>Clientes</th>${Array.from({length: maxM}, (_, k) => `<th>M${k}</th>`).join("")}</tr>`;
+  const filas = COH.map(c => {
+    const cls = S.cohorte === c.id ? "sel" : S.cohorte ? "dimr" : "";
+    const celdas = Array.from({length: maxM}, (_, k) => { const r = c.celdas[k]; if (!r) return `<td class="vacio"></td>`;
+      const {bg, fg} = colorCalor(r.pct_retencion);
+      const tip = `<div class="tt-h">Cohorte ${esc(c.mes)} · mes ${k} (${MC[IDX[r.id_periodo]]})</div>` + tipFila("", "Retención de ingreso", pct(r.pct_retencion, 1)) + tipFila("", "MRR retenido", cop(r.mrr_retenido_cop)) + tipFila("", "MRR inicial", cop(r.mrr_inicial_cohorte)) + tipFila("", "Clientes en la cohorte", num(r.clientes_en_cohorte));
+      return `<td style="background:${bg};color:${fg}" data-tip="${esc(tip)}">${dec(r.pct_retencion, 0)}</td>`; }).join("");
+    return `<tr class="${cls}"><th data-act="cohorte:${c.id}" tabindex="0" role="button" title="Ver detalle de la cohorte">${esc(c.mes.slice(0, 3))}</th><td class="n">${c.clientes}</td>${celdas}</tr>`; }).join("");
+  return `<div class="heat-wrap"><table class="heat"><thead>${cab}</thead><tbody>${filas}</tbody></table></div>
+    <div class="heat-legend"><span>60%</span><span class="bar"></span><span>≥140%</span><span style="margin-left:8px">Gris = 100% (retiene exactamente el MRR inicial)</span></div>`;
+}
+function panelCohorte(w) {
+  const c = COH.find(x => x.id === S.cohorte);
+  if (!c) {
+    const k = 3;
+    return gBarrasH(w, {titulo: "Retención a 3 meses por cohorte", etqW: 64, valW: 60, fila: 28, fmtEje: v => dec(v, 0) + "%", fmt: v => pct(v, 1), ref: {v: 100, etq: "100%"},
+      items: COH.map(x => { const r = x.celdas[k]; return {etq: x.mes.slice(0, 3), v: r ? r.pct_retencion : null, clase: r && r.pct_retencion >= 100 ? "s1" : "l1", act: `cohorte:${x.id}`,
+        tip: `<div class="tt-h">Cohorte ${esc(x.mes)}</div>${r ? tipFila("", "Retención a M3", pct(r.pct_retencion, 1)) : ""}<div class="tt-n">Clic para ver su curva</div>`}; })}) +
+      `<p class="card-sub" style="margin-top:8px">Clic en una cohorte (aquí o en la matriz) para ver su curva completa.</p>`;
+  }
+  const ult = c.celdas[c.celdas.length - 1];
+  return `<div class="stat-list">
+      <div class="stat"><div class="k">Clientes en la cohorte</div><div class="v">${num(c.clientes)}</div></div>
+      <div class="stat"><div class="k">MRR inicial</div><div class="v">${copC(c.mrr0)}</div></div>
+      <div class="stat"><div class="k">Retención a M${c.celdas.length - 1}</div><div class="v">${pct(ult.pct_retencion, 1)}</div></div>
+      <div class="stat"><div class="k">MRR retenido (Dic)</div><div class="v">${copC(ult.mrr_retenido_cop)}</div></div>
+    </div>` +
+    gLinea(w, {titulo: `Curva de retención cohorte ${c.mes}`, etiquetas: c.celdas.map((_, k) => `M${k}`), modoMes: false, alto: 190, izq: 44,
+      series: [{nombre: `Cohorte ${c.mes}`, clase: "s1", valores: c.celdas.map(r => r.pct_retencion)}], ref: {v: 100, etq: "100%"}, puntosRef: true,
+      min: Math.min(...c.celdas.map(r => r.pct_retencion), 90), fmtEje: v => dec(v, 0) + "%", fmtTip: v => pct(v, 1), tipTitulo: k => `Mes ${k} desde el alta`, act: () => `cohorte:${c.id}`});
+}
+function pagCohortes() {
+  const col = c => R.map(r => r[c]);
+  const nrr = col("nrr_pct"), meses = nrr.map((v, i) => [v, i]).filter(([v, i]) => v != null && enRango(i));
+  const bajo = meses.filter(([v]) => v < 100);
+  const prom = meses.length ? meses.reduce((s, [v]) => s + v, 0) / meses.length : null;
+  const logoMayor = []; for (let i = S.d; i <= S.h; i++) if (R[i].churn_logos_pct != null && R[i].churn_logos_pct > R[i].churn_ingreso_pct) logoMayor.push(i);
+  const conChurn = []; for (let i = S.d; i <= S.h; i++) if (R[i].churn_logos_pct) conChurn.push(i);
+  CH = {};
+  return `
+  <div class="page-head"><div><h1>Cohortes y NRR</h1><p>¿La base instalada crece sola? La matriz sigue cada cohorte de alta; el NRR mide la retención neta de ingreso de los clientes existentes mes a mes.</p></div></div>
+  <section class="grid g3">
+    ${card({id: "heat", clase: "span-2", titulo: "Retención de ingreso por cohorte", sub: "% del MRR inicial que conserva cada cohorte, por meses desde el alta", chips: ["Anual"],
+      tabla: () => ({cols: [{t: "Cohorte"}, {t: "Mes desde alta", n: 1}, {t: "Retención %", n: 1}, {t: "MRR retenido", n: 1}], filas: D.cohortes.map(r => [r.mes_cohorte, r.meses_desde_alta, dec(r.pct_retencion, 1), num(r.mrr_retenido_cop)])}),
+      dibujo: heatmap, fuente: `Fuente: ${dax("gold_v_cohortes")} (sin relación con el calendario, a propósito: su propio grano)`})}
+    ${card({id: "coh", titulo: S.cohorte ? `Cohorte ${esc(COH.find(x => x.id === S.cohorte).mes)}` : "Retención a 3 meses", sub: S.cohorte ? `<button class="btn-link" data-act="cohorte:${S.cohorte}">← Ver todas las cohortes</button>` : "Comparación entre cohortes al mismo punto de vida", chips: ["Anual"], dibujo: panelCohorte,
+      fuente: `Fuente: ${dax("gold_v_cohortes")}`})}
+  </section>
+  <section class="grid g2">
+    ${card({id: "nrr", titulo: "NRR mensual", sub: "Referencia 100%: por encima, la base crece sin clientes nuevos", chips: ["Periodo"],
+      lectura: meses.length ? `NRR promedio del periodo: <b>${pct(prom, 1)}</b>. Bajo 100% en <b>${bajo.length} de ${meses.length}</b> meses${bajo.length ? ` (${bajo.map(([, i]) => MC[i]).join(", ")})` : ""}.` : "Enero no tiene NRR: no hay base del mes anterior.",
+      tabla: () => ({cols: [{t: "Mes"}, {t: "NRR %", n: 1}], filas: R.map((r, i) => [ML[i], dec(r.nrr_pct, 1)])}),
+      dibujo: w => gLinea(w, {titulo: "NRR mensual", series: [{nombre: "NRR", clase: "s1", valores: nrr}], ref: {v: 100, etq: "100%"}, puntosRef: true,
+        min: 90, max: 110, fmtEje: v => dec(v, 0) + "%", fmtTip: v => pct(v, 1), alto: 240, izq: 48,
+        leyendaExtra: `<span><i class="sw s1 round"></i>≥ 100%</span><span><i class="sw l1 round"></i>Bajo 100%</span><span><i class="sw ref"></i>Referencia 100%</span>`}),
+      fuente: `Medida ${dax("[NRR %]")} · ${dax("gold_v_resumen_ejecutivo")}`})}
+    ${card({id: "churn", titulo: "Churn de logos vs. churn de ingreso", sub: "% mensual sobre la base al inicio del mes", chips: ["Periodo"],
+      lectura: conChurn.length ? `El churn de ingreso queda por debajo del de logos en <b>${logoMayor.length} de ${conChurn.length}</b> meses con bajas: se van sobre todo clientes de planes pequeños.` : "Sin bajas en el periodo.",
+      tabla: () => ({cols: [{t: "Mes"}, {t: "Churn logos %", n: 1}, {t: "Churn ingreso %", n: 1}], filas: R.map((r, i) => [ML[i], dec(r.churn_logos_pct, 2), dec(r.churn_ingreso_pct, 2)])}),
+      dibujo: w => gLinea(w, {titulo: "Churn de logos vs ingreso", series: [{nombre: "Churn de logos", clase: "s2", valores: col("churn_logos_pct")}, {nombre: "Churn de ingreso", clase: "s1", valores: col("churn_ingreso_pct")}],
+        etiquetasFin: true, fmtEje: v => dec(v, 0) + "%", fmtTip: v => pct(v, 2), alto: 240, izq: 40,
+        tipExtra: i => tipFila("", "Bajas (MRR)", cop(R[i].mrr_churn))}),
+      fuente: `Medidas ${dax("[Churn Logos %]")} ${dax("[Churn Ingreso %]")}`})}
+  </section>`;
+}
+
+// ============================ Página 4 · CAC y LTV ============================
+function porCanal() {
+  const filas = M.cacFilas(false);
+  return D.canales.map(c => { const fs = filas.filter(r => r.nombre_canal === c.nombre_canal);
+    const g = sum(fs, r => r.gasto_cop), a = sum(fs, r => r.clientes_nuevos);
+    return {canal: c.nombre_canal, gasto: g, altas: a, cac: a ? g / a : null}; });
+}
+const selCanal = c => S.canales.has(c), dimCanal = c => S.canales.size > 0 && !S.canales.has(c);
+function pagCac() {
+  const pc = porCanal(), tg = sum(pc, x => x.gasto), ta = sum(pc, x => x.altas);
+  const fil = M.cacFilas(), gasto = sum(fil, r => r.gasto_cop), altas = sum(fil, r => r.clientes_nuevos), cac = M.cac(fil);
+  const conAltas = pc.filter(x => x.cac != null).sort((a, b) => a.cac - b.cac);
+  const peor = conAltas[conAltas.length - 1], mejor = conAltas[0];
+  const mensual = campo => R.map((r, i) => sum(D.cac.filter(x => x.id_periodo === r.id_periodo && (!S.canales.size || S.canales.has(x.nombre_canal))), x => x[campo]));
+  const LC = [...D.ltv_cac].sort((a, b) => a.ltv_cac - b.ltv_cac);
+  const planes = [...D.ltv].sort((a, b) => a.arpa_cop - b.arpa_cop);
+  const out = LC.find(x => x.nombre_canal === "Outbound"), ref = LC.find(x => x.nombre_canal === "Referido");
+  CH = {};
+  return `
+  <div class="page-head"><div><h1>CAC y LTV</h1><p>¿Dónde rinde cada peso de adquisición? El CAC divide gasto total entre clientes nuevos del contexto de filtro, nunca promedia CAC mensuales.</p></div></div>
+  <section class="grid g4">
+    ${mini("CAC combinado", cac == null ? "Sin altas" : cop(cac), `${esc(canalesTxt())} · ${esc(rangoTxt())}`, "[CAC] = DIVIDE(SUM(gasto_cop), SUM(clientes_nuevos)) en el contexto de periodo y canal")}
+    ${mini("Gasto de adquisición", copC(gasto), `${cop(gasto)} COP`)}
+    ${mini("Clientes nuevos", num(altas), altas ? `${dec(altas / (S.h - S.d + 1), 1)} por mes en promedio` : "Sin altas en el periodo (supuesto de la simulación desde octubre)")}
+    ${mini("Brecha de eficiencia", peor && mejor && peor !== mejor ? `${dec(peor.cac / mejor.cac, 1)}x` : "—", peor && mejor && peor !== mejor ? `${esc(peor.canal)} vs ${esc(mejor.canal)} (CAC)` : "Se necesitan dos canales con altas")}
+  </section>
+  <section class="grid g2">
+    ${card({id: "cac", titulo: "CAC por canal", sub: "COP por cliente nuevo · de menor a mayor · clic en un canal para filtrar", chips: ["Periodo", "Canal"],
+      lectura: peor && mejor && peor !== mejor ? `<b>${esc(peor.canal)}</b> cuesta <b>${dec(peor.cac / mejor.cac, 1)} veces</b> más por cliente que <b>${esc(mejor.canal)}</b>. La línea vertical es el CAC combinado de todos los canales (${cop(M.cac(M.cacFilas(false)))}).` : "No hay altas en el periodo seleccionado: el CAC no está definido (gasto sin clientes nuevos).",
+      tabla: () => ({cols: [{t: "Canal"}, {t: "Gasto", n: 1}, {t: "Altas", n: 1}, {t: "CAC", n: 1}], filas: pc.map(x => [x.canal, num(x.gasto), num(x.altas), num(x.cac)])}),
+      dibujo: w => gBarrasH(w, {titulo: "CAC por canal", fmtEje: corto, fmt: v => cop(v), valW: 100, ref: M.cac(M.cacFilas(false)) ? {v: M.cac(M.cacFilas(false)), etq: "Combinado"} : null,
+        items: [...pc].sort((a, b) => (a.cac ?? Infinity) - (b.cac ?? Infinity)).map(x => ({etq: x.canal, v: x.cac, sel: selCanal(x.canal), dim: dimCanal(x.canal), act: `canal:${x.canal}`, vacio: `sin altas · gasto ${copC(x.gasto)}`,
+          tip: `<div class="tt-h">${esc(x.canal)}</div>${tipFila("", "CAC", cop(x.cac))}${tipFila("", "Gasto", cop(x.gasto))}${tipFila("", "Clientes nuevos", num(x.altas))}<div class="tt-n">Clic para filtrar por este canal</div>`}))}),
+      fuente: `Fuente: ${dax("gold_v_cac_por_canal")} · Medida ${dax("[CAC]")}`})}
+    ${card({id: "share", titulo: "Participación en el gasto vs. en las altas", sub: "% del total del periodo · un canal eficiente trae más altas que gasto", chips: ["Periodo", "Canal"],
+      lectura: tg && ta ? (() => { const o = pc.find(x => x.canal === "Outbound"); return `Outbound se lleva el <b>${pct(o.gasto / tg * 100, 1)}</b> del gasto y aporta el <b>${pct(o.altas / ta * 100, 1)}</b> de las altas.`; })() : "Sin altas en el periodo.",
+      tabla: () => ({cols: [{t: "Canal"}, {t: "% gasto", n: 1}, {t: "% altas", n: 1}], filas: pc.map(x => [x.canal, tg ? dec(x.gasto / tg * 100, 1) : "—", ta ? dec(x.altas / ta * 100, 1) : "—"])}),
+      dibujo: w => gBarrasH2(w, {titulo: "Participación gasto vs altas", fmtEje: v => dec(v, 0) + "%", fmt: v => v == null ? "—" : pct(v, 1), valW: 56, fila: 40,
+        series: [{nombre: "% del gasto", clase: "s2"}, {nombre: "% de las altas", clase: "s1"}],
+        items: [...pc].sort((a, b) => b.gasto - a.gasto).map(x => ({etq: x.canal, a: tg ? x.gasto / tg * 100 : 0, b: ta ? x.altas / ta * 100 : 0, sel: selCanal(x.canal), dim: dimCanal(x.canal), act: `canal:${x.canal}`,
+          tip: `<div class="tt-h">${esc(x.canal)}</div>${tipFila("s2", "% del gasto", tg ? pct(x.gasto / tg * 100, 1) : "—")}${tipFila("s1", "% de las altas", ta ? pct(x.altas / ta * 100, 1) : "—")}`}))}),
+      fuente: `Fuente: ${dax("gold_v_cac_por_canal")}`})}
+  </section>
+  <section class="grid g2">
+    ${card({id: "gm", titulo: "Gasto y clientes nuevos por mes", sub: `${esc(canalesTxt())} · clic en un mes para filtrar`, chips: ["Periodo", "Canal"],
+      tabla: () => ({cols: [{t: "Mes"}, {t: "Gasto", n: 1}, {t: "Clientes nuevos", n: 1}, {t: "CAC", n: 1}], filas: R.map((r, i) => { const g = mensual("gasto_cop")[i], a = mensual("clientes_nuevos")[i]; return [ML[i], num(g), num(a), a ? num(g / a) : "—"]; })}),
+      dibujo: w => { const g = mensual("gasto_cop"), a = mensual("clientes_nuevos");
+        const extra = i => tipFila("", "CAC del mes", a[i] ? cop(g[i] / a[i]) : "sin altas");
+        return `<div class="legend"><span><i class="sw s2"></i>Gasto (COP)</span></div>` + gColumnas(w, {nombre: "Gasto", valores: g, clase: "s2", fmtEje: corto, fmtTip: cop, alto: 150, tipExtra: extra}) +
+          `<div class="legend" style="margin-top:10px"><span><i class="sw s1"></i>Clientes nuevos</span></div>` + gColumnas(w, {nombre: "Clientes nuevos", valores: a, clase: "s1", fmtEje: num, fmtTip: num, alto: 150, tipExtra: extra}); },
+      lectura: `Desde octubre el gasto sigue y las altas son cero: es el <b>supuesto de la simulación</b>, pero muestra el riesgo real de pagar adquisición sin conversión.`,
+      fuente: `Fuente: ${dax("gold_v_cac_por_canal")} · dos gráficos separados porque son escalas distintas`})}
+    ${card({id: "ltv", titulo: "LTV por plan", sub: "COP · clic en un plan para resaltarlo", chips: ["Anual"],
+      tabla: () => ({cols: [{t: "Plan"}, {t: "ARPA", n: 1}, {t: "LTV (churn compañía)", n: 1}, {t: "Churn del plan %", n: 1}, {t: "LTV (churn del plan)", n: 1}, {t: "Bajas", n: 1}], filas: planes.map(p => [p.nombre_plan, num(p.arpa_cop), num(p.ltv_cop), dec(p.churn_ingreso_plan_pct, 2), num(p.ltv_cop_churn_plan), p.bajas_plan])}),
+      dibujo: w => gBarrasH2(w, {titulo: "LTV por plan", fmtEje: corto, fmt: v => copC(v), valW: 76, fila: 46,
+          series: [{nombre: "LTV con churn de la compañía (1,87%)", clase: "s1"}, {nombre: "LTV con churn propio del plan", clase: "s2"}],
+          items: planes.map(p => ({etq: p.nombre_plan, a: p.ltv_cop, b: p.ltv_cop_churn_plan, aviso: p.bajas_plan < 5, sel: S.plan === p.nombre_plan, dim: S.plan && S.plan !== p.nombre_plan, act: `plan:${p.nombre_plan}`,
+            tip: `<div class="tt-h">${esc(p.nombre_plan)}</div>${tipFila("s1", "LTV (churn compañía)", cop(p.ltv_cop))}${tipFila("s2", "LTV (churn del plan)", cop(p.ltv_cop_churn_plan))}${tipFila("", "ARPA", cop(p.arpa_cop))}${tipFila("", "Churn del plan", pct(p.churn_ingreso_plan_pct, 2))}${tipFila("", "Bajas del plan en el año", num(p.bajas_plan))}${p.bajas_plan < 5 ? `<div class="tt-n">⚠ Muestra muy pequeña: la cifra con churn del plan no es confiable.</div>` : ""}`}))}) +
+        `<div class="tbl-wrap" style="margin-top:10px"><table class="tbl"><thead><tr><th>Plan</th><th class="n">ARPA</th><th class="n">Churn plan</th><th class="n">Bajas</th></tr></thead><tbody>${planes.map(p => `<tr class="act${S.plan === p.nombre_plan ? " sel" : S.plan ? " dimr" : ""}" data-act="plan:${esc(p.nombre_plan)}"><td>${esc(p.nombre_plan)}</td><td class="n">${cop(p.arpa_cop)}</td><td class="n">${pct(p.churn_ingreso_plan_pct, 2)}</td><td class="n">${p.bajas_plan}${p.bajas_plan < 5 ? ` <span class="badge warn">⚠ n=${p.bajas_plan}</span>` : ""}</td></tr>`).join("")}</tbody></table></div>`,
+      lectura: `Un Starter vale <b>${copC(planes[0].ltv_cop_churn_plan)}</b> con su propio churn (${pct(planes[0].churn_ingreso_plan_pct, 2)} mensual), menos de la mitad del LTV principal. Ninguna de las dos cifras descuenta margen bruto.`,
+      fuente: `Fuente: ${dax("gold_v_ltv")}`})}
+  </section>
+  <section class="grid">
+    ${card({id: "lc", titulo: "LTV:CAC por canal", sub: "Año 2024 · LTV ponderado por la mezcla real de planes con la que entró cada canal · umbral de referencia 3:1", chips: ["Anual", "Canal"],
+      lectura: out && ref ? `<b>Outbound es el único canal bajo 3:1</b> (${dec(out.ltv_cac, 1)}x): consume ${copC(out.gasto_cop)} para ${out.clientes_nuevos} altas, y ${out.altas_starter} de ellas son Starter. <b>Referido</b> rinde ${dec(ref.ltv_cac, 1)}x con un CAC de ${cop(ref.cac_cop)}.` : "",
+      dibujo: () => `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Canal</th><th class="n">Gasto 2024</th><th class="n">Altas</th><th class="n">CAC</th><th>Mezcla Starter / Pro / Business</th><th class="n">LTV ponderado</th><th class="n">LTV:CAC</th><th class="n">Con churn por plan</th></tr></thead><tbody>
+        ${LC.map(x => { const t = x.altas_starter + x.altas_pro + x.altas_business, ok = x.ltv_cac >= 3;
+          const seg = (n, k, p) => `<i class="mix-${k}${S.plan && S.plan !== p ? " off" : ""}" style="width:${n / t * 100}%"></i>`;
+          return `<tr class="act${selCanal(x.nombre_canal) ? " sel" : dimCanal(x.nombre_canal) ? " dimr" : ""}" data-act="canal:${esc(x.nombre_canal)}" tabindex="0">
+            <td><b>${esc(x.nombre_canal)}</b></td><td class="n">${copC(x.gasto_cop)}</td><td class="n">${x.clientes_nuevos}</td><td class="n">${cop(x.cac_cop)}</td>
+            <td><div class="mix" title="Starter ${x.altas_starter} · Pro ${x.altas_pro} · Business ${x.altas_business}">${seg(x.altas_starter, 1, "Starter")}${seg(x.altas_pro, 2, "Pro")}${seg(x.altas_business, 3, "Business")}</div><div class="mix-t">${x.altas_starter} / ${x.altas_pro} / ${x.altas_business}</div></td>
+            <td class="n">${copC(x.ltv_ponderado_cop)}</td>
+            <td class="n"><span class="badge ${ok ? "good" : "crit"}">${ok ? "✓" : "✕"} ${dec(x.ltv_cac, 1)}x${ok ? "" : " · bajo 3:1"}</span></td>
+            <td class="n muted">${dec(x.ltv_cac_churn_plan, 1)}x</td></tr>`; }).join("")}
+        </tbody></table></div>
+        <div class="legend" style="margin-top:10px"><span><i class="sw" style="background:var(--mix-1)"></i>Starter</span><span><i class="sw" style="background:var(--mix-2)"></i>Pro</span><span><i class="sw" style="background:var(--mix-3)"></i>Business</span><span class="hint">La sensibilidad "con churn por plan" de Outbound viene inflada por su única alta Business.</span></div>`,
+      fuente: `Fuente: ${dax("gold_v_ltv_cac_por_canal")} · vista anual: no responde al periodo`})}
+  </section>`;
+}
+
+// ============================ Página 5 · Calidad de datos ============================
+const ESTADOS = {
+  OK: {n: "OK", cls: "good", f: "good", i: "✓", d: "Cliente confirmado entre sistemas por su identificador."},
+  REBRANDING: {n: "Rebranding resuelto", cls: "neutral", f: "brand", i: "↻", d: "Cambió de nombre; se resolvió por alias y no afecta cifras."},
+  HUERFANO_O_AMBIGUO: {n: "Huérfano o ambiguo", cls: "serious", f: "serious", i: "⚠", d: "Factura sin cliente del CRM o nombre ambiguo: su alta no tiene canal atribuido. Afecta CAC y atribución."},
+  CLIENTE_SIN_EVENTOS_VALIDOS: {n: "Sin eventos válidos", cls: "crit", f: "crit", i: "✕", d: "Su única alta quedó en cuarentena: no aparece en el MRR."},
+  LEAD_SIN_FACTURACION: {n: "Lead sin facturación", cls: "muted", f: "muted", i: "○", d: "Lead del CRM que nunca facturó: no es un error de calidad."},
+};
+const badgeEstado = e => { const x = ESTADOS[e] || {n: e, cls: "neutral", i: "•"}; return `<span class="badge ${x.cls}">${x.i} ${esc(x.n)}</span>`; };
+function clientesFiltrados() {
+  let fs = D.calidad_clientes.filter(c => S.estado ? c.estado_calidad === S.estado : !["OK", "LEAD_SIN_FACTURACION"].includes(c.estado_calidad));
+  if (S.q) { const q = S.q.toLowerCase(); fs = fs.filter(c => (c.nombre_canonico || "").toLowerCase().includes(q)); }
+  const {col, dir} = S.orden;
+  return fs.sort((a, b) => { const x = a[col], y = b[col]; return (x == null) - (y == null) || (x > y ? 1 : x < y ? -1 : 0) * dir; });
+}
+function tablaClientes() {
+  const fs = clientesFiltrados();
+  const th = (c, t, n) => `<th class="sort${n ? " n" : ""}" data-act="orden:${c}">${t}${S.orden.col === c ? (S.orden.dir > 0 ? " ▲" : " ▼") : ""}</th>`;
+  return `<div class="tbl-wrap scroll-y"><table class="tbl"><thead><tr>${th("nombre_canonico", "Cliente")}${th("estado_calidad", "Estado")}${th("sistemas_confirmados", "Sistemas confirmados")}${th("nota_calidad", "Nota")}${th("mrr_inicial_cop", "MRR inicial", 1)}${th("activo", "Activo")}</tr></thead>
+    <tbody>${fs.map(c => `<tr><td>${esc(c.nombre_canonico)}</td><td>${badgeEstado(c.estado_calidad)}</td><td class="muted">${esc(c.sistemas_confirmados || "—")}</td><td class="muted">${esc(c.nota_calidad || "—")}</td><td class="n">${cop(c.mrr_inicial_cop)}</td><td>${c.activo ? "Sí" : "No"}</td></tr>`).join("") || `<tr><td colspan="6" class="muted">Sin clientes para este filtro.</td></tr>`}</tbody></table></div>
+    <p class="card-sub" style="margin-top:8px">${fs.length} clientes · ${S.estado ? `estado ${esc(ESTADOS[S.estado]?.n || S.estado)}` : "vista por defecto: excluye OK y leads (los leads no son un problema de calidad)"}</p>`;
+}
+function gConciliacion(w) {
+  const h = 230, f = marco(w, h, {izq: 60});
+  const dif = R.map(r => r.mrr_total - (D.control_mrr[String(r.id_periodo)] ?? r.mrr_total));
+  const tk = ticks(Math.min(0, ...dif), Math.max(0, ...dif), 4), mn = tk[0], mx = tk[tk.length - 1];
+  const y = v => f.y1 - (v - mn) / (mx - mn) * (f.y1 - f.y0), bw = Math.min(28, f.bw * .6);
+  let s = ejeX(f, MC, true) + ejeY(f, tk, y, v => (v < 0 ? "−" : "") + corto(Math.abs(v)));
+  dif.forEach((v, i) => { if (Math.abs(v) < 1) return; s += `<path class="f-${v < 0 ? "l1" : "s1"}${enRango(i) ? "" : " dim"}" d="${barV(f.cx(i) - bw / 2, y(v), bw, y(0))}"/>`; });
+  const v = dif[S.h]; if (Math.abs(v) >= 1) s += `<text class="vl" x="${f.cx(S.h)}" y="${v < 0 ? y(v) + 15 : y(v) - 7}" text-anchor="middle">${v < 0 ? "−" : "+"}${corto(Math.abs(v))}</text>`;
+  s += hits(f, N, i => `<div class="tt-h">${ML[i]} 2024</div>` + tipFila("", "MRR del pipeline (gold)", cop(R[i].mrr_total)) + tipFila("", "MRR de la verdad de control", cop(D.control_mrr[String(R[i].id_periodo)])) + tipFila("", "Diferencia", `${dif[i] < 0 ? "−" : ""}${cop(Math.abs(dif[i]))}`) + tipFila("", "Diferencia %", pct(dif[i] / D.control_mrr[String(R[i].id_periodo)] * 100, 2)), i => `mes:${i}`);
+  return `<div class="legend"><span><i class="sw l1"></i>Pipeline por debajo del control</span><span><i class="sw s1"></i>Por encima</span></div>` + svg(w, h, s, "Conciliación del MRR con la verdad de control");
+}
+function pagCalidad() {
+  const RC = D.resumen_calidad, g = e => (RC.find(x => x.estado_calidad === e) || {}).num_clientes || 0;
+  const total = sum(RC, x => x.num_clientes), fact = total - g("LEAD_SIN_FACTURACION"), afectan = g("HUERFANO_O_AMBIGUO") + g("CLIENTE_SIN_EVENTOS_VALIDOS");
+  const mrrHuerf = (RC.find(x => x.estado_calidad === "HUERFANO_O_AMBIGUO") || {}).mrr_inicial_cop || 0;
+  const cuar = sum(D.cuarentena, x => x.filas_rechazadas);
+  const ctl = D.control_mrr[String(R[S.h].id_periodo)], dif = R[S.h].mrr_total - ctl;
+  const orden = ["OK", "REBRANDING", "HUERFANO_O_AMBIGUO", "CLIENTE_SIN_EVENTOS_VALIDOS", "LEAD_SIN_FACTURACION"];
+  CH = {};
+  return `
+  <div class="page-head"><div><h1>Calidad de datos</h1><p>¿Puedo confiar en estas cifras? Stripe, el CRM y los contratos no comparten un identificador: aquí se ve qué se concilió, qué se resolvió por alias y qué afecta las métricas.</p></div></div>
+  <section class="grid g4">
+    ${mini("Clientes conciliados", pct(g("OK") / fact * 100, 1), `${g("OK")} de ${fact} clientes con facturación`, "Estado OK sobre clientes facturados (excluye leads)")}
+    ${mini("Afectan las cifras", num(afectan), `Huérfanos ${g("HUERFANO_O_AMBIGUO")} · sin eventos válidos ${g("CLIENTE_SIN_EVENTOS_VALIDOS")} · MRR inicial huérfano ${copC(mrrHuerf)}`)}
+    ${mini("Filas en cuarentena", num(cuar), D.cuarentena.map(x => `${esc(x.fuente)}: ${esc(x.motivos)}`).join(" · "), "Registros rechazados por el ETL con su número de línea, en vez de descartarse en silencio")}
+    ${mini(`Conciliación ${MC[S.h]}`, `${dif < 0 ? "−" : "+"}${cop(Math.abs(dif))}`, `${dif < 0 ? "−" : "+"}${pct(Math.abs(dif / ctl * 100), 2)} vs. la verdad de control`, "MRR del pipeline menos MRR de data/control_totales.json (calculado antes de ensuciar los datos)")}
+  </section>
+  <section class="grid g2">
+    ${card({id: "estados", titulo: "Clientes por estado de calidad", sub: "Clic en un estado para filtrar la tabla", chips: ["Anual"],
+      tabla: () => ({cols: [{t: "Estado"}, {t: "Clientes", n: 1}, {t: "MRR inicial", n: 1}], filas: orden.map(e => [ESTADOS[e].n, g(e), num((RC.find(x => x.estado_calidad === e) || {}).mrr_inicial_cop)])}),
+      dibujo: w => gBarrasH(w, {titulo: "Clientes por estado", etqW: 170, valW: 56, fmtEje: num, fmt: num,
+        items: orden.map(e => ({etq: `${ESTADOS[e].i} ${ESTADOS[e].n}`, v: g(e), clase: ESTADOS[e].f, sel: S.estado === e, dim: S.estado && S.estado !== e, act: `estado:${e}`,
+          tip: `<div class="tt-h">${ESTADOS[e].i} ${esc(ESTADOS[e].n)}</div>${tipFila("", "Clientes", num(g(e)))}${tipFila("", "MRR inicial", cop((RC.find(x => x.estado_calidad === e) || {}).mrr_inicial_cop))}<div class="tt-n">${esc(ESTADOS[e].d)}</div>`}))}) +
+        `<div class="note">Los <b>leads sin facturación</b> no son un error. Sí afectan las cifras los <b>huérfanos o ambiguos</b> (sus altas no tienen canal, así que el CAC cuenta 172 de 177 altas) y los <b>clientes sin eventos válidos</b> (fuera del MRR).</div>`,
+      fuente: `Fuente: ${dax("gold_v_resumen_calidad")}`})}
+    ${card({id: "conc", titulo: "Conciliación del MRR con la verdad de control", sub: "Pipeline (gold) menos control, por mes · clic en un mes para filtrar", chips: ["Periodo"],
+      lectura: `No se forzó una conciliación perfecta. La diferencia viene de la <b>cuarentena en cascada</b> (2 altas únicas perdidas sacan a sus clientes del MRR) y de la <b>convención de tipo de cambio</b> de los clientes en USD.`,
+      tabla: () => ({cols: [{t: "Mes"}, {t: "Pipeline", n: 1}, {t: "Control", n: 1}, {t: "Diferencia", n: 1}], filas: R.map((r, i) => { const c = D.control_mrr[String(r.id_periodo)]; return [ML[i], num(r.mrr_total), num(c), num(r.mrr_total - c)]; })}),
+      dibujo: gConciliacion, fuente: `Fuente: ${dax("gold_v_resumen_ejecutivo")} vs ${dax("data/control_totales.json")} · detalle en ${dax("docs/INFORME.md")}`})}
+  </section>
+  <section class="grid">
+    <article class="card">
+      <header class="card-h"><div><h3>Clientes con incidencias de calidad</h3><p class="card-sub">${S.estado ? `Filtrado por estado: ${badgeEstado(S.estado)} <button class="btn-link" data-act="estado:${S.estado}">Quitar filtro</button>` : "Clic en un encabezado para ordenar"}</p></div>
+        <div class="card-tools"><span class="fchip anual">Anual · no filtra por periodo</span></div></header>
+      <div class="toolbar"><input class="search" id="buscar" type="search" placeholder="Buscar cliente…" value="${esc(S.q)}" aria-label="Buscar cliente"><span class="hint">Fuente: gold_v_calidad_clientes</span></div>
+      <div id="tablaClientes">${tablaClientes()}</div>
+    </article>
+  </section>`;
+}
+
+// ============================ Navegación y filtros ============================
+const PAGS = [
+  {t: "Resumen ejecutivo", f: pagResumen},
+  {t: "MRR Waterfall", f: pagCascada},
+  {t: "Cohortes y NRR", f: pagCohortes},
+  {t: "CAC y LTV", f: pagCac},
+  {t: "Calidad de datos", f: pagCalidad},
+];
+const PRESETS = [["Año", 0, 11], ["T1", 0, 2], ["T2", 3, 5], ["T3", 6, 8], ["T4", 9, 11], ["Último mes", 11, 11]];
+function renderFiltros() {
+  $("#tabs").innerHTML = PAGS.map((p, i) => `<button class="tab" role="tab" aria-selected="${S.pag === i}" data-act="pag:${i}"><span class="n">${i + 1}</span>${p.t}</button>`).join("");
+  $("#presets").innerHTML = PRESETS.map(([t, a, b]) => `<button type="button" class="${S.d === a && S.h === b ? "on" : ""}" data-act="rango:${a}-${b}">${t}</button>`).join("");
+  $("#meses").innerHTML = MC.map((m, i) => `<button type="button" class="${enRango(i) && !rangoCompleto() ? (i === S.d || i === S.h ? "edge" : "in") : ""}" data-act="mes:${i}" aria-pressed="${enRango(i)}" title="${ML[i]} · Mayús + clic para extender el rango">${m}</button>`).join("");
+  $("#canales").innerHTML = D.canales.map(c => `<button type="button" class="chip${S.canales.has(c.nombre_canal) ? " on" : ""}" data-act="canal:${esc(c.nombre_canal)}" aria-pressed="${S.canales.has(c.nombre_canal)}">${esc(c.nombre_canal)}</button>`).join("");
+  const extra = [S.plan && `Plan: ${S.plan}`, S.estado && `Estado: ${ESTADOS[S.estado]?.n}`, S.cohorte && `Cohorte: ${COH.find(c => c.id === S.cohorte)?.mes}`].filter(Boolean);
+  const hay = !rangoCompleto() || S.canales.size || extra.length;
+  $("#factive").innerHTML = `<span><b>${esc(rangoTxt())}</b> · ${esc(canalesTxt())}${extra.length ? " · " + esc(extra.join(" · ")) : ""}</span>${hay ? `<button class="btn-link" type="button" data-act="limpiar:1">Limpiar filtros</button>` : ""}`;
+  $("#periodoTxt").textContent = `${rangoTxt()} · ${canalesTxt()}`;
+}
+function render() {
+  renderFiltros();
+  $("#pagina").innerHTML = PAGS[S.pag].f();
+  dibujar();
+  const b = $("#buscar");
+  if (b) b.addEventListener("input", e => { S.q = e.target.value; $("#tablaClientes").innerHTML = tablaClientes(); });
+  try { history.replaceState(null, "", "#pagina-" + (S.pag + 1)); } catch (e) {}
+}
+function accion(a, ev) {
+  const i = a.indexOf(":"), tipo = a.slice(0, i), val = a.slice(i + 1);
+  if (tipo === "pag") { S.pag = +val; render(); window.scrollTo({top: 0}); return; }
+  if (tipo === "mes") { const m = +val;
+    if (ev && ev.shiftKey) { S.d = Math.min(S.d, m); S.h = Math.max(S.h, m); if (S.d === S.h && S.d !== m) S.h = m; }
+    else if (S.d === m && S.h === m) { S.d = 0; S.h = N - 1; } else { S.d = m; S.h = m; } }
+  if (tipo === "rango") { const [x, y] = val.split("-").map(Number); S.d = x; S.h = y; }
+  if (tipo === "canal") S.canales.has(val) ? S.canales.delete(val) : S.canales.add(val);
+  if (tipo === "plan") S.plan = S.plan === val ? null : val;
+  if (tipo === "estado") S.estado = S.estado === val ? null : val;
+  if (tipo === "cohorte") S.cohorte = S.cohorte === +val ? null : +val;
+  if (tipo === "tabla") S.tablas[val] = !S.tablas[val];
+  if (tipo === "orden") S.orden = {col: val, dir: S.orden.col === val ? -S.orden.dir : 1};
+  if (tipo === "limpiar") { S.d = 0; S.h = N - 1; S.canales.clear(); S.plan = S.estado = S.cohorte = null; }
+  const y = window.scrollY; render(); window.scrollTo({top: y});
+}
+document.addEventListener("click", e => { const el = e.target.closest("[data-act]"); if (el) { e.preventDefault(); accion(el.dataset.act, e); } });
+document.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches("[data-act]:not(button)")) { e.preventDefault(); accion(e.target.dataset.act, e); } });
+
+// Tooltip
+const tip = $("#tip");
+function moverTip(x, y) { const r = tip.getBoundingClientRect(); let l = x + 14, t = y + 14;
+  if (l + r.width > innerWidth - 8) l = x - r.width - 14; if (t + r.height > innerHeight - 8) t = y - r.height - 14;
+  tip.style.left = Math.max(8, l) + "px"; tip.style.top = Math.max(8, t) + "px"; }
+document.addEventListener("pointermove", e => { const el = e.target.closest("[data-tip]");
+  if (!el || !el.dataset.tip) { tip.hidden = true; return; }
+  if (tip.dataset.src !== el.dataset.tip) { tip.innerHTML = el.dataset.tip; tip.dataset.src = el.dataset.tip; }
+  tip.hidden = false; moverTip(e.clientX, e.clientY); });
+document.addEventListener("focusin", e => { const el = e.target.closest("[data-tip]"); if (!el || !el.dataset.tip) return;
+  tip.innerHTML = el.dataset.tip; tip.dataset.src = el.dataset.tip; tip.hidden = false; const r = el.getBoundingClientRect(); moverTip(r.left + r.width / 2, r.bottom); });
+document.addEventListener("focusout", () => { tip.hidden = true; });
+document.addEventListener("scroll", () => { tip.hidden = true; }, {passive: true});
+
+// Tema claro/oscuro
+function temaActual() { const t = document.documentElement.dataset.theme; return t || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+function pintarTema() { $("#temaTxt").textContent = temaActual() === "dark" ? "Oscuro" : "Claro"; }
+$("#temaBtn").addEventListener("click", () => { const n = temaActual() === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = n;
+  try { localStorage.setItem("tema", n); } catch (e) {} pintarTema(); render(); });
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { pintarTema(); render(); });
+try { const t = localStorage.getItem("tema"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+
+// Redibujo al cambiar el ancho
+let rz; new ResizeObserver(() => { clearTimeout(rz); rz = setTimeout(dibujar, 120); }).observe($("#pagina"));
+
+// Arranque
+const h0 = /#pagina-(\d)/.exec(location.hash); if (h0) S.pag = Math.min(PAGS.length - 1, Math.max(0, +h0[1] - 1));
+$("#generado").textContent = D.generado ? `Datos: capa gold exportada · ${D.generado}` : "";
+pintarTema();
+render();
+</script>
+</body>
+</html>
