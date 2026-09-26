@@ -7,6 +7,7 @@
 -- haya carga real de meses futuros, pero estas vistas acotan al horizonte actual).
 -- =====================================================================================
 
+DROP VIEW IF EXISTS gold_v_eventos_detalle;
 DROP VIEW IF EXISTS gold_v_resumen_ejecutivo;
 DROP VIEW IF EXISTS gold_v_calidad_cuarentena;
 DROP VIEW IF EXISTS gold_v_resumen_calidad;
@@ -274,3 +275,33 @@ LEFT JOIN gold_v_nrr_mensual nrr ON nrr.id_periodo = am.id_periodo
 LEFT JOIN gold_v_churn ch        ON ch.id_periodo = am.id_periodo
 LEFT JOIN gold_v_mrr_movements mv ON mv.id_periodo = am.id_periodo
 ORDER BY am.id_periodo;
+
+-- ------------------------------------------------------------------------------------
+-- Detalle plano de eventos (una fila por evento de suscripcion), ya resuelto contra
+-- las dimensiones: es la forma gobernada de bajar al detalle por cliente sin que ningun consumidor
+-- (Power BI, notebooks, el agente conversacional) tenga que leer la capa silver.
+-- ------------------------------------------------------------------------------------
+CREATE VIEW gold_v_eventos_detalle AS
+SELECT
+    e.id_evento,
+    e.fecha_evento,
+    per.id_periodo,
+    per.nombre_mes,
+    per.anio,
+    c.id_cliente,
+    c.nombre_canonico                  AS cliente,
+    COALESCE(gc.estado_calidad, 'OK')  AS estado_calidad_cliente,
+    ca.nombre_canal                    AS canal_adquisicion,
+    e.tipo_evento,
+    p.nombre_plan                      AS plan,
+    pa.nombre_plan                     AS plan_anterior,
+    e.moneda_origen,
+    ROUND(e.monto_mensual_cop, 2)      AS monto_mensual_cop,
+    ROUND(e.monto_anterior_cop, 2)     AS monto_anterior_cop
+FROM fact_evento_suscripcion e
+JOIN dim_periodo  per ON per.id_periodo = e.id_periodo
+JOIN dim_cliente  c   ON c.id_cliente   = e.id_cliente
+JOIN dim_plan     p   ON p.id_plan      = e.id_plan
+LEFT JOIN dim_plan    pa ON pa.id_plan    = e.id_plan_anterior
+LEFT JOIN dim_canal   ca ON ca.id_canal   = c.id_canal
+LEFT JOIN gold_v_calidad_clientes gc ON gc.id_cliente = c.id_cliente;
