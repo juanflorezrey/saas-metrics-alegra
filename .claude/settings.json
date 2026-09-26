@@ -1,0 +1,11 @@
+{
+  "enabledMcpjsonServers": ["saas-metrics"],
+  "permissions": {
+    "allow": [
+      "mcp__saas-metrics__describir_modelo",
+      "mcp__saas-metrics__consultar_sql",
+      "mcp__saas-metrics__leer_documentacion",
+      "mcp__saas-metrics__graficar"
+    ]
+  }
+}

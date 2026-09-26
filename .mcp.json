@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "saas-metrics": {
+      "type": "stdio",
+      "command": "C:/Users/USUARIO/AppData/Local/Programs/Python/Python312/python.exe",
+      "args": ["agente/servidor_mcp.py"],
+      "env": { "PYTHONUTF8": "1" }
+    }
+  }
+}
