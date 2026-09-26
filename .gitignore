@@ -3,3 +3,7 @@ __pycache__/
 .ipynb_checkpoints/
 .pbi-cache/
 *.pbix.bak
+
+# Salidas del agente (gráficos y bitácora de auditoría) - se regeneran en cada uso
+salidas/*
+!salidas/.gitkeep
