@@ -1,0 +1,105 @@
+table gold_v_ltv_cac_por_canal
+	lineageTag: abc31cf7-6a53-4ce8-982e-88f6e981b0a4
+
+	column nombre_canal
+		dataType: string
+		lineageTag: e2d5744c-8178-42c9-94f4-847fc2b21e58
+		summarizeBy: none
+		sourceColumn: nombre_canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column gasto_cop
+		dataType: double
+		formatString: #,0
+		lineageTag: 3fed62e8-0318-4750-99ba-1e36f8d83503
+		summarizeBy: none
+		sourceColumn: gasto_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	column clientes_nuevos
+		dataType: int64
+		formatString: 0
+		lineageTag: f6248dac-4ab9-4a5d-b2db-ca27ff4a7340
+		summarizeBy: none
+		sourceColumn: clientes_nuevos
+
+		annotation SummarizationSetBy = Automatic
+
+	column cac_cop
+		dataType: double
+		formatString: #,0
+		lineageTag: 64b83392-87d7-46bb-a0b1-1dc58ac92707
+		summarizeBy: none
+		sourceColumn: cac_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	column altas_starter
+		dataType: int64
+		formatString: 0
+		lineageTag: e1968f02-6e41-4cdb-bc90-339a0fb7a362
+		summarizeBy: none
+		sourceColumn: altas_starter
+
+		annotation SummarizationSetBy = Automatic
+
+	column altas_pro
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b88fa52-7bb3-4728-9444-34e2adf0181c
+		summarizeBy: none
+		sourceColumn: altas_pro
+
+		annotation SummarizationSetBy = Automatic
+
+	column altas_business
+		dataType: int64
+		formatString: 0
+		lineageTag: 9734ef5f-3a1c-41b5-9b72-81f3387b2186
+		summarizeBy: none
+		sourceColumn: altas_business
+
+		annotation SummarizationSetBy = Automatic
+
+	column ltv_ponderado_cop
+		dataType: double
+		formatString: #,0
+		lineageTag: 2e4f8564-3d71-4fe0-aff8-a38878d4abd8
+		summarizeBy: none
+		sourceColumn: ltv_ponderado_cop
+
+		annotation SummarizationSetBy = Automatic
+
+	column ltv_cac
+		dataType: double
+		formatString: 0.0
+		lineageTag: b0427846-178c-4f61-a46f-4ea0cf46903c
+		summarizeBy: none
+		sourceColumn: ltv_cac
+
+		annotation SummarizationSetBy = Automatic
+
+	column ltv_cac_churn_plan
+		dataType: double
+		formatString: 0.0
+		lineageTag: 2fc2c3dc-3c82-47b4-9310-4de87934095b
+		summarizeBy: none
+		sourceColumn: ltv_cac_churn_plan
+
+		annotation SummarizationSetBy = Automatic
+
+	partition gold_v_ltv_cac_por_canal = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        File.Contents(RutaDatos & "\gold_v_ltv_cac_por_canal.csv"),
+				        [Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    Tipos = Table.TransformColumnTypes(Encabezados, {{"nombre_canal", type text}, {"gasto_cop", type number}, {"clientes_nuevos", Int64.Type}, {"cac_cop", type number}, {"altas_starter", Int64.Type}, {"altas_pro", Int64.Type}, {"altas_business", Int64.Type}, {"ltv_ponderado_cop", type number}, {"ltv_cac", type number}, {"ltv_cac_churn_plan", type number}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

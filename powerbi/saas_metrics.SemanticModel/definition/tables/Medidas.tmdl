@@ -45,6 +45,10 @@ table Medidas
 		formatString: #,0
 		lineageTag: 13bdbbb2-6d34-4ecf-8975-80d1b44c8cde
 
+	measure 'CAC' = DIVIDE(SUM(gold_v_cac_por_canal[gasto_cop]), SUM(gold_v_cac_por_canal[clientes_nuevos]))
+		formatString: #,0
+		lineageTag: 6446887f-b994-48cd-9158-e168168c4576
+
 	column Columna
 		isHidden
 		dataType: int64
