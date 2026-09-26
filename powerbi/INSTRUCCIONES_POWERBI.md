@@ -131,7 +131,7 @@ ningún segmentador aplicado**, debe dar exactamente 57.201.326 y 144 — son di
 ## Paso 5 · Las 5 páginas
 
 > **Guía visual:** [`mockups/tablero_ejecutivo.html`](mockups/tablero_ejecutivo.html) es un mockup
-> interactivo de estas 5 páginas con la marca de Alegra, filtros cruzados y las mismas medidas.
+> interactivo de estas 5 páginas (marca ficticia AlegrIA), filtros cruzados y las mismas medidas.
 > Se abre con doble clic; si cambian los CSV, se actualiza con `python powerbi/mockups/generar_mockup.py`.
 
 ### 1. Resumen ejecutivo
