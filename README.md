@@ -18,8 +18,8 @@ que los tres sistemas compartan un identificador común. La pregunta de negocio:
 | `data/` | Generador de datos sintéticos (`generar_datos.py`) + seeds + verdad de control |
 | `sql/` | DDL de 4 capas (bronze/silver/control) + vistas gold de métricas SaaS |
 | `notebooks/` | 4 notebooks ejecutados de principio a fin: arquitectura → generar datos → carga y calidad → métricas |
-| `powerbi/` | Proyecto Power BI (`.pbip`/TMDL) + CSV exportados + instrucciones |
-| `docs/` | Informe, diccionario de métricas, guion del video |
+| `powerbi/` | Proyecto Power BI (`.pbip`/TMDL) + CSV exportados + instrucciones + [mockup interactivo de las 5 páginas](powerbi/mockups/tablero_ejecutivo.html) |
+| `docs/` | Informe, [resumen ejecutivo con accionables](docs/RESUMEN_EJECUTIVO.md), diccionario de métricas, guion del video |
 | `db/` | `saas_metrics.db` (SQLite poblado y verificado) |
 | `agente/`, `.mcp.json`, `.claude/` | **Agente conversacional:** servidor MCP gobernado + skill `/analista-saas` para Claude Code |
 | `pruebas/` | Pruebas sin LLM: guardrails, servidor MCP y cifras publicadas + preguntas de demo con respuesta esperada |

@@ -1,6 +1,7 @@
 # =====================================================================================
 # Cifras publicadas vs. base de datos - sin LLM.
-# Cada cifra que citan README, docs/INFORME.md y pruebas/preguntas_demo.md se afirma
+# Cada cifra que citan README, docs/INFORME.md, docs/RESUMEN_EJECUTIVO.md y
+# pruebas/preguntas_demo.md se afirma
 # aqui contra db/saas_metrics.db: si el pipeline cambia, la documentacion no puede
 # quedar desalineada sin que esta prueba falle.
 # Correr desde la raiz del repo:  python pruebas/test_cifras.py
@@ -111,6 +112,44 @@ def _ltv_cac():
     igual([c for (c,) in q("SELECT nombre_canal FROM gold_v_ltv_cac_por_canal WHERE ltv_cac < 3")], ["Outbound"])
 
 caso("LTV:CAC por canal: Outbound es el unico bajo 3:1", _ltv_cac)
+
+
+# --- docs/RESUMEN_EJECUTIVO.md -------------------------------------------------------
+def _resumen_adquisicion():
+    total = uno("SELECT SUM(gasto_cop) FROM gold_v_cac_por_canal")
+    igual(total, 194_664_637)
+    part = {c: (round(100 * g / total, 1), round(100 * a / 172, 1)) for c, g, a in
+            q("SELECT nombre_canal, SUM(gasto_cop), SUM(clientes_nuevos) FROM gold_v_cac_por_canal GROUP BY 1")}
+    igual(part, {"Outbound": (48.2, 8.7), "Pago-Google": (16.1, 20.9), "Pago-Meta": (13.8, 22.7),
+                 "Organico": (11.9, 20.3), "Partner": (7.1, 8.1), "Referido": (2.9, 19.2)})
+    gasto, altas = q("SELECT SUM(gasto_cop), SUM(clientes_nuevos) FROM gold_v_cac_por_canal WHERE nombre_canal <> 'Outbound'")[0]
+    igual((gasto, altas, round(gasto / altas)), (100_794_804, 157, 642_005))
+    igual(uno("SELECT SUM(gasto_cop) FROM gold_v_cac_por_canal WHERE id_periodo >= 202410"), 39_913_817)
+    igual(uno("SELECT SUM(clientes_nuevos) FROM gold_v_cac_por_canal WHERE id_periodo >= 202410"), 0)
+    # LTV de cada plan dividido por el CAC de Outbound, y escenario de reasignacion del 50 %
+    cac_out = uno("SELECT cac_cop FROM gold_v_ltv_cac_por_canal WHERE nombre_canal = 'Outbound'")
+    rinde = {p: (round(l / cac_out, 2), round(lp / cac_out, 1)) for p, l, lp in q("SELECT nombre_plan, ltv_cop, ltv_cop_churn_plan FROM gold_v_ltv")}
+    igual((rinde["Starter"], rinde["Pro"][0], rinde["Business"][0]), ((1.27, 0.6), 2.98, 7.73))
+    igual(q("SELECT altas_starter, altas_business, clientes_nuevos FROM gold_v_ltv_cac_por_canal WHERE nombre_canal = 'Outbound'")[0], (7, 1, 15))
+    igual(q("SELECT altas_business, clientes_nuevos FROM gold_v_ltv_cac_por_canal WHERE nombre_canal = 'Pago-Meta'")[0], (9, 39))
+    mitad = 93_869_833 / 2
+    igual((round(mitad / cac_out, 1), round(mitad / (gasto / altas)), round(mitad / (2 * gasto / altas))), (7.5, 73, 37))
+
+caso("Resumen ejecutivo: participacion de gasto/altas, CAC sin Outbound, LTV por plan al CAC de Outbound, escenario", _resumen_adquisicion)
+
+
+def _resumen_mrr():
+    flujos = q("""SELECT SUM(mrr_nuevo), SUM(mrr_expansion), SUM(mrr_contraccion), SUM(mrr_churn),
+                  SUM(CASE WHEN id_periodo >= 202410 THEN mrr_expansion END),
+                  SUM(CASE WHEN id_periodo >= 202410 THEN mrr_contraccion + mrr_churn END)
+                  FROM gold_v_resumen_ejecutivo""")[0]
+    igual(tuple(round(v) for v in flujos), (58_220_880, 17_909_431, 10_639_883, 8_778_976, 7_250_000, 10_014_854))
+    igual(round(100 * flujos[4] / flujos[5]), 72)
+    ene, sep, dic = [uno(f"SELECT mrr_total FROM gold_v_resumen_ejecutivo WHERE id_periodo = {p}") for p in (202401, 202409, 202412)]
+    igual((round(dic / ene, 1), round(100 * (dic - sep) / sep, 1)), (6.9, -4.6))
+    igual(uno("SELECT ROUND(SUM(gasto_cop) * 1.0 / SUM(clientes_nuevos)) FROM gold_v_cac_por_canal"), 1_131_771)
+
+caso("Resumen ejecutivo: flujos de MRR del anio y del Q4, 6,9x y -4,6 % bajo el pico, CAC combinado", _resumen_mrr)
 
 
 # --- Calidad de datos ----------------------------------------------------------------
