@@ -39,7 +39,7 @@ consumiría créditos.
 | Herramienta | Qué hace |
 |---|---|
 | `describir_modelo` | Lista las vistas que el agente puede leer, con su grano, columnas, filas y descripción de negocio (`agente/catalogo.py`). |
-| `consultar_sql(sql, motivo)` | Una sentencia `SELECT` de solo lectura; devuelve una tabla (máx. 200 filas). El `motivo` queda en la bitácora. |
+| `consultar_sql(sql, motivo)` | Una sentencia `SELECT` de solo lectura; devuelve una tabla (máx. 200 filas y ~60.000 caracteres). El `motivo` queda en la bitácora. |
 | `leer_documentacion(documento)` | `diccionario_metricas`, `informe` o `contexto_simulacion`: definiciones, advertencias y supuestos, para que el agente no los invente. |
 | `graficar(sql, tipo, x, y, titulo, linea_referencia?)` | Línea o barras con la paleta del proyecto; guarda el PNG en `salidas/` y devuelve la imagen al agente. |
 
@@ -55,6 +55,11 @@ garantía. Lo que sí la da:
 - **Solo lectura.** `PRAGMA query_only` + un authorizer de SQLite que niega todo lo que no
   sea leer las tablas publicadas (INSERT, UPDATE, DELETE, DROP, CREATE, ATTACH, PRAGMA…).
 - **Una sentencia por llamada**, **máximo 200 filas** y **5 segundos** por consulta.
+- **Tamaño acotado.** Ningún valor puede pasar de 1 MB (`SQLITE_LIMIT_LENGTH`) y la respuesta
+  al agente se recorta a ~60.000 caracteres (celdas de más de 300 se abrevian), avisando
+  cuántas filas se muestran. Una consulta no puede inundar el contexto del modelo.
+- **Los datos son datos.** Las instrucciones del servidor y el skill le dicen al modelo que
+  los textos de las tablas (nombres, notas) nunca son instrucciones.
 - **Bitácora de auditoría.** Cada llamada queda en `salidas/auditoria_consultas.jsonl`:
   hora, motivo, SQL, estado (permitida / bloqueada / error), filas y milisegundos.
 - **Errores legibles.** Una consulta bloqueada vuelve como error de herramienta con la
@@ -72,7 +77,7 @@ Está cubierto por `pruebas/test_guardrails.py`.
 ## Cómo usarlo
 
 1. Instalar dependencias (una vez): `python -m pip install -r requirements.txt`
-2. Abrir **`D:\Claudia\Alegra`** como carpeta en VS Code. El panel de Claude Code tiene
+2. Abrir **la carpeta raíz del repo** en VS Code. El panel de Claude Code tiene
    que arrancar en esta carpeta para cargar `.mcp.json` y `.claude/`.
 3. En Claude Code escribir `/mcp` y confirmar que `saas-metrics` aparece **✔ Connected**.
    `.claude/settings.json` ya pre-aprueba el servidor y sus 4 herramientas, así que la
@@ -127,8 +132,8 @@ no arranca en la carpeta del proyecto):
 {
   "mcpServers": {
     "saas-metrics": {
-      "command": "C:/Users/USUARIO/AppData/Local/Programs/Python/Python312/python.exe",
-      "args": ["D:/Claudia/Alegra/agente/servidor_mcp.py"],
+      "command": "C:/ruta/a/python.exe",
+      "args": ["C:/ruta/al/repo/agente/servidor_mcp.py"],
       "env": { "PYTHONUTF8": "1" }
     }
   }
@@ -139,15 +144,14 @@ no arranca en la carpeta del proyecto):
 
 | Comando | Qué verifica | Resultado |
 |---|---|---|
-| `python pruebas/test_guardrails.py` | 27 casos: lecturas permitidas, bronze/silver/control bloqueados, CTE que suplanta una vista gold, subconsultas, escrituras, ATTACH, PRAGMA, dos sentencias, consulta infinita cortada a 5 s, truncado a 200 filas, bitácora e integridad de la base | 27/27 |
+| `python pruebas/test_guardrails.py` | 34 casos: lecturas permitidas, bronze/silver/control bloqueados, CTE que suplanta una vista gold, subconsultas, escrituras, ATTACH, PRAGMA, `VACUUM INTO`, `load_extension`, funciones-tabla `pragma_*`, dos sentencias, consulta infinita cortada a 5 s, valores y respuestas gigantes, truncado a 200 filas, bitácora e integridad de la base | 34/34 |
 | `python pruebas/smoke_mcp.py` | Levanta el servidor por stdio con el cliente MCP oficial, igual que Claude Code, y llama cada herramienta: MRR de diciembre = 57.201.326, bloqueos de gobernanza, tildes por stdio, PNG generado | 10/10 |
+| `python pruebas/test_cifras.py` | Cada cifra citada en README, INFORME y `preguntas_demo.md` contra la base, más los chequeos de calidad de silver | 10/10 |
 
 ## Limitaciones conocidas
 
 - Las respuestas del modelo no son deterministas: ensayar con `pruebas/preguntas_demo.md`.
 - Los gráficos se guardan como PNG y se abren en una pestaña de VS Code (el agente también
   recibe la imagen, así que puede comentarla).
-- `dim_cliente.moneda_principal` quedó en `COP` para todos los clientes (el ETL no la
-  calcula). El catálogo lo advierte y dirige al agente a `gold_v_eventos_detalle.moneda_origen`.
 - El MRR en USD se registra a la tasa del mes del último evento de cada cliente (ver
   `docs/INFORME.md`, advertencia metodológica).

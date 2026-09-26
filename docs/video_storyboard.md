@@ -21,7 +21,7 @@ pide ver el proceso. El centro del video es la **demo en vivo del agente**: es l
 2. `¿Por qué cayó el MRR en octubre y noviembre?`
    → descompone el waterfall y aclara que no hay altas después de septiembre **por supuesto de la simulación**. *Di:* "Distingue un hallazgo de un supuesto: no se inventa una causa comercial."
 3. `¿Qué canal de adquisición recortarías y por qué?`
-   → Referido 173.171 vs Outbound 6.257.989 por cliente, contrastado con el LTV.
+   → Outbound es el único canal con LTV:CAC bajo 3:1 (2,5x, casi la mitad de sus altas son Starter) frente a 84x de Referido.
 4. `¿Qué tanto puedo confiar en estas cifras?`
    → huérfanos, colisiones, cuarentena, desvío ~1%. *Di:* "Esta es la pregunta que un BI Partner tiene que poder contestar."
 5. `Muéstrame la tabla bronze_billing` → **bloqueado por gobernanza**.
@@ -31,7 +31,7 @@ pide ver el proceso. El centro del video es la **demo en vivo del agente**: es l
 
 - **Herramienta sugerida:** Loom (graba pantalla y cámara, y genera un link compartible al
   instante, que encaja con "acompañar el video con... links").
-- **Antes de grabar:** abre `D:\Claudia\Alegra` como carpeta en VS Code, corre `/mcp` y
+- **Antes de grabar:** abre la carpeta raíz del repo en VS Code, corre `/mcp` y
   confirma que `saas-metrics` aparece conectado, y haz un ensayo completo con
   `pruebas/preguntas_demo.md`. Borra `salidas/auditoria_consultas.jsonl` justo antes de
   grabar para que la bitácora muestre solo la demo.

@@ -22,7 +22,7 @@ que los tres sistemas compartan un identificador común. La pregunta de negocio:
 | `docs/` | Informe, diccionario de métricas, guion del video |
 | `db/` | `saas_metrics.db` (SQLite poblado y verificado) |
 | `agente/`, `.mcp.json`, `.claude/` | **Agente conversacional:** servidor MCP gobernado + skill `/analista-saas` para Claude Code |
-| `pruebas/` | Pruebas de los guardrails y del servidor MCP (sin LLM) + preguntas de demo con respuesta esperada |
+| `pruebas/` | Pruebas sin LLM: guardrails, servidor MCP y cifras publicadas + preguntas de demo con respuesta esperada |
 | `cargar_datos.py`, `exportar_csv.py`, `lib_comun.py` | El ETL y utilidades, en la raíz |
 
 ## El hallazgo que no estaba planeado
@@ -47,7 +47,7 @@ Un agente al que se le pregunta en español (*"¿por qué cayó el MRR en noviem
   diccionario de métricas. No afirma una cifra que no haya consultado y distingue un
   hallazgo de un supuesto de la simulación.
 - **Sin costo de API:** corre en Claude Code con la suscripción existente.
-- **Probado sin LLM:** 27/27 casos de gobernanza y 10/10 verificaciones por el protocolo
+- **Probado sin LLM:** 34/34 casos de gobernanza y 10/10 verificaciones por el protocolo
   MCP real.
 
 Cómo usarlo, arquitectura y pruebas: [`docs/AGENTE.md`](docs/AGENTE.md). Preguntas de demo
@@ -58,9 +58,9 @@ con respuesta esperada: [`pruebas/preguntas_demo.md`](pruebas/preguntas_demo.md)
 ```powershell
 python -m pip install -r requirements.txt
 python data/generar_datos.py   # genera los 4 archivos de origen sucios
-python cargar_datos.py         # ETL: bronze -> silver, resuelve identidad y alias
-# aplicar sql/02_vistas_gold.sql contra db/saas_metrics.db (ver notebooks/03)
+python cargar_datos.py         # ETL: bronze -> silver -> gold, resuelve identidad y alias
 python exportar_csv.py         # exporta las vistas gold a powerbi/*.csv
+python pruebas/test_cifras.py  # verifica contra la base cada cifra publicada
 ```
 
 O simplemente abre y corre los notebooks en orden (`01` → `04`); cada uno llama a los
