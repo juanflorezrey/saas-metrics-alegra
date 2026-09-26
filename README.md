@@ -87,10 +87,6 @@ Respuestas a mano a las cuatro preguntas del reto (por qué ser parte del equipo
 Alegra explicada a un niño de 7 años y un huevo en máximo 6 pasos):
 [`anexos/Actividad2_Escrito_JuanFlorezRey.pdf`](anexos/Actividad2_Escrito_JuanFlorezRey.pdf).
 
-## Video
-
-Guion en [`docs/video_storyboard.md`](docs/video_storyboard.md). Link al video: *(agregar aquí)*.
-
 ---
 
 Construido por Juan Pablo Florez Rey, con Claude Code, para el proceso de selección de
